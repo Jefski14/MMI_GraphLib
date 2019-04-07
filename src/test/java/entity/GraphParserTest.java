@@ -3,7 +3,9 @@ package entity;
 import helper.GraphParser;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -34,7 +36,21 @@ public class GraphParserTest {
     @Test
     public void parseGBig() {
         final String path = "src/main/resources/p1/Graph_gross.txt";
+        final long startTime = System.currentTimeMillis();
         final List<Vertex> vertList = new GraphParser().readUndirectedEdgeListFromFile(path);
+        final long estimatedTime = System.currentTimeMillis() - startTime;
+
+
+        assertEquals(vertList.size(), 100000);
+    }
+
+    @Test
+    public void parseGBigAsMap() {
+        final String path = "src/main/resources/p1/Graph_gross.txt";
+        final long startTime = System.currentTimeMillis();
+        final Map<Integer, Vertex> vertList = new GraphParser().readUndirectedEdgeListFromFileAsMap(path);
+        final long estimatedTime = System.currentTimeMillis() - startTime;
+
 
         assertEquals(vertList.size(), 100000);
     }
