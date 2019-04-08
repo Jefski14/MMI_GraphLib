@@ -3,12 +3,9 @@ package algorithm;
 import entity.Vertex;
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static algorithms.ConnectedGraphFinder.findConnectedGraphs;
-import static algorithms.Search.breadthFirstSearch;
 import static helper.GraphParser.readEdgeListFromFile;
 import static org.junit.Assert.assertEquals;
 
