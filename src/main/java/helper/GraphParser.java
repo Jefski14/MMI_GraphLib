@@ -12,12 +12,14 @@ import java.util.List;
 public class GraphParser {
 
     /**
-     * Reads a Vertex list from a file
+     * Imports a graph.txt file and converts data
+     * into {@link Vertex} and {@link Edge} Objects
+     *
      * @param fileName path to file
-     * @param directed flag if graph should be directed or undirected
-     * @return List of Vertex Objects
+     * @param directed flag if edges should be imported as directed or undirected
+     * @return List of {@link Vertex} Objects
      */
-    public static List<Vertex> readEdgeListFromFile(final String fileName, boolean directed) {
+    public static List<Vertex> importGraphFromFile(final String fileName, boolean directed) {
         final ArrayList<Vertex> vertices = new ArrayList<>();
         try {
             final FileReader fileReader = new FileReader(fileName);

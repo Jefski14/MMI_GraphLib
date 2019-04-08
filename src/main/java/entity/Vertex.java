@@ -5,7 +5,7 @@ import lombok.*;
 import java.util.ArrayList;
 
 @Data
-@ToString(exclude="attachedEdges")
+@ToString(exclude = "attachedEdges")
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class Vertex {
