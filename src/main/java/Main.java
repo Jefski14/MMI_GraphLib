@@ -18,6 +18,10 @@ public class Main {
         //select file for import
         File selectedFile = chooseFile();
 
+        if(selectedFile == null){
+            return;
+        }
+
         //Importing graph and measuring time
         long startTime = System.currentTimeMillis();
         System.out.println("Starting import of graph...");
@@ -36,10 +40,10 @@ public class Main {
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         int result = fileChooser.showOpenDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
-            // user selects a file
+            File selectedFile = fileChooser.getSelectedFile();
+            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+            return selectedFile;
         }
-        File selectedFile = fileChooser.getSelectedFile();
-        System.out.println("Importing file: "+ selectedFile.toString());
-        return selectedFile;
+        return null;
     }
 }
