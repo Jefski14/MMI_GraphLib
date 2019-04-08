@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static algorithms.Search.breadthFirstSearch;
+import static algorithms.BreadthFirstSearch.breadthFirstSearch;
 
 public class ConnectedGraphFinder {
 

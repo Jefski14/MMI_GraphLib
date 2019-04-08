@@ -1,4 +1,4 @@
-package algorithm;
+package algorithms;
 
 import entity.Vertex;
 import org.junit.Test;

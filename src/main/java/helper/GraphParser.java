@@ -20,6 +20,9 @@ public class GraphParser {
      * @return List of {@link Vertex} Objects
      */
     public static List<Vertex> importGraphFromFile(final String fileName, boolean directed) {
+
+        long startTime = System.currentTimeMillis();
+        System.out.println("Starting import of graph...");
         final ArrayList<Vertex> vertices = new ArrayList<>();
         try {
             final FileReader fileReader = new FileReader(fileName);
@@ -52,6 +55,8 @@ public class GraphParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        long estimatedTime = System.currentTimeMillis() - startTime;
+        System.out.println("Importing graph took: " + estimatedTime + " ms");
         return vertices;
     }
 }
