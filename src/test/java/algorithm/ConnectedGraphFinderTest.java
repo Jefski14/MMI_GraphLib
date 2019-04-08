@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static algorithms.ConnectedGraphFinder.findConnectedGraphs;
-import static helper.GraphParser.readEdgeListFromFile;
+import static helper.GraphParser.importGraphFromFile;
 import static org.junit.Assert.assertEquals;
 
 public class ConnectedGraphFinderTest {
@@ -15,7 +15,7 @@ public class ConnectedGraphFinderTest {
         final String path = "src/main/resources/p1/Graph1.txt";
         final boolean directed = false;
 
-        final List<Vertex> vertList = readEdgeListFromFile(path, directed);
+        final List<Vertex> vertList = importGraphFromFile(path, directed);
         final int connectedGraphCount = findConnectedGraphs(vertList, directed);
 
         assertEquals(connectedGraphCount, 2);
@@ -26,7 +26,7 @@ public class ConnectedGraphFinderTest {
         final String path = "src/main/resources/p1/Graph2.txt";
         final boolean directed = false;
 
-        final List<Vertex> vertList = readEdgeListFromFile(path, directed);
+        final List<Vertex> vertList = importGraphFromFile(path, directed);
         final int connectedGraphCount = findConnectedGraphs(vertList, directed);
 
         assertEquals(connectedGraphCount, 4);
@@ -37,7 +37,7 @@ public class ConnectedGraphFinderTest {
         final String path = "src/main/resources/p1/Graph3.txt";
         final boolean directed = false;
 
-        final List<Vertex> vertList = readEdgeListFromFile(path, directed);
+        final List<Vertex> vertList = importGraphFromFile(path, directed);
         final int connectedGraphCount = findConnectedGraphs(vertList, directed);
 
         assertEquals(connectedGraphCount, 4);
@@ -48,7 +48,7 @@ public class ConnectedGraphFinderTest {
         final String path = "src/main/resources/p1/Graph_gross.txt";
         final boolean directed = false;
 
-        final List<Vertex> vertList = readEdgeListFromFile(path, directed);
+        final List<Vertex> vertList = importGraphFromFile(path, directed);
         final int connectedGraphCount = findConnectedGraphs(vertList, directed);
 
         assertEquals(connectedGraphCount, 222);

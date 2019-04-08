@@ -10,8 +10,9 @@ public class Search {
 
     /**
      * Breadth first search
-     * @param vertex starting vertex
-     * @param marked map of already marked vertices (should be initialized)
+     *
+     * @param vertex   starting vertex
+     * @param marked   map of already marked vertices (should be initialized)
      * @param directed boolean flag that indicates if the graph is directed
      */
     public static void breadthFirstSearch(final Vertex vertex, final Map<Integer, Boolean> marked, final boolean directed) {
@@ -29,9 +30,10 @@ public class Search {
 
     /**
      * Adds neighbours of vertex to given queue if not marked
-     * @param vertex vertex
-     * @param queue stack
-     * @param marked Marker map
+     *
+     * @param vertex   vertex
+     * @param queue    stack
+     * @param marked   Marker map
      * @param directed Directed graph flag
      */
     private static void addNeighboursToQueue(final Vertex vertex, final LinkedList<Vertex> queue, final Map<Integer, Boolean> marked, boolean directed) {
@@ -41,7 +43,7 @@ public class Search {
                     queue.add(edge.getEnd()); // Add unmarked neighbour to queue
                 }
             } else {
-                if(edge.getStart().equals(vertex) ? !marked.get(edge.getEnd().getId()) : !marked.get(edge.getStart().getId())) {
+                if (edge.getStart().equals(vertex) ? !marked.get(edge.getEnd().getId()) : !marked.get(edge.getStart().getId())) {
                     queue.add(edge.getStart().equals(vertex) ? edge.getEnd() : edge.getStart()); // Add unmarked neighbour to queue
                 }
             }
@@ -51,8 +53,9 @@ public class Search {
 
     /**
      * Depth first search (iterative)
-     * @param vertex starting vertex
-     * @param marked map of already marked vertices (should be initialized)
+     *
+     * @param vertex   starting vertex
+     * @param marked   map of already marked vertices (should be initialized)
      * @param directed boolean flag that indicates if the graph is directed
      */
     public static void iterativeDepthFirstSearch(final Vertex vertex, final Map<Integer, Boolean> marked, boolean directed) {
@@ -69,19 +72,20 @@ public class Search {
 
     /**
      * Adds neighbours of given vertex to given stack
-     * @param vertex vertex
-     * @param stack stack
-     * @param marked marker map
+     *
+     * @param vertex   vertex
+     * @param stack    stack
+     * @param marked   marker map
      * @param directed directed graph flag
      */
-    private static void addNeighborsToStack(final Vertex vertex, Stack<Vertex> stack, final Map<Integer, Boolean> marked, boolean directed){
+    private static void addNeighborsToStack(final Vertex vertex, Stack<Vertex> stack, final Map<Integer, Boolean> marked, boolean directed) {
         vertex.getAttachedEdges().forEach(edge -> {
-            if(directed) {
+            if (directed) {
                 if (!marked.get(vertex.getId())) {
                     stack.push(edge.getEnd()); // add unmarked vertex to stack
                 }
             } else {
-                if(edge.getStart().equals(vertex) ? !marked.get(edge.getEnd().getId()) : !marked.get(edge.getStart().getId())) {
+                if (edge.getStart().equals(vertex) ? !marked.get(edge.getEnd().getId()) : !marked.get(edge.getStart().getId())) {
                     stack.push(edge.getStart().equals(vertex) ? edge.getEnd() : edge.getStart()); // add unmarked vertex to stack
                 }
             }

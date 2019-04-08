@@ -20,14 +20,14 @@ public class Main {
 
         //select file for import
         File selectedFile = chooseFile();
-        if(selectedFile == null){
+        if (selectedFile == null) {
             return;
         }
 
         //Importing graph and measuring time
         long startTime = System.currentTimeMillis();
         System.out.println("Starting import of graph...");
-        List<Vertex> vertices = GraphParser.readEdgeListFromFile(selectedFile.getAbsolutePath(), false);
+        List<Vertex> vertices = GraphParser.importGraphFromFile(selectedFile.getAbsolutePath(), false);
         long estimatedTime = System.currentTimeMillis() - startTime;
         System.out.println("Importing graph took: " + estimatedTime + " ms");
 
@@ -36,7 +36,7 @@ public class Main {
         System.out.println("Vertex 0 has: " + vertices.get(0).getAttachedEdges().size() + " Edges!");
     }
 
-    private static File chooseFile(){
+    private static File chooseFile() {
         JFrame frame = new JFrame("File chooser");
         JFileChooser fileChooser = new JFileChooser();
         String decodedPath = null;

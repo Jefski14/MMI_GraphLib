@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static algorithms.Search.breadthFirstSearch;
 import static algorithms.Search.iterativeDepthFirstSearch;
-import static helper.GraphParser.readEdgeListFromFile;
+import static helper.GraphParser.importGraphFromFile;
 import static org.junit.Assert.assertEquals;
 
 public class SearchTest {
@@ -35,7 +35,7 @@ public class SearchTest {
         final String path = "src/main/resources/p1/Graph1.txt";
         final boolean directed = false;
         final Map<Integer, Boolean> markedMap = new HashMap<>();
-        final List<Vertex> vertList = readEdgeListFromFile(path, directed);
+        final List<Vertex> vertList = importGraphFromFile(path, directed);
         vertList.forEach(v -> markedMap.put(v.getId(), false));
         breadthFirstSearch(vertList.get(0), markedMap, directed);
 
@@ -64,7 +64,7 @@ public class SearchTest {
         final String path = "src/main/resources/p1/Graph1.txt";
         final boolean directed = false;
         final Map<Integer, Boolean> markedMap = new HashMap<Integer, Boolean>();
-        final List<Vertex> vertList = readEdgeListFromFile(path, directed);
+        final List<Vertex> vertList = importGraphFromFile(path, directed);
         vertList.forEach(v -> markedMap.put(v.getId(), false));
         iterativeDepthFirstSearch(vertList.get(0), markedMap, directed);
 
