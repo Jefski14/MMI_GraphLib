@@ -7,14 +7,12 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GraphParser {
 
     public static List<Vertex> readEdgeListFromFile(final String fileName, boolean directed) {
-        final ArrayList<Vertex> vertices = new ArrayList<Vertex>();
+        final ArrayList<Vertex> vertices = new ArrayList<>();
         try {
             final FileReader fileReader = new FileReader(fileName);
             final BufferedReader reader = new BufferedReader(fileReader);
