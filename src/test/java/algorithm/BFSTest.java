@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 public class BFSTest {
     @Test
-    public void bfsDirectedTest() {
+    public void bfsUndirectedTest() {
         final Map<Integer, Boolean> markedMapAfterBFSFromV1 = new HashMap<Integer, Boolean>();
         markedMapAfterBFSFromV1.put(0, true);
         markedMapAfterBFSFromV1.put(1, false);
