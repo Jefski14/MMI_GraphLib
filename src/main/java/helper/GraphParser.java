@@ -11,16 +11,23 @@ import java.util.List;
 
 public class GraphParser {
 
+    /**
+     * Reads a Vertex list from a file
+     * @param fileName path to file
+     * @param directed flag if graph should be directed or undirected
+     * @return List of Vertex Objects
+     */
     public static List<Vertex> readEdgeListFromFile(final String fileName, boolean directed) {
         final ArrayList<Vertex> vertices = new ArrayList<>();
         try {
             final FileReader fileReader = new FileReader(fileName);
             final BufferedReader reader = new BufferedReader(fileReader);
 
+            // Read first line
             String firstLine = reader.readLine();
             int nOfVertices = Integer.parseInt(firstLine);
             for (int i = 0; i < nOfVertices; i++) {
-                vertices.add(new Vertex(i));
+                vertices.add(new Vertex(i)); // Initialize list
             }
 
             final String delimiter = "\t";
@@ -30,6 +37,7 @@ public class GraphParser {
                 final int p1 = Integer.parseInt(points[0]);
                 final int p2 = Integer.parseInt(points[1]);
 
+                // Add edge to vertex
                 if (directed) {
                     vertices.get(p1).addEdge(new Edge(vertices.get(p1), vertices.get(p2)));
                     vertices.get(p2).addEdge(new Edge(vertices.get(p2), vertices.get(p1)));
