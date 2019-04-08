@@ -15,17 +15,21 @@ public class DFS {
             Vertex current = stack.pop();
             if (!marked.get(current.getId())) {
                 marked.put(current.getId(), true);
-                addNeighborsToStack(current, directed);
+                addNeighborsToStack(current, marked, directed);
             }
         }
     }
 
-    private void addNeighborsToStack(final Vertex vertex, boolean directed){
+    private void addNeighborsToStack(final Vertex vertex, final Map<Integer, Boolean> marked, boolean directed){
         vertex.getAttachedEdges().forEach(edge -> {
             if(directed) {
-                stack.push(edge.getEnd());
+                if (!marked.get(vertex.getId())) {
+                    stack.push(edge.getEnd());
+                }
             } else {
-                stack.push(edge.getStart().equals(vertex) ? edge.getEnd() : edge.getEnd());
+                if(edge.getStart().equals(vertex) ? !marked.get(edge.getEnd().getId()) : !marked.get(edge.getStart().getId())) {
+                    stack.push(edge.getStart().equals(vertex) ? edge.getEnd() : edge.getStart());
+                }
             }
         });
     }

@@ -16,17 +16,21 @@ public class BFS {
         while ((current = queue.poll()) != null) {
             if (!marked.get(current.getId())) {
                 marked.put(current.getId(), true);
-                addNeighboursToQueue(current, directed);
+                addNeighboursToQueue(current, marked, directed);
             }
         }
     }
 
-    private void addNeighboursToQueue(final Vertex vertex, boolean directed) {
+    private void addNeighboursToQueue(final Vertex vertex, final Map<Integer, Boolean> marked, boolean directed) {
         for (final Edge edge: vertex.getAttachedEdges()) {
             if (directed) {
-                queue.add(edge.getEnd());
+                if (!marked.get(vertex.getId())) {
+                    queue.add(edge.getEnd());
+                }
             } else {
-                queue.add(edge.getStart().equals(vertex) ? edge.getEnd() : edge.getStart());
+                if(edge.getStart().equals(vertex) ? !marked.get(edge.getEnd().getId()) : !marked.get(edge.getStart().getId())) {
+                    queue.add(edge.getStart().equals(vertex) ? edge.getEnd() : edge.getStart());
+                }
             }
         }
     }
