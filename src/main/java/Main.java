@@ -5,6 +5,7 @@ import startup.AsciiGenerator;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.List;
 
 public class Main {
@@ -17,7 +18,6 @@ public class Main {
 
         //select file for import
         File selectedFile = chooseFile();
-
         if(selectedFile == null){
             return;
         }
@@ -37,7 +37,15 @@ public class Main {
     private static File chooseFile(){
         JFrame frame = new JFrame("File chooser");
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        String jarPath = null;
+        try {
+            jarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+        } catch (URISyntaxException e) {
+            System.out.println("Couldn't find current directory!");
+            return null;
+        }
+        fileChooser.setCurrentDirectory(new File(jarPath));
+
         int result = fileChooser.showOpenDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
