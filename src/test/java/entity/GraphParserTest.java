@@ -46,10 +46,9 @@ public class GraphParserTest {
     public void parseGBigAsMap() {
         final String path = "src/main/resources/p1/Graph_gross.txt";
         final long startTime = System.currentTimeMillis();
-        final Map<Integer, Vertex> vertList = new GraphParser().readEdgeListFromFileAsMap(path, false);
+        List<Vertex> vertices = GraphParser.readEdgeListFromFile(path, false);
         final long estimatedTime = System.currentTimeMillis() - startTime;
 
-
-        assertEquals(vertList.size(), 100000);
+        assertEquals(vertices.size(), 100000);
     }
 }
