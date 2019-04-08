@@ -1,22 +1,21 @@
 package algorithm;
 
-import algorithms.BFS;
-import algorithms.DFS;
 import entity.Vertex;
-import helper.GraphParser;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static algorithms.Search.breadthFirstSearch;
+import static algorithms.Search.iterativeDepthFirstSearch;
 import static helper.GraphParser.readEdgeListFromFile;
 import static org.junit.Assert.assertEquals;
 
-public class BFSTest {
+public class SearchTest {
     @Test
     public void bfsUndirectedTest() {
-        final Map<Integer, Boolean> markedMapAfterBFSFromV1 = new HashMap<Integer, Boolean>();
+        final Map<Integer, Boolean> markedMapAfterBFSFromV1 = new HashMap<>();
         markedMapAfterBFSFromV1.put(0, true);
         markedMapAfterBFSFromV1.put(1, false);
         markedMapAfterBFSFromV1.put(2, false);
@@ -35,18 +34,17 @@ public class BFSTest {
 
         final String path = "src/main/resources/p1/Graph1.txt";
         final boolean directed = false;
-        final Map<Integer, Boolean> markedMap = new HashMap<Integer, Boolean>();
+        final Map<Integer, Boolean> markedMap = new HashMap<>();
         final List<Vertex> vertList = readEdgeListFromFile(path, directed);
         vertList.forEach(v -> markedMap.put(v.getId(), false));
-        final BFS search = new BFS();
-        search.breadthFirstSearch(vertList.get(0), markedMap, directed);
+        breadthFirstSearch(vertList.get(0), markedMap, directed);
 
         assertEquals(markedMap, markedMapAfterBFSFromV1);
     }
 
     @Test
     public void dfsUndirectedTest() {
-        final Map<Integer, Boolean> markedMapAfterBFSFromV1 = new HashMap<Integer, Boolean>();
+        final Map<Integer, Boolean> markedMapAfterBFSFromV1 = new HashMap<>();
         markedMapAfterBFSFromV1.put(0, true);
         markedMapAfterBFSFromV1.put(1, false);
         markedMapAfterBFSFromV1.put(2, false);
@@ -68,8 +66,7 @@ public class BFSTest {
         final Map<Integer, Boolean> markedMap = new HashMap<Integer, Boolean>();
         final List<Vertex> vertList = readEdgeListFromFile(path, directed);
         vertList.forEach(v -> markedMap.put(v.getId(), false));
-        final DFS search = new DFS();
-        search.iterativeDepthFirstSearch(vertList.get(0), markedMap, directed);
+        iterativeDepthFirstSearch(vertList.get(0), markedMap, directed);
 
         assertEquals(markedMap, markedMapAfterBFSFromV1);
     }
