@@ -12,7 +12,7 @@ public class Vertex {
     @NonNull
     private int id;
 
-    private ArrayList<Edge> attachedEdges = new ArrayList<Edge>();
+    private ArrayList<Edge> attachedEdges = new ArrayList<>();
 
     public void addEdge(Edge e) {
         if (!(e.getStart().equals(this) || e.getEnd().equals(this))) {
