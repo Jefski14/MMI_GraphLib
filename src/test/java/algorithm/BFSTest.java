@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 public class BFSTest {
     @Test
-    public void bfsDirectedTest() {
+    public void bfsUndirectedTest() {
         final Map<Integer, Boolean> markedMapAfterBFSFromV1 = new HashMap<Integer, Boolean>();
         markedMapAfterBFSFromV1.put(0, true);
         markedMapAfterBFSFromV1.put(1, false);
@@ -35,7 +35,7 @@ public class BFSTest {
         final boolean directed = false;
         final Map<Integer, Boolean> markedMap = new HashMap<Integer, Boolean>();
         final List<Vertex> vertList = new GraphParser().readEdgeListFromFile(path, directed);
-        vertList.stream().forEach(v -> markedMap.put(v.getId(), false));
+        vertList.forEach(v -> markedMap.put(v.getId(), false));
         final BFS search = new BFS();
         search.breadthFirstSearch(vertList.get(0), markedMap, directed);
 
