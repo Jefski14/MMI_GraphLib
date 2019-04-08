@@ -5,6 +5,9 @@ import startup.AsciiGenerator;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.List;
 
 public class Main {
@@ -17,7 +20,6 @@ public class Main {
 
         //select file for import
         File selectedFile = chooseFile();
-
         if(selectedFile == null){
             return;
         }
@@ -37,7 +39,16 @@ public class Main {
     private static File chooseFile(){
         JFrame frame = new JFrame("File chooser");
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        String decodedPath = null;
+        try {
+            String jarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            decodedPath = URLDecoder.decode(jarPath, "UTF-8");
+        } catch (URISyntaxException | UnsupportedEncodingException e) {
+            System.out.println("Error on fetching current directory !");
+            return null;
+        }
+        fileChooser.setCurrentDirectory(new File(decodedPath));
+
         int result = fileChooser.showOpenDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
