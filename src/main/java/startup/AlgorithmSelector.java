@@ -15,6 +15,11 @@ import java.util.Scanner;
 public class AlgorithmSelector {
 
 
+    /**
+     * Selection menu for directed or undirecte edges in graph
+     *
+     * @return true if user selected directed, false if user selected undirected
+     */
     private static boolean selectDirected() {
         System.out.println("----------------------------------------------------------------");
         System.out.println("----Edges directed ? [1: true or 0: false]----------------------");
@@ -27,7 +32,7 @@ public class AlgorithmSelector {
     }
 
     /**
-     * Show the menu, where the user can choose the algorithm to execute
+     * Shows the menu, where the user can choose the algorithm to execute
      *
      * @return number of chosen algorithm
      */
@@ -58,6 +63,14 @@ public class AlgorithmSelector {
         return selection;
     }
 
+    /**
+     * Depending on the users selection an algorithm is executed.
+     * The time for execution is measured and printed to console.
+     *
+     * @param selection user selection with algorithm to choose
+     * @param vertices  list of all vertices in graph
+     * @param directed  if true edges are directed, else edges are undirected
+     */
     private static void startAlgorithm(Integer[] selection, List<Vertex> vertices, boolean directed) {
 
         int algorithm = selection[0];
@@ -89,12 +102,25 @@ public class AlgorithmSelector {
         System.out.println("Execution took around " + calculatedTime + " ms");
     }
 
+    /**
+     * Gets the user input to restart the application
+     *
+     * @return String of user input
+     */
     public static String restart() {
         System.out.println("Press [r] for restart, {q] for quit");
         Scanner input = new Scanner(System.in);  // Create a Scanner object
         return input.nextLine();  // Read user input
     }
 
+    /**
+     * Wrapper method with following tasks:
+     * 1. Choose file to import
+     * 2. Choose if graph is directed or not
+     * 3. Import graph into list of vertices
+     * 4. Show menu for algorithm selection
+     * 5. Execute selected algorithm
+     */
     public static void run() {
         //select file for import
         File selectedFile = FileChooser.chooseFile();
