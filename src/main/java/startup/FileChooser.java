@@ -14,8 +14,8 @@ public class FileChooser {
      * @return file to extract path from
      */
     public static File chooseFile() {
-        JFrame frame = new JFrame("File chooser");
-        JFileChooser fileChooser = new JFileChooser();
+        JFileChooser chooser = new JFileChooser();
+
         String decodedPath = null;
         try {
             String jarPath = FileChooser.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
@@ -24,14 +24,14 @@ public class FileChooser {
             System.out.println("Error on fetching current directory !");
             return null;
         }
-        fileChooser.setCurrentDirectory(new File(decodedPath));
+        chooser.setCurrentDirectory(new File(decodedPath));
+        chooser.setDialogTitle("Choose graph.txt");
 
-        int result = fileChooser.showOpenDialog(frame);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-            return selectedFile;
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            return chooser.getSelectedFile();
+        } else {
+            System.out.println("No file selected !");
+            return null;
         }
-        return null;
     }
 }
