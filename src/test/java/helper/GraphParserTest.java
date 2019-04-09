@@ -1,6 +1,6 @@
-package entity;
+package helper;
 
-import helper.GraphParser;
+import entity.Vertex;
 import org.junit.Test;
 
 import java.util.List;
