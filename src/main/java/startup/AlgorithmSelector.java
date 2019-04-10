@@ -108,7 +108,7 @@ public class AlgorithmSelector {
      * @return String of user input
      */
     public static String restart() {
-        System.out.println("Press [r] for restart, {q] for quit");
+        System.out.println("Press [r] restart, [n] new File, {q] quit");
         Scanner input = new Scanner(System.in);  // Create a Scanner object
         return input.nextLine();  // Read user input
     }
@@ -121,16 +121,11 @@ public class AlgorithmSelector {
      * 4. Show menu for algorithm selection
      * 5. Execute selected algorithm
      */
-    public static void run() {
-        //select file for import
-        File selectedFile = FileChooser.chooseFile();
-        if (selectedFile == null) {
-            return;
-        }
+    public static void run(File graphFile) {
 
         boolean directed = AlgorithmSelector.selectDirected();
         //Importing graph and measuring time
-        List<Vertex> vertices = GraphParser.importGraphFromFile(selectedFile.getAbsolutePath(), directed);
+        List<Vertex> vertices = GraphParser.importGraphFromFile(graphFile.getAbsolutePath(), directed);
 
         //Select algorithm and start vertex
         Integer[] selection = AlgorithmSelector.showSelectionMenu(vertices);
