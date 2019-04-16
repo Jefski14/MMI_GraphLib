@@ -1,8 +1,6 @@
 package startup;
 
-import algorithms.BreadthFirstSearch;
-import algorithms.ConnectedGraphFinder;
-import algorithms.DepthFirstSearch;
+import algorithms.*;
 import entity.Vertex;
 import helper.GraphParser;
 
@@ -43,6 +41,8 @@ public class AlgorithmSelector {
         System.out.println("[1]-Breadth First Search (BFS)----------------------------------");
         System.out.println("[2]-Depth First Search (DFS)------------------------------------");
         System.out.println("[3]-Count connected graphs--------------------------------------");
+        System.out.println("[4]-Kruskal MST-------------------------------------------------");
+        System.out.println("[4]-Prim MST----------------------------------------------------");
         System.out.println("----------------------------------------------------------------");
         System.out.println("----Enter number: ----------------------------------------------");
         Scanner in = new Scanner(System.in);
@@ -95,6 +95,12 @@ public class AlgorithmSelector {
             case 3:
                 int connectedGraphs = ConnectedGraphFinder.findConnectedGraphs(vertices, directed);
                 System.out.println("Found " + connectedGraphs + " independent graphs");
+                break;
+            case 4:
+                KruskalMST.getMST(vertices);
+                break;
+            case 5:
+                PrimMST.getMST(vertices);
                 break;
         }
 

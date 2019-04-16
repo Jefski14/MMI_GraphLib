@@ -3,6 +3,7 @@ package entity;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @ToString(exclude = "attachedEdges")
@@ -12,7 +13,7 @@ public class Vertex {
     @NonNull
     private int id;
 
-    private ArrayList<Edge> attachedEdges = new ArrayList<>();
+    private List<Edge> attachedEdges = new ArrayList<>();
 
     public void addEdge(Edge e) {
         if (!(e.getStart().equals(this) || e.getEnd().equals(this))) {

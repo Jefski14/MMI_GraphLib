@@ -16,6 +16,6 @@ public class Edge {
     private Vertex start;
     @NonNull
     private Vertex end;
-    private int cost;
-    private int capacity;
+    private double cost;
+    private double capacity;
 }

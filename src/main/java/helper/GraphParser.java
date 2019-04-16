@@ -41,15 +41,23 @@ public class GraphParser {
                 final String[] points = currentLine.split(delimiter);
                 final int p1 = Integer.parseInt(points[0]);
                 final int p2 = Integer.parseInt(points[1]);
+                double cost = 0.0;
+                double capacity = 0.0;
+                if (points.length == 3) {
+                    cost = Double.parseDouble(points[2]);
+                }
+                if (points.length == 4) {
+                    capacity = Double.parseDouble(points[3]);
+                }
 
                 // Add edge to vertex
                 if (directed) {
-                    vertices.get(p1).addEdge(new Edge(vertices.get(p1), vertices.get(p2)));
-                    vertices.get(p2).addEdge(new Edge(vertices.get(p2), vertices.get(p1)));
+                    vertices.get(p1).addEdge(new Edge(vertices.get(p1), vertices.get(p2), cost, capacity));
                 } else {
-                    Edge e = new Edge(vertices.get(p1), vertices.get(p2));
+                    Edge e = new Edge(vertices.get(p1), vertices.get(p2), cost, capacity);
+                    Edge e2 = new Edge(vertices.get(p2), vertices.get(p1), cost, capacity);
                     vertices.get(p1).addEdge(e);
-                    vertices.get(p2).addEdge(e);
+                    vertices.get(p2).addEdge(e2);
                 }
             }
         } catch (IOException e) {
