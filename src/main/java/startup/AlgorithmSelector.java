@@ -100,7 +100,7 @@ public class AlgorithmSelector {
                 KruskalMST.getMST(vertices);
                 break;
             case 5:
-                PrimMST.getMST(vertices);
+//                PrimMST.getMST(vertices);
                 break;
         }
 
