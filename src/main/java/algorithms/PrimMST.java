@@ -13,18 +13,24 @@ import java.util.PriorityQueue;
  */
 public class PrimMST {
 
+    // TODO fija improve code quality
     /**
      * Method to run the prim-mst-algorithm
      *
-     * @return List of vertices with minimal set of edges to get MST
+     * @return The MST Graph
      */
     public static Graph getMST(Graph graph, Vertex startVertex) {
+        long startTime = System.currentTimeMillis();
+        System.out.println("Starting Search for MST of graph...");
+
         Graph mst = new Graph();
         // We could use the mst vertex list for this but we would need to iterate over it each time
         boolean[] inMst = new boolean[graph.getVertexList().size()]; // default initialized with false
-        //Initialize mst graph
-        graph.getVertexList().forEach(vertex -> { mst.getVertexList().add(new Vertex(vertex.getId())); });
         int inMstCount = 1;
+        //Initialize mst graph
+        graph.getVertexList().forEach(vertex -> mst.getVertexList().add(new Vertex(vertex.getId())));
+
+        // Set starting vertex and initialize queue
         inMst[startVertex.getId()] = true;
         PriorityQueue<Edge> prioQ = new PriorityQueue<>(graph.getVertexList().get(startVertex.getId()).getAttachedEdges());
 
@@ -49,11 +55,13 @@ public class PrimMST {
                 inMst[vertexIdToAdd] = true;
                 inMstCount++;
                 prioQ.addAll(currentEdge.getEnd().getAttachedEdges());
-            } else {
-                // Vertex already in Mst
-                continue;
             }
+            // Else the vertex is already in mst
         }
+
+
+        long estimatedTime = System.currentTimeMillis() - startTime;
+        System.out.println("MST search took: " + estimatedTime + " ms");
 
         return mst;
     }

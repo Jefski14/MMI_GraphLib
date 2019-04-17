@@ -130,7 +130,7 @@ public class AlgorithmSelector {
     public static void run(File graphFile) {
 
         boolean directed = AlgorithmSelector.selectDirected();
-        //Importing graph and measuring time
+        //Importing graph and measuring time TODO Change to Graph class or abandon ui completely?
         List<Vertex> vertices = GraphParser.importGraphFromFile(graphFile.getAbsolutePath(), directed);
 
         //Select algorithm and start vertex
