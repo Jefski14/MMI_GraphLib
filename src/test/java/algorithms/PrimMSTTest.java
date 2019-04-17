@@ -33,13 +33,6 @@ public class PrimMSTTest {
         assertEquals(3.0228, mst.totalEdgeCost(),0.001);
     }
 
-//    @Test
-//    public void PrimMSTG10_20Test() {
-//        Graph graph = importGraphFromFileAsEdgeList("src/main/resources/p2/G_10_20.txt", false);
-//        Graph mst = getMST(graph, graph.getVertexList().get(0));
-//        assertEquals(mst.totalEdgeCost(), 286.711,0.001);
-//    }
-
     @Test
     public void PrimMSTG10_20Test() {
         Graph graph = importGraphFromFileAsEdgeList("src/main/resources/p2/G_10_20.txt", false);
