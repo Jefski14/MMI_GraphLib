@@ -1,12 +1,12 @@
 package startup;
 
 import algorithms.*;
+import entity.Graph;
 import entity.Vertex;
 import helper.GraphParser;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -34,7 +34,7 @@ public class AlgorithmSelector {
      *
      * @return number of chosen algorithm
      */
-    private static Integer[] showSelectionMenu(List<Vertex> vertices) {
+    private static Integer[] showSelectionMenu(int numberVertices) {
         System.out.println("----------------------------------------------------------------");
         System.out.println("----Choose Algorithm--------------------------------------------");
         System.out.println("----------------------------------------------------------------");
@@ -48,12 +48,12 @@ public class AlgorithmSelector {
         Scanner in = new Scanner(System.in);
         int num = in.nextInt();
         System.out.println("----------------------------------------------------------------");
-        System.out.println("----Starting vertex [0-" + (vertices.size() - 1) + "]--------------------------------------");
+        System.out.println("----Starting vertex [0-" + (numberVertices - 1) + "]--------------------------------------");
         System.out.println("----------------------------------------------------------------");
         System.out.println("----Enter number: ----------------------------------------------");
         int num2 = in.nextInt();
 
-        if (num2 < 0 || num2 > vertices.size()) {
+        if (num2 < 0 || num2 > numberVertices) {
             return null;
         }
 
@@ -68,17 +68,17 @@ public class AlgorithmSelector {
      * The time for execution is measured and printed to console.
      *
      * @param selection user selection with algorithm to choose
-     * @param vertices  list of all vertices in graph
+     * @param graph graph entity with vertex and edge list
      * @param directed  if true edges are directed, else edges are undirected
      */
-    private static void startAlgorithm(Integer[] selection, List<Vertex> vertices, boolean directed) {
+    private static void startAlgorithm(Integer[] selection, Graph graph, boolean directed) {
 
         int algorithm = selection[0];
         int startVertexId = selection[1];
 
         //Initialize markedMap
         Map<Integer, Boolean> markedMap = new HashMap<>();
-        for (Vertex v : vertices) {
+        for (Vertex v : graph.getVertexList()) {
             markedMap.put(v.getId(), false);
         }
 
@@ -87,20 +87,20 @@ public class AlgorithmSelector {
 
         switch (algorithm) {
             case 1:
-                BreadthFirstSearch.breadthFirstSearch(vertices.get(startVertexId), markedMap, directed);
+                BreadthFirstSearch.breadthFirstSearch(graph.getVertexList().get(startVertexId), markedMap, directed);
                 break;
             case 2:
-                DepthFirstSearch.iterativeDepthFirstSearch(vertices.get(startVertexId), markedMap, directed);
+                DepthFirstSearch.iterativeDepthFirstSearch(graph.getVertexList().get(startVertexId), markedMap, directed);
                 break;
             case 3:
-                int connectedGraphs = ConnectedGraphFinder.findConnectedGraphs(vertices, directed);
+                int connectedGraphs = ConnectedGraphFinder.findConnectedGraphs(graph.getVertexList(), directed);
                 System.out.println("Found " + connectedGraphs + " independent graphs");
                 break;
             case 4:
-                KruskalMST.getMST(vertices);
+                KruskalMST.getMST(graph.getVertexList());
                 break;
             case 5:
-//                PrimMST.getMST(vertices);
+                PrimMST.getMST(graph, graph.getVertexList().get(startVertexId));
                 break;
         }
 
@@ -119,24 +119,17 @@ public class AlgorithmSelector {
         return input.nextLine();  // Read user input
     }
 
-    /**
-     * Wrapper method with following tasks:
-     * 1. Choose file to import
-     * 2. Choose if graph is directed or not
-     * 3. Import graph into list of vertices
-     * 4. Show menu for algorithm selection
-     * 5. Execute selected algorithm
-     */
+
     public static void run(File graphFile) {
 
         boolean directed = AlgorithmSelector.selectDirected();
         //Importing graph and measuring time TODO Change to Graph class or abandon ui completely?
-        List<Vertex> vertices = GraphParser.importGraphFromFile(graphFile.getAbsolutePath(), directed);
+        Graph graph = GraphParser.importGraphFromFileAsEdgeList(graphFile.getAbsolutePath(), directed);
 
         //Select algorithm and start vertex
-        Integer[] selection = AlgorithmSelector.showSelectionMenu(vertices);
+        Integer[] selection = AlgorithmSelector.showSelectionMenu(graph.getVertexList().size());
         if (selection != null) {
-            AlgorithmSelector.startAlgorithm(selection, vertices, directed);
+            AlgorithmSelector.startAlgorithm(selection, graph, directed);
         }
     }
 }
