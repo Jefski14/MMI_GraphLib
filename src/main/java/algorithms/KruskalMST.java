@@ -12,28 +12,24 @@ import java.util.PriorityQueue;
  */
 public class KruskalMST {
 
-
     /**
      * Method to run the kruskal-mst-algorithm
      *
      * @return List of vertices with minimal set of edges to get MST
      */
     public Graph getMST(Graph dracula) {
-        List<Edge> mst = new ArrayList<>();
-        //Priority-queue ordered by cost ascending
-        PriorityQueue<Edge> pq = new PriorityQueue<>(dracula.getEdgeList().size());
-        pq.addAll(dracula.getEdgeList());
+        List<Edge> edgeList = new ArrayList<>();
+        //priority-queue ordered by cost ascending
+        PriorityQueue<Edge> pq = new PriorityQueue<>(dracula.getEdgeList());
 
         int numberVertices = dracula.getVertexList().size();
 
-        //Initialize Subsets
+        //initialize Subsets
         Subset[] subsets = new Subset[numberVertices];
-        for (int i = 0; i < numberVertices; i++)
+        for (int i = 0; i < numberVertices; i++) {
             subsets[i] = new Subset();
-
-        for (int v = 0; v < numberVertices; v++) {
-            subsets[v].parent = v;
-            subsets[v].rank = 0;
+            subsets[i].parent = i;
+            subsets[i].rank = 0;
         }
 
         for (int i = 0; i < numberVertices - 1; i++) {
@@ -43,9 +39,9 @@ public class KruskalMST {
             int x = find(subsets, currentEdge.getStart().getId());
             int y = find(subsets, currentEdge.getEnd().getId());
 
-            // if including this edge does't cause cycle, add to mst
+            // if including this edge doesn't cause cycle, add to mst
             if (x != y) {
-                mst.add(currentEdge);
+                edgeList.add(currentEdge);
                 union(subsets, x, y);
             }
             // else discard edge and move on
@@ -53,11 +49,11 @@ public class KruskalMST {
 
         //Create new graph-object and replace minimal spanning edge list
         Graph result = dracula;
-        result.setEdgeList(mst);
+        result.setEdgeList(edgeList);
         return result;
     }
 
-    private int find(Subset subsets[], int i) {
+    private int find(Subset[] subsets, int i) {
         // find root and make root as parent of i (path compression)
         if (subsets[i].parent != i)
             subsets[i].parent = find(subsets, subsets[i].parent);
@@ -65,7 +61,7 @@ public class KruskalMST {
         return subsets[i].parent;
     }
 
-    private void union(Subset subsets[], int x, int y) {
+    private void union(Subset[] subsets, int x, int y) {
         int xroot = find(subsets, x);
         int yroot = find(subsets, y);
 
