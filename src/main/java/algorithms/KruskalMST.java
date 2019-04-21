@@ -32,7 +32,8 @@ public class KruskalMST {
             subsets[i].rank = 0;
         }
 
-        for (int i = 0; i < numberVertices - 1; i++) {
+        int index = 0;
+        while (index < numberVertices - 1) {
             //pick edge with least cost
             Edge currentEdge = pq.remove();
 
@@ -43,13 +44,17 @@ public class KruskalMST {
             if (x != y) {
                 edgeList.add(currentEdge);
                 union(subsets, x, y);
+                index++;
             }
             // else discard edge and move on
         }
 
         //Create new graph-object and replace minimal spanning edge list
-        Graph result = dracula;
+        Graph result = new Graph();
+        result.setVertexList(dracula.getVertexList());
+        result.setDirected(dracula.isDirected());
         result.setEdgeList(edgeList);
+
         return result;
     }
 
