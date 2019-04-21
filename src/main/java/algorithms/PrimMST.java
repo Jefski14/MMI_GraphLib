@@ -31,22 +31,24 @@ public class PrimMST {
         PriorityQueue<Edge> prioQ = new PriorityQueue<>(graph.getVertexList().get(startVertex.getId()).getAttachedEdges());
 
         while (inMstCount < graph.getVertexList().size()) { // As long as there are unreached nodes
-            Edge currentEdge = prioQ.poll();
+            Edge currentEdge = prioQ.remove();
+            int startId = currentEdge.getStart().getId();
+            int endId = currentEdge.getEnd().getId();
             int vertexIdToAdd;
-            if(!inMst[currentEdge.getStart().getId()]) { // Start Vertex is not in mst
-                vertexIdToAdd = currentEdge.getStart().getId();
+            if(!inMst[startId]) { // Start Vertex is not in mst
+                vertexIdToAdd = startId;
                 // Add new Edge to the Mst Vertex that now connects to the newly created Vertex
-                Edge mstEdge = new Edge(mst.getVertexList().get(currentEdge.getEnd().getId()), mst.getVertexList().get(vertexIdToAdd), currentEdge.getCost(), currentEdge.getCapacity());
-                mst.getVertexList().get(currentEdge.getEnd().getId()).addEdge(mstEdge);
+                Edge mstEdge = new Edge(mst.getVertexList().get(endId), mst.getVertexList().get(vertexIdToAdd), currentEdge.getCost(), currentEdge.getCapacity());
+                mst.getVertexList().get(endId).addEdge(mstEdge);
                 mst.getEdgeList().add(mstEdge);
                 inMst[vertexIdToAdd] = true;
                 inMstCount++;
                 prioQ.addAll(currentEdge.getStart().getAttachedEdges());
-            } else if (!inMst[currentEdge.getEnd().getId()]) { // End Vertex is not in mst
-                vertexIdToAdd = currentEdge.getEnd().getId();
+            } else if (!inMst[endId]) { // End Vertex is not in mst
+                vertexIdToAdd = endId;
                 // Add new Edge to the Mst Vertex that now connects to the newly created Vertex
-                Edge mstEdge = new Edge(mst.getVertexList().get(currentEdge.getStart().getId()), mst.getVertexList().get(vertexIdToAdd), currentEdge.getCost(), currentEdge.getCapacity());
-                mst.getVertexList().get(currentEdge.getStart().getId()).addEdge(mstEdge);
+                Edge mstEdge = new Edge(mst.getVertexList().get(startId), mst.getVertexList().get(vertexIdToAdd), currentEdge.getCost(), currentEdge.getCapacity());
+                mst.getVertexList().get(startId).addEdge(mstEdge);
                 mst.getEdgeList().add(mstEdge);
                 inMst[vertexIdToAdd] = true;
                 inMstCount++;
