@@ -7,7 +7,7 @@ import entity.Vertex;
 import java.util.PriorityQueue;
 
 /**
- * Class for creating minimal spanning tree using kruskal
+ * Class for creating minimal spanning tree using prim
  */
 public class PrimMST {
 
@@ -18,8 +18,6 @@ public class PrimMST {
      * @return The MST Graph
      */
     public static Graph getMST(Graph graph, Vertex startVertex) {
-        long startTime = System.currentTimeMillis();
-        System.out.println("Starting Search for MST of graph...");
 
         Graph mst = new Graph();
         // We could use the mst vertex list for this but we would need to iterate over it each time
@@ -56,11 +54,6 @@ public class PrimMST {
             }
             // Else the vertex is already in mst
         }
-
-
-        long estimatedTime = System.currentTimeMillis() - startTime;
-        System.out.println("MST search took: " + estimatedTime + " ms");
-
         return mst;
     }
 }

@@ -1,9 +1,7 @@
 package algorithms;
 
-import entity.Vertex;
+import entity.Graph;
 import org.junit.Test;
-
-import java.util.List;
 
 import static algorithms.ConnectedGraphFinder.findConnectedGraphs;
 import static helper.GraphParser.importGraphFromFile;
@@ -15,8 +13,8 @@ public class ConnectedGraphFinderTest {
         final String path = "src/main/resources/p1/Graph1.txt";
         final boolean directed = false;
 
-        final List<Vertex> vertList = importGraphFromFile(path, directed);
-        final int connectedGraphCount = findConnectedGraphs(vertList, directed);
+        final Graph graph = importGraphFromFile(path, directed);
+        final int connectedGraphCount = findConnectedGraphs(graph.getVertexList(), directed);
 
         assertEquals(connectedGraphCount, 2);
     }
@@ -26,8 +24,8 @@ public class ConnectedGraphFinderTest {
         final String path = "src/main/resources/p1/Graph2.txt";
         final boolean directed = false;
 
-        final List<Vertex> vertList = importGraphFromFile(path, directed);
-        final int connectedGraphCount = findConnectedGraphs(vertList, directed);
+        final Graph graph = importGraphFromFile(path, directed);
+        final int connectedGraphCount = findConnectedGraphs(graph.getVertexList(), directed);
 
         assertEquals(connectedGraphCount, 4);
     }
@@ -37,8 +35,8 @@ public class ConnectedGraphFinderTest {
         final String path = "src/main/resources/p1/Graph3.txt";
         final boolean directed = false;
 
-        final List<Vertex> vertList = importGraphFromFile(path, directed);
-        final int connectedGraphCount = findConnectedGraphs(vertList, directed);
+        final Graph graph = importGraphFromFile(path, directed);
+        final int connectedGraphCount = findConnectedGraphs(graph.getVertexList(), directed);
 
         assertEquals(connectedGraphCount, 4);
     }
@@ -48,8 +46,8 @@ public class ConnectedGraphFinderTest {
         final String path = "src/main/resources/p1/Graph_gross.txt";
         final boolean directed = false;
 
-        final List<Vertex> vertList = importGraphFromFile(path, directed);
-        final int connectedGraphCount = findConnectedGraphs(vertList, directed);
+        final Graph graph = importGraphFromFile(path, directed);
+        final int connectedGraphCount = findConnectedGraphs(graph.getVertexList(), directed);
 
         assertEquals(connectedGraphCount, 222);
     }

@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class Vertex {
+
     @NonNull
     private int id;
 

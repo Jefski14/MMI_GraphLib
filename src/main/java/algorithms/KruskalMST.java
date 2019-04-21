@@ -1,63 +1,90 @@
 package algorithms;
 
 import entity.Edge;
-import entity.Vertex;
+import entity.Graph;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * Class for creating minimal spanning tree using kruskal
  */
 public class KruskalMST {
 
+
     /**
      * Method to run the kruskal-mst-algorithm
      *
      * @return List of vertices with minimal set of edges to get MST
      */
-    public static List<Vertex> getMST(List<Vertex> vertices) {
-        List<Vertex> mst = new ArrayList<>();
+    public Graph getMST(Graph dracula) {
+        List<Edge> mst = new ArrayList<>();
+        //Priority-queue ordered by cost ascending
+        PriorityQueue<Edge> pq = new PriorityQueue<>(dracula.getEdgeList().size());
+        pq.addAll(dracula.getEdgeList());
 
-        List<Edge> sortedEdgeList = getSortedEdgeListByCost(vertices);
+        int numberVertices = dracula.getVertexList().size();
 
-        for (int i = 0; i < sortedEdgeList.size(); i++) {
-            Edge edgeWithLeastWeight = sortedEdgeList.remove(0);
-            //add to MST if no cycle is created
-            mst.add(new Vertex(edgeWithLeastWeight.getStart().getId(), Collections.singletonList(edgeWithLeastWeight)));
+        //Initialize Subsets
+        Subset[] subsets = new Subset[numberVertices];
+        for (int i = 0; i < numberVertices; i++)
+            subsets[i] = new Subset();
 
-            //Abbruchbedinung falls V-1 Edges eingefuegt wurden
-            if (mst.size() == vertices.size() - 1) {
-                return mst;
-            }
+        for (int v = 0; v < numberVertices; v++) {
+            subsets[v].parent = v;
+            subsets[v].rank = 0;
         }
 
-        return mst;
+        for (int i = 0; i < numberVertices - 1; i++) {
+            //pick edge with least cost
+            Edge currentEdge = pq.remove();
+
+            int x = find(subsets, currentEdge.getStart().getId());
+            int y = find(subsets, currentEdge.getEnd().getId());
+
+            // if including this edge does't cause cycle, add to mst
+            if (x != y) {
+                mst.add(currentEdge);
+                union(subsets, x, y);
+            }
+            // else discard edge and move on
+        }
+
+        //Create new graph-object and replace minimal spanning edge list
+        Graph result = dracula;
+        result.setEdgeList(mst);
+        return result;
     }
 
-    /**
-     * Creates an {@link Edge} list from vertices,
-     * sorted by cost in ascending order
-     *
-     * @param vertices list of {@link Vertex}
-     * @return sorted {@link Edge}-List
-     */
-    static List<Edge> getSortedEdgeListByCost(List<Vertex> vertices) {
-        List<Edge> edgeList = new ArrayList<>();
-        for (Vertex v : vertices) {
-            //TODO nebeneffekte durch addAll ? Potentiell zweimal die gleiche Kante ?
-            edgeList.addAll(v.getAttachedEdges());
+    private int find(Subset subsets[], int i) {
+        // find root and make root as parent of i (path compression)
+        if (subsets[i].parent != i)
+            subsets[i].parent = find(subsets, subsets[i].parent);
+
+        return subsets[i].parent;
+    }
+
+    private void union(Subset subsets[], int x, int y) {
+        int xroot = find(subsets, x);
+        int yroot = find(subsets, y);
+
+        // Attach smaller rank tree under root of high rank tree
+        // (Union by Rank)
+        if (subsets[xroot].rank < subsets[yroot].rank)
+            subsets[xroot].parent = yroot;
+        else if (subsets[xroot].rank > subsets[yroot].rank)
+            subsets[yroot].parent = xroot;
+
+            // If ranks are same, then make one as root and increment
+            // its rank by one
+        else {
+            subsets[yroot].parent = xroot;
+            subsets[xroot].rank++;
         }
+    }
 
-        Collections.sort(edgeList, new Comparator<Edge>() {
-            @Override
-            public int compare(Edge e1, Edge e2) {
-                return (e1.getCost() > e2.getCost() ? 1 : -1);
-            }
-        });
-
-        return edgeList;
+    class Subset {
+        int parent, rank;
     }
 }

@@ -5,10 +5,12 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Edge implements Comparable {
+public class Edge implements Comparable<Edge> {
     /**
      * If used as an undirected Edge it doesnt matter which vertex is the start vertex
      */
@@ -16,16 +18,16 @@ public class Edge implements Comparable {
     private Vertex start;
     @NonNull
     private Vertex end;
-    private double cost;
-    private double capacity;
+    private BigDecimal cost;
+    private BigDecimal capacity;
 
     @Override
-    public int compareTo(Object o) {
-        if (o instanceof Edge) {
-            // Lower is better (Maybe a comparator function for the specific prioQ is better)
-            //
-            return - Double.compare(((Edge) o).getCost(), this.getCost());
-        }
-        return 0;
+    public int compareTo(Edge e1) {
+        return this.cost.compareTo(e1.cost);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Start-Vertex: %d \t End-Vertex: %d \t Cost: %f  Capacity: %f\n", this.start.getId(), this.end.getId(), this.cost, this.capacity);
     }
 }

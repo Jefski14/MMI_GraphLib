@@ -42,7 +42,7 @@ public class AlgorithmSelector {
         System.out.println("[2]-Depth First Search (DFS)------------------------------------");
         System.out.println("[3]-Count connected graphs--------------------------------------");
         System.out.println("[4]-Kruskal MST-------------------------------------------------");
-        System.out.println("[4]-Prim MST----------------------------------------------------");
+        System.out.println("[5]-Prim MST----------------------------------------------------");
         System.out.println("----------------------------------------------------------------");
         System.out.println("----Enter number: ----------------------------------------------");
         Scanner in = new Scanner(System.in);
@@ -69,9 +69,8 @@ public class AlgorithmSelector {
      *
      * @param selection user selection with algorithm to choose
      * @param graph graph entity with vertex and edge list
-     * @param directed  if true edges are directed, else edges are undirected
      */
-    private static void startAlgorithm(Integer[] selection, Graph graph, boolean directed) {
+    private static void startAlgorithm(Integer[] selection, Graph graph) {
 
         int algorithm = selection[0];
         int startVertexId = selection[1];
@@ -87,20 +86,23 @@ public class AlgorithmSelector {
 
         switch (algorithm) {
             case 1:
-                BreadthFirstSearch.breadthFirstSearch(graph.getVertexList().get(startVertexId), markedMap, directed);
+                BreadthFirstSearch.breadthFirstSearch(graph.getVertexList().get(startVertexId), markedMap, graph.isDirected());
                 break;
             case 2:
-                DepthFirstSearch.iterativeDepthFirstSearch(graph.getVertexList().get(startVertexId), markedMap, directed);
+                DepthFirstSearch.iterativeDepthFirstSearch(graph.getVertexList().get(startVertexId), markedMap, graph.isDirected());
                 break;
             case 3:
-                int connectedGraphs = ConnectedGraphFinder.findConnectedGraphs(graph.getVertexList(), directed);
+                int connectedGraphs = ConnectedGraphFinder.findConnectedGraphs(graph.getVertexList(), graph.isDirected());
                 System.out.println("Found " + connectedGraphs + " independent graphs");
                 break;
             case 4:
-                KruskalMST.getMST(graph.getVertexList());
+                KruskalMST kruskal = new KruskalMST();
+                Graph mst = kruskal.getMST(graph);
+                System.out.println((String.format("Total cost for MST with Kruskal are %f", mst.totalEdgeCost())));
                 break;
             case 5:
-                PrimMST.getMST(graph, graph.getVertexList().get(startVertexId));
+                Graph prim = PrimMST.getMST(graph, graph.getVertexList().get(startVertexId));
+                System.out.println((String.format("Total cost for MST with Prim are %f", prim.totalEdgeCost())));
                 break;
         }
 
@@ -123,13 +125,13 @@ public class AlgorithmSelector {
     public static void run(File graphFile) {
 
         boolean directed = AlgorithmSelector.selectDirected();
-        //Importing graph and measuring time TODO Change to Graph class or abandon ui completely?
-        Graph graph = GraphParser.importGraphFromFileAsEdgeList(graphFile.getAbsolutePath(), directed);
+        //Importing graph and measuring time
+        Graph graph = GraphParser.importGraphFromFile(graphFile.getAbsolutePath(), directed);
 
         //Select algorithm and start vertex
         Integer[] selection = AlgorithmSelector.showSelectionMenu(graph.getVertexList().size());
         if (selection != null) {
-            AlgorithmSelector.startAlgorithm(selection, graph, directed);
+            AlgorithmSelector.startAlgorithm(selection, graph);
         }
     }
 }

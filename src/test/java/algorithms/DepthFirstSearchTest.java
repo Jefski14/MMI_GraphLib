@@ -1,10 +1,9 @@
 package algorithms;
 
-import entity.Vertex;
+import entity.Graph;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static algorithms.DepthFirstSearch.iterativeDepthFirstSearch;
@@ -35,9 +34,9 @@ public class DepthFirstSearchTest {
         final String path = "src/main/resources/p1/Graph1.txt";
         final boolean directed = false;
         final Map<Integer, Boolean> markedMap = new HashMap<>();
-        final List<Vertex> vertList = importGraphFromFile(path, directed);
-        vertList.forEach(v -> markedMap.put(v.getId(), false));
-        iterativeDepthFirstSearch(vertList.get(0), markedMap, directed);
+        final Graph graph = importGraphFromFile(path, directed);
+        graph.getVertexList().forEach(v -> markedMap.put(v.getId(), false));
+        iterativeDepthFirstSearch(graph.getVertexList().get(0), markedMap, directed);
 
         assertEquals(markedMap, markedMapAfterBFSFromV1);
     }
