@@ -1,7 +1,10 @@
 package algorithms;
 
+import entity.Edge;
 import entity.Vertex;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -14,16 +17,29 @@ public class DepthFirstSearch {
      * @param marked   map of already marked vertices (should be initialized)
      * @param directed boolean flag that indicates if the graph is directed
      */
-    public static void iterativeDepthFirstSearch(final Vertex vertex, final Map<Integer, Boolean> marked, boolean directed) {
+    public static List<Vertex> iterativeDepthFirstSearch(final Vertex vertex, final Map<Integer, Boolean> marked, boolean directed) {
         Stack<Vertex> stack = new Stack<>();
         stack.push(vertex); // Add starting vertex to stack
+
+        //List for output
+        List<Vertex> transition = new ArrayList<>();
+        //Add new vertex with empty edge-list
+        transition.add(new Vertex(vertex.getId()));
+
+        //Index to refer to last added vertex in list
+        int i = 0;
         while (!stack.empty()) {
             Vertex current = stack.pop(); // get next vertex (top of stack)
             if (!marked.get(current.getId())) {
                 marked.put(current.getId(), true); // mark vertex
                 addNeighborsToStack(current, stack, marked, directed);
+
+                transition.add(new Vertex(current.getId()));
+                transition.get(i).getAttachedEdges().add(new Edge(transition.get(i), current));
+                i++;
             }
         }
+        return transition;
     }
 
     /**
