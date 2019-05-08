@@ -13,7 +13,7 @@ public class ConnectedGraphFinderTest {
         final String path = "src/main/resources/p1/Graph1.txt";
         final boolean directed = false;
 
-        final Graph graph = importGraphFromFile(path, directed);
+        final Graph graph = importGraphFromFile(path);
         final int connectedGraphCount = findConnectedGraphs(graph.getVertexList(), directed);
 
         assertEquals(connectedGraphCount, 2);
@@ -24,7 +24,7 @@ public class ConnectedGraphFinderTest {
         final String path = "src/main/resources/p1/Graph2.txt";
         final boolean directed = false;
 
-        final Graph graph = importGraphFromFile(path, directed);
+        final Graph graph = importGraphFromFile(path);
         final int connectedGraphCount = findConnectedGraphs(graph.getVertexList(), directed);
 
         assertEquals(connectedGraphCount, 4);
@@ -35,7 +35,7 @@ public class ConnectedGraphFinderTest {
         final String path = "src/main/resources/p1/Graph3.txt";
         final boolean directed = false;
 
-        final Graph graph = importGraphFromFile(path, directed);
+        final Graph graph = importGraphFromFile(path);
         final int connectedGraphCount = findConnectedGraphs(graph.getVertexList(), directed);
 
         assertEquals(connectedGraphCount, 4);
@@ -46,7 +46,7 @@ public class ConnectedGraphFinderTest {
         final String path = "src/main/resources/p1/Graph_gross.txt";
         final boolean directed = false;
 
-        final Graph graph = importGraphFromFile(path, directed);
+        final Graph graph = importGraphFromFile(path);
         final int connectedGraphCount = findConnectedGraphs(graph.getVertexList(), directed);
 
         assertEquals(connectedGraphCount, 222);
