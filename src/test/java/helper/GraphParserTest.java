@@ -54,7 +54,7 @@ public class GraphParserTest {
     public void parseG_1_2() {
         final String path = "src/main/resources/p2/G_1_2.txt";
         final Graph graph = importGraphFromFile(path, false);
-        assertEquals(graph.getEdgeList().size(), 2000);
+        assertEquals(graph.getEdgeList().size(), 4000);
         assertEquals(graph.getVertexList().size(), 1000);
     }
 }
