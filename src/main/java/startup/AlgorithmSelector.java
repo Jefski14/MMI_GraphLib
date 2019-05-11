@@ -14,6 +14,22 @@ public class AlgorithmSelector {
 
 
     /**
+     * Selection menu for directed or undirecte edges in graph
+     *
+     * @return true if user selected directed, false if user selected undirected
+     */
+    private static boolean selectDirected() {
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("----Edges directed ? [1: true or 0: false]----------------------");
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("----Enter number: ----------------------------------------------");
+        Scanner in = new Scanner(System.in);
+        int num = in.nextInt();
+
+        return num == 1;
+    }
+
+    /**
      * Shows the menu, where the user can choose the algorithm to execute
      *
      * @return number of chosen algorithm
@@ -107,8 +123,10 @@ public class AlgorithmSelector {
 
 
     public static void run(File graphFile) {
+
+        boolean directed = AlgorithmSelector.selectDirected();
         //Importing graph and measuring time
-        Graph graph = GraphParser.importGraphFromFile(graphFile.getAbsolutePath());
+        Graph graph = GraphParser.importGraphFromFile(graphFile.getAbsolutePath(), directed);
 
         //Select algorithm and start vertex
         Integer[] selection = AlgorithmSelector.showSelectionMenu(graph.getVertexList().size());

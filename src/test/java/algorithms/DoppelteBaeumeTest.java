@@ -14,7 +14,7 @@ public class DoppelteBaeumeTest {
     public void testDoppelteBaueme_3Knoten() {
 
         //given
-        Graph graph = importGraphFromFile("src/main/resources/p3/vollstaendigerGraph3Knoten.txt");
+        Graph graph = importGraphFromFile("src/main/resources/p3/vollstaendigerGraph3Knoten.txt", false);
 
         //when
         List<Vertex> vertices = DoppelteBaeume.runDoppelteBaume(graph, 0, true);
@@ -27,7 +27,7 @@ public class DoppelteBaeumeTest {
     public void testDoppelteBaueme_4Knoten() {
 
         //given
-        Graph graph = importGraphFromFile("src/main/resources/p3/vollstaendigerGraph4Knoten.txt");
+        Graph graph = importGraphFromFile("src/main/resources/p3/vollstaendigerGraph4Knoten.txt", false);
 
         //when
         List<Vertex> vertices = DoppelteBaeume.runDoppelteBaume(graph, 0, true);

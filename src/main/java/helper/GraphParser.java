@@ -16,9 +16,10 @@ public class GraphParser {
      * into {@link Vertex} and {@link Edge} Objects
      *
      * @param fileName path to file
+     * @param directed flag if edges should be imported as directed or undirected
      * @return List of {@link Vertex} Objects
      */
-    public static Graph importGraphFromFile(final String fileName) {
+    public static Graph importGraphFromFile(final String fileName, boolean directed) {
 
         long startTime = System.currentTimeMillis();
         System.out.println("Starting import of graph...");
@@ -50,12 +51,19 @@ public class GraphParser {
                 }
 
                 // Add edge to vertex
-                Edge p1p2 = new Edge(dracula.getVertexList().get(p1), dracula.getVertexList().get(p2), cost, capacity);
-                Edge p2p1 = new Edge(dracula.getVertexList().get(p2), dracula.getVertexList().get(p1), cost, capacity);
-                dracula.getVertexList().get(p1).addEdge(p1p2);
-                dracula.getVertexList().get(p2).addEdge(p2p1);
-                dracula.getEdgeList().add(p1p2);
-                dracula.getEdgeList().add(p2p1);
+                if (directed) {
+                    Edge p1p2 = new Edge(dracula.getVertexList().get(p1), dracula.getVertexList().get(p2), cost, capacity);
+                    Edge p2p1 = new Edge(dracula.getVertexList().get(p2), dracula.getVertexList().get(p1), cost, capacity);
+                    dracula.getVertexList().get(p1).addEdge(p1p2);
+                    dracula.getVertexList().get(p2).addEdge(p2p1);
+                    dracula.getEdgeList().add(p1p2);
+                    dracula.getEdgeList().add(p2p1);
+                } else {
+                    Edge undirected = new Edge(dracula.getVertexList().get(p1), dracula.getVertexList().get(p2), cost, capacity);
+                    dracula.getVertexList().get(p1).addEdge(undirected);
+                    dracula.getVertexList().get(p2).addEdge(undirected);
+                    dracula.getEdgeList().add(undirected);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
