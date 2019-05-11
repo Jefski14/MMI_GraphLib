@@ -53,16 +53,16 @@ public class GraphParser {
                 // Add edge to vertex
                 if (directed) {
                     Edge p1p2 = new Edge(dracula.getVertexList().get(p1), dracula.getVertexList().get(p2), cost, capacity);
+                    dracula.getVertexList().get(p1).addEdge(p1p2);
+                    dracula.getEdgeList().add(p1p2);
+                } else {
+                    // Add edge in both directions
+                    Edge p1p2 = new Edge(dracula.getVertexList().get(p1), dracula.getVertexList().get(p2), cost, capacity);
                     Edge p2p1 = new Edge(dracula.getVertexList().get(p2), dracula.getVertexList().get(p1), cost, capacity);
                     dracula.getVertexList().get(p1).addEdge(p1p2);
                     dracula.getVertexList().get(p2).addEdge(p2p1);
                     dracula.getEdgeList().add(p1p2);
                     dracula.getEdgeList().add(p2p1);
-                } else {
-                    Edge undirected = new Edge(dracula.getVertexList().get(p1), dracula.getVertexList().get(p2), cost, capacity);
-                    dracula.getVertexList().get(p1).addEdge(undirected);
-                    dracula.getVertexList().get(p2).addEdge(undirected);
-                    dracula.getEdgeList().add(undirected);
                 }
             }
         } catch (IOException e) {
