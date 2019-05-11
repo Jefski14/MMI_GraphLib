@@ -21,8 +21,8 @@ public class GraphParser {
      */
     public static Graph importGraphFromFile(final String fileName, boolean directed) {
 
-        long startTime = System.currentTimeMillis();
-        System.out.println("Starting import of graph...");
+//        long startTime = System.currentTimeMillis();
+//        System.out.println("Starting import of graph...");
         Graph dracula = new Graph();
         try {
             final FileReader fileReader = new FileReader(fileName);
@@ -68,8 +68,8 @@ public class GraphParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        long estimatedTime = System.currentTimeMillis() - startTime;
-        System.out.println("Importing graph took: " + estimatedTime + " ms");
+//        long estimatedTime = System.currentTimeMillis() - startTime;
+//        System.out.println("Importing graph took: " + estimatedTime + " ms");
         return dracula;
     }
 }
