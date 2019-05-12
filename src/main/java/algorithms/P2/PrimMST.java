@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.P2;
 
 import entity.Edge;
 import entity.Graph;

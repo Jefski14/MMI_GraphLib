@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static algorithms.DepthFirstSearch.iterativeDepthFirstSearch;
+import static algorithms.P1.DepthFirstSearch.iterativeDepthFirstSearch;
 import static helper.GraphParser.importGraphFromFile;
 import static org.junit.Assert.assertEquals;
 

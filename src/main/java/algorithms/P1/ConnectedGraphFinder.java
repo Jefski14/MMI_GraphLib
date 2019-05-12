@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.P1;
 
 import entity.Vertex;
 
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static algorithms.BreadthFirstSearch.breadthFirstSearch;
+import static algorithms.P1.BreadthFirstSearch.breadthFirstSearch;
 
 public class ConnectedGraphFinder {
 

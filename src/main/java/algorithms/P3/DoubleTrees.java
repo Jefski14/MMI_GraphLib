@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.P3;
 
 import entity.Edge;
 import entity.Graph;
@@ -6,7 +6,7 @@ import entity.Vertex;
 
 import java.util.*;
 
-import static algorithms.PrimMST.getMST;
+import static algorithms.P2.PrimMST.getMST;
 
 public class DoubleTrees {
 

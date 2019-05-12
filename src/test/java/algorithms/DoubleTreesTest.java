@@ -3,8 +3,7 @@ package algorithms;
 import entity.Graph;
 import org.junit.Test;
 
-
-import static algorithms.DoubleTrees.calculateTour;
+import static algorithms.P3.DoubleTrees.calculateTour;
 import static helper.GraphParser.importGraphFromFile;
 
 public class DoubleTreesTest {

@@ -3,7 +3,7 @@ package algorithms;
 import entity.Graph;
 import org.junit.Test;
 
-import static algorithms.ConnectedGraphFinder.findConnectedGraphs;
+import static algorithms.P1.ConnectedGraphFinder.findConnectedGraphs;
 import static helper.GraphParser.importGraphFromFile;
 import static org.junit.Assert.assertEquals;
 

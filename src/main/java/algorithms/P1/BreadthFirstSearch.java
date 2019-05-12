@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.P1;
 
 import entity.Vertex;
 

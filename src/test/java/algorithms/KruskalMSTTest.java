@@ -1,5 +1,6 @@
 package algorithms;
 
+import algorithms.P2.KruskalMST;
 import entity.Graph;
 import org.junit.Test;
 

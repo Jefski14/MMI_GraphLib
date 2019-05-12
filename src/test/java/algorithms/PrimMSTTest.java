@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import static algorithms.PrimMST.getMST;
+import static algorithms.P2.PrimMST.getMST;
 import static helper.GraphParser.importGraphFromFile;
 import static org.junit.Assert.assertEquals;
 

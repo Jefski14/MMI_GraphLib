@@ -1,10 +1,9 @@
-package algorithms;
+package algorithms.P3;
 
 import entity.Edge;
 import entity.Graph;
 import entity.Vertex;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +16,7 @@ public class NearestNeighbor {
     }
 
     /**
-     * Calculates Round Trip that schould be realtivly optimal
+     * Calculates Round Trip that should be relatively optimal
      * @param graph complete undirected Graph
      * @return graph that contains round trip
      */

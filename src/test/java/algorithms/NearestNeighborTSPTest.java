@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
-import static algorithms.NearestNeighbor.calculateTour;
+import static algorithms.P3.NearestNeighbor.calculateTour;
 import static helper.GraphParser.importGraphFromFile;
 import static org.junit.Assert.assertEquals;
 
