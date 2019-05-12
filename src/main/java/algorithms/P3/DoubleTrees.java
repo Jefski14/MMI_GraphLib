@@ -19,7 +19,7 @@ public class DoubleTrees {
         Graph mst = getMST(graph, start);
         // Initialize marked map for dfs
         Map<Integer, Boolean> marked = new HashMap<>();
-        for(Vertex v : mst.getVertexList()) {
+        for (Vertex v : mst.getVertexList()) {
             marked.put(v.getId(), false);
         }
 
@@ -30,16 +30,16 @@ public class DoubleTrees {
         stack.push(mst.getVertexList().get(start.getId()));
         Vertex lastVisitedVertex = start;
 
-        while(!stack.empty()) {
+        while (!stack.empty()) {
             Vertex current = stack.pop();
             if (!marked.get(current.getId())) {
                 if (current.getId() != start.getId()) { // When we're not in the first iteration add edge from last visited to current
-                   tspEdgeList.add(getEdgeWithSpecificEnd(graph.getVertexList().get(lastVisitedVertex.getId()).getAttachedEdges(), current.getId()));
+                    tspEdgeList.add(getEdgeWithSpecificEnd(graph.getVertexList().get(lastVisitedVertex.getId()).getAttachedEdges(), current.getId()));
                 }
                 marked.put(current.getId(), true);
                 lastVisitedVertex = current;
                 // Add unmarked neighbors to Stack
-                for(Edge e: current.getAttachedEdges()) {
+                for (Edge e : current.getAttachedEdges()) {
                     if (!marked.get(e.getEnd().getId())) {
                         stack.push(e.getEnd());
                     }
@@ -54,12 +54,13 @@ public class DoubleTrees {
 
     /**
      * Searches for Edge with specific End in given edgelist
+     *
      * @param attachedEdges
      * @param endpointId
      * @return Copy of Edge
      */
     private static Edge getEdgeWithSpecificEnd(List<Edge> attachedEdges, int endpointId) {
-        for (Edge e: attachedEdges) {
+        for (Edge e : attachedEdges) {
             if (e.getEnd().getId() == endpointId) {
                 return new Edge(new Vertex(e.getStart().getId()), new Vertex(endpointId), e.getCost(), e.getCapacity());
             }

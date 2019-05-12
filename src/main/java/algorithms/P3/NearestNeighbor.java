@@ -11,12 +11,13 @@ import java.util.ArrayList;
  */
 public class NearestNeighbor {
 
-    public static  Graph calculateTour(Graph graph) {
+    public static Graph calculateTour(Graph graph) {
         return calculateTour(graph, graph.getVertexList().get(0));
     }
 
     /**
      * Calculates Round Trip that should be relatively optimal
+     *
      * @param graph complete undirected Graph
      * @return graph that contains round trip
      */
@@ -25,10 +26,10 @@ public class NearestNeighbor {
         ArrayList<Edge> tspEdgeList = new ArrayList<>();
         ArrayList<Integer> visited = new ArrayList<>();
 
-        while(tspEdgeList.size() < graph.getVertexList().size()) {
+        while (tspEdgeList.size() < graph.getVertexList().size()) {
             Edge cheapest = null;
-            for(Edge e : currentVertex.getAttachedEdges()) {
-                if (tspEdgeList.size() == graph.getVertexList().size() -1 && e.getEnd().getId() == visited.get(0)) {
+            for (Edge e : currentVertex.getAttachedEdges()) {
+                if (tspEdgeList.size() == graph.getVertexList().size() - 1 && e.getEnd().getId() == visited.get(0)) {
                     // Add edge to start vertex
                     cheapest = e;
                     break;
