@@ -10,7 +10,7 @@ public class BranchAndBoundTest {
     @Test
     public void test2() {
 
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_10.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/vollstaendigerGraph3Knoten.txt", false);
         BrunchAndLunch bnb = new BrunchAndLunch();
         bnb.calculateTour(graph);
         System.out.println("Pls work");
