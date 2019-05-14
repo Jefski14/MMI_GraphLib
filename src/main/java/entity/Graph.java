@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,10 +40,10 @@ public class Graph {
         }
     }
 
-    public BigDecimal totalEdgeCost() {
-        BigDecimal result = new BigDecimal(0.0);
+    public Double totalEdgeCost() {
+        Double result = 0.0;
         for (Edge e : edgeList) {
-            result = result.add(e.getCost());
+            result += e.getCost();
         }
         return result;
     }
