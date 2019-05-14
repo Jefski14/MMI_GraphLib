@@ -59,7 +59,7 @@ public class DoubleTrees {
      * @param endpointId
      * @return Copy of Edge
      */
-    private static Edge getEdgeWithSpecificEnd(List<Edge> attachedEdges, int endpointId) {
+    protected static Edge getEdgeWithSpecificEnd(List<Edge> attachedEdges, int endpointId) {
         for (Edge e : attachedEdges) {
             if (e.getEnd().getId() == endpointId) {
                 return new Edge(new Vertex(e.getStart().getId()), new Vertex(endpointId), e.getCost(), e.getCapacity());
