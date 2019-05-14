@@ -5,7 +5,9 @@ import entity.Vertex;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class BrunchAndLunch {
     private static BigDecimal upperBound;
@@ -28,7 +30,7 @@ public class BrunchAndLunch {
             upper = buildRecursiveTree(currentPath, unvisitedVerticesCopy, reachedByCost, allPaths, graph.getVertexList(), upper);
             // connect back to starter vertex
         }
-//        allPaths.sort();
+        Collections.sort(allPaths);
         System.out.println("Pls work");
     }
 
@@ -37,6 +39,7 @@ public class BrunchAndLunch {
             currentCost += DoubleTrees.getEdgeWithSpecificEnd(graphVertexList.get(currentPath.get(currentPath.size() - 1)).getAttachedEdges(), currentPath.get(0)).getCost().doubleValue();
             if (currentCost < upper.doubleValue()) {
                 upper = BigDecimal.valueOf(currentCost);
+//                upper =  upper.add(BigDecimal.ZERO);
             }
             Path p = new Path(currentPath, BigDecimal.valueOf(currentCost)); // iwie die kosten zurück geben
             allPaths.add(p);
