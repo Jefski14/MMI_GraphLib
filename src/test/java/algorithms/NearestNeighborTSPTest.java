@@ -3,8 +3,6 @@ package algorithms;
 import entity.Graph;
 import org.junit.Test;
 
-import java.math.BigDecimal;
-
 import static algorithms.P3.NearestNeighbor.calculateTour;
 import static helper.GraphParser.importGraphFromFile;
 import static org.junit.Assert.assertEquals;
@@ -19,7 +17,7 @@ public class NearestNeighborTSPTest {
         Graph tsp = calculateTour(graph, graph.getVertexList().get(9)); // NN von 9 liefert optimale Tour
         long estimatedTime = System.currentTimeMillis() - startTime;
         System.out.println("NN took: " + estimatedTime + "ms");
-        assertEquals(BigDecimal.valueOf(38.41), tsp.totalEdgeCost());
+        assertEquals(Double.valueOf(38.41), tsp.totalEdgeCost());
     }
 
     @Test
@@ -30,7 +28,7 @@ public class NearestNeighborTSPTest {
         Graph tsp = calculateTour(graph, graph.getVertexList().get(9)); // Nicht optimal aber nah dran
         long estimatedTime = System.currentTimeMillis() - startTime;
         System.out.println("NN took: " + estimatedTime + "ms");
-        assertEquals(BigDecimal.valueOf(27.76), tsp.totalEdgeCost()); // 27.26 ist optimum
+        assertEquals(Double.valueOf(27.76), tsp.totalEdgeCost(), 0.0001); // 27.26 ist optimum
     }
 
     @Test

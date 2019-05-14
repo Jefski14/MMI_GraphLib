@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -18,8 +16,8 @@ public class Edge implements Comparable<Edge> {
     private Vertex start;
     @NonNull
     private Vertex end;
-    private BigDecimal cost;
-    private BigDecimal capacity;
+    private Double cost;
+    private Double capacity;
 
     @Override
     public int compareTo(Edge e1) {

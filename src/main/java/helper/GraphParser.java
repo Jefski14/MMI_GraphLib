@@ -7,7 +7,6 @@ import entity.Vertex;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,13 +42,13 @@ public class GraphParser {
                 final String[] points = currentLine.split(delimiter);
                 final int p1 = Integer.parseInt(points[0]);
                 final int p2 = Integer.parseInt(points[1]);
-                BigDecimal cost = BigDecimal.valueOf(0.0);
-                BigDecimal capacity = BigDecimal.valueOf(0.0);
+                Double cost = 0.0;
+                Double capacity = 0.0;
                 if (points.length == 3) {
-                    cost = BigDecimal.valueOf(Double.parseDouble(points[2]));
+                    cost = Double.parseDouble(points[2]);
                 }
                 if (points.length == 4) {
-                    capacity = BigDecimal.valueOf(Double.parseDouble(points[3]));
+                    capacity = Double.parseDouble(points[3]);
                 }
 
                 // Add edge to vertex
