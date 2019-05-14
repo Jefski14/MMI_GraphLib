@@ -6,13 +6,16 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Graph {
     List<Edge> edgeList = new ArrayList<>();
+    Map<Integer, List<Edge>> edgeMap = new HashMap<>();
     List<Vertex> vertexList = new ArrayList<>();
     boolean directed;
 

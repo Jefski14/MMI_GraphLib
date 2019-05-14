@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GraphParser {
 
@@ -55,6 +57,17 @@ public class GraphParser {
                     Edge p1p2 = new Edge(dracula.getVertexList().get(p1), dracula.getVertexList().get(p2), cost, capacity);
                     dracula.getVertexList().get(p1).addEdge(p1p2);
                     dracula.getEdgeList().add(p1p2);
+
+                    //Fill edge map
+                    if (dracula.getEdgeMap().containsKey(p1)) {
+                        List<Edge> edges = dracula.getEdgeMap().get(p1);
+                        edges.add(new Edge(new Vertex(p1), new Vertex(p2), cost, capacity));
+                        dracula.getEdgeMap().put(p1, edges);
+                    } else {
+                        ArrayList<Edge> edges = new ArrayList<>();
+                        edges.add(new Edge(new Vertex(p1), new Vertex(p2), cost, capacity));
+                        dracula.getEdgeMap().put(p1, edges);
+                    }
                 } else {
                     // Add edge in both directions
                     Edge p1p2 = new Edge(dracula.getVertexList().get(p1), dracula.getVertexList().get(p2), cost, capacity);
@@ -63,6 +76,28 @@ public class GraphParser {
                     dracula.getVertexList().get(p2).addEdge(p2p1);
                     dracula.getEdgeList().add(p1p2);
                     dracula.getEdgeList().add(p2p1);
+
+                    //Fill edge map
+                    if (dracula.getEdgeMap().containsKey(p1)) {
+                        List<Edge> edges = dracula.getEdgeMap().get(p1);
+                        edges.add(new Edge(new Vertex(p1), new Vertex(p2), cost, capacity));
+                        dracula.getEdgeMap().put(p1, edges);
+                    } else {
+                        ArrayList<Edge> edges = new ArrayList<>();
+                        edges.add(new Edge(new Vertex(p1), new Vertex(p2), cost, capacity));
+                        dracula.getEdgeMap().put(p1, edges);
+                    }
+
+                    //Fill edge map
+                    if (dracula.getEdgeMap().containsKey(p2)) {
+                        List<Edge> edges = dracula.getEdgeMap().get(p2);
+                        edges.add(new Edge(new Vertex(p2), new Vertex(p1), cost, capacity));
+                        dracula.getEdgeMap().put(p2, edges);
+                    } else {
+                        ArrayList<Edge> edges = new ArrayList<>();
+                        edges.add(new Edge(new Vertex(p2), new Vertex(p1), cost, capacity));
+                        dracula.getEdgeMap().put(p2, edges);
+                    }
                 }
             }
         } catch (IOException e) {
