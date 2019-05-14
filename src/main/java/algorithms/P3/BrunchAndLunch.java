@@ -28,7 +28,7 @@ public class BrunchAndLunch {
             upper = buildRecursiveTree(currentPath, unvisitedVerticesCopy, reachedByCost, allPaths, graph.getVertexList(), upper);
             // connect back to starter vertex
         }
-        allPaths.sort();
+//        allPaths.sort();
         System.out.println("Pls work");
     }
 
