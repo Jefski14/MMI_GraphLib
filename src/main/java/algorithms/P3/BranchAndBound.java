@@ -16,7 +16,7 @@ public class BranchAndBound {
     //keeps track of already visited vertices
     private boolean[] visited;
     //Cost of final shortest tour
-    private BigDecimal finalCost;
+    private double finalCost;
     //Defines whether to stop execution if tour is
     //more expensive than current best tour
     private boolean enumerate;
@@ -25,7 +25,7 @@ public class BranchAndBound {
         this.numberVertices = graph.getVertexList().size();
         this.finalPath = new int[numberVertices + 1];
         this.visited = new boolean[numberVertices];
-        this.finalCost = BigDecimal.valueOf(Double.MAX_VALUE);
+        this.finalCost = Double.MAX_VALUE;
         this.enumerate = enumerate;
     }
 
@@ -39,12 +39,12 @@ public class BranchAndBound {
 
     //Function to find the minimum edge cost
     // having an end at vertex i
-    private BigDecimal findFirstMin(Graph g, int i) {
-        BigDecimal min = BigDecimal.valueOf(Double.MAX_VALUE);
+    private Double findFirstMin(Graph g, int i) {
+        Double min = Double.MAX_VALUE;
         for (int k = 0; k < numberVertices; k++) {
-            BigDecimal edgeCost = g.getEdgeMap().get(i).get(k).getCost();
+            Double edgeCost = g.getVertexList().get(i).getAttachedEdges().get(k).getCost();
             //If edgeCost < min
-            if (edgeCost.compareTo(min) < 0 && i != k) {
+            if (edgeCost < min && i != k) {
                 min = edgeCost;
             }
         }
@@ -53,18 +53,18 @@ public class BranchAndBound {
 
     //Function to find the second minimum edge cost
     // having an end at the vertex i
-    private BigDecimal findSecondMin(Graph g, int i) {
-        BigDecimal first = BigDecimal.valueOf(Double.MAX_VALUE), second = BigDecimal.valueOf(Double.MAX_VALUE);
+    private Double findSecondMin(Graph g, int i) {
+        Double first = Double.MAX_VALUE, second = Double.MAX_VALUE;
         for (int j = 0; j < numberVertices; j++) {
             if (i == j) {
                 continue;
             }
-            BigDecimal edgeCost = g.getEdgeMap().get(i).get(j).getCost();
-            if (edgeCost.compareTo(first) == 0 || edgeCost.compareTo(first) < 0) {
+            Double edgeCost = g.getVertexList().get(i).getAttachedEdges().get(j).getCost();
+            if (edgeCost <= first) {
                 second = first;
                 first = edgeCost;
                 //if edgeCost <= second && edgeCost != first
-            } else if ((edgeCost.compareTo(second) == 0 || edgeCost.compareTo(second) < 0) && !edgeCost.equals(first))
+            } else if (edgeCost <= second && !edgeCost.equals(first))
                 second = edgeCost;
         }
         return second;
@@ -77,19 +77,19 @@ public class BranchAndBound {
      * @param level       current level while moving through search tree
      * @param curr_path   store of current solution, later being copied to finalPath
      */
-    private void TSPRec(Graph g, BigDecimal curr_bound, BigDecimal curr_weight,
+    private void TSPRec(Graph g, Double curr_bound, Double curr_weight,
                         int level, int[] curr_path) {
         // base case is when we have reached level N which
         // means we have covered all the nodes once
         if (level == numberVertices) {
             // check if there is an edge from last vertex in
             // path back to the first vertex
-            BigDecimal edgeCost = g.getEdgeMap().get(curr_path[level - 1]).get(curr_path[0]).getCost();
+            Double edgeCost = g.getVertexList().get(curr_path[level - 1]).getAttachedEdges().get(curr_path[0]).getCost();
             //if curr_res != 0.0
-            if (!edgeCost.equals(BigDecimal.valueOf(0.0))) {
+            if (edgeCost != 0.0) {
                 // curr_res has the total weight of the
                 // solution we got
-                BigDecimal curr_res = curr_weight.add(edgeCost);
+                Double curr_res = curr_weight + edgeCost;
 
                 // Update final result and final path if
                 // current result is better.
@@ -108,31 +108,30 @@ public class BranchAndBound {
             // Consider next vertex if it is not same (diagonal
             // entry in adjacency matrix and not visited
             // already)
-            BigDecimal edgeCost = g.getEdgeMap().get(curr_path[level - 1]).get(i).getCost();
-            if (!edgeCost.equals(BigDecimal.valueOf(0.0)) &&
-                    !visited[i]) {
-                BigDecimal temp = curr_bound;
-                curr_weight = curr_weight.add(edgeCost);
+            Double edgeCost = g.getVertexList().get(curr_path[level - 1]).getAttachedEdges().get(i).getCost();
+            if (edgeCost != 0.0 && !visited[i]) {
+                Double temp = curr_bound;
+                curr_weight = curr_weight + edgeCost;
 
                 // different computation of curr_bound for
                 // level 2 from the other levels
                 if (level == 1) {
-                    BigDecimal i1 = findFirstMin(g, curr_path[level - 1]);
-                    BigDecimal i2 = findFirstMin(g, i).divide(BigDecimal.valueOf(2));
-                    BigDecimal add = i1.add(i2);
-                    curr_bound = curr_bound.subtract(add);
+                    Double i1 = findFirstMin(g, curr_path[level - 1]);
+                    Double i2 = (findFirstMin(g, i) / 2);
+                    Double add = findFirstMin(g, curr_path[level - 1]) + (findFirstMin(g, i) / 2);
+                    curr_bound = curr_bound - add;
                 } else {
-                    BigDecimal i1 = findSecondMin(g, curr_path[level - 1]);
-                    BigDecimal i2 = findFirstMin(g, i).divide(BigDecimal.valueOf(2));
-                    BigDecimal add = i1.add(i2);
-                    curr_bound = curr_bound.subtract(add);
+                    Double i1 = findSecondMin(g, curr_path[level - 1]);
+                    Double i2 = findFirstMin(g, i) / 2;
+                    Double add = i1 + i2;
+                    curr_bound = curr_bound - add;
                 }
 
                 // curr_bound + curr_weight is the actual lower bound
                 // for the node that we have arrived on
                 // If current lower bound < final_res, we need to explore
                 // the node further
-                BigDecimal add = curr_bound.add(curr_weight);
+                Double add = curr_bound + curr_weight;
                 if (add.compareTo(finalCost) < 0) {
                     curr_path[level] = i;
                     visited[i] = true;
@@ -144,8 +143,8 @@ public class BranchAndBound {
 
                 // Else we have to prune the node by resetting
                 // all changes to curr_weight and curr_bound
-                BigDecimal edgeCost2 = g.getEdgeMap().get(curr_path[level - 1]).get(i).getCost();
-                curr_weight = curr_weight.subtract(edgeCost2);
+                Double edgeCost2 = g.getVertexList().get(curr_path[level - 1]).getAttachedEdges().get(i).getCost();
+                curr_weight = curr_weight - edgeCost2;
                 curr_bound = temp;
 
                 // Also reset the visited array
@@ -163,22 +162,22 @@ public class BranchAndBound {
         // using the formula 1/2 * (sum of first min +
         // second min) for all edges.
         // Also initialize the curr_path and visited array
-        BigDecimal curr_bound = BigDecimal.valueOf(0.0);
+        Double curr_bound = 0.0;
         Arrays.fill(curr_path, -1);
         Arrays.fill(visited, false);
 
         // Compute initial bound
         for (int i = 0; i < numberVertices; i++) {
-            BigDecimal firstMin = findFirstMin(g, i);
-            BigDecimal secondMin = findSecondMin(g, i);
-            curr_bound = curr_bound.add(firstMin).add(secondMin);
+            Double firstMin = findFirstMin(g, i);
+            Double secondMin = findSecondMin(g, i);
+            curr_bound = curr_bound + firstMin + secondMin;
         }
 
         // Rounding off the lower bound to an integer
         if (curr_bound.equals(BigDecimal.valueOf(1.0))) {
-            curr_bound = curr_bound.divide(BigDecimal.valueOf(2.0)).add(BigDecimal.valueOf(1.0));
+            curr_bound = (curr_bound / 2) + 1;
         } else {
-            curr_bound = curr_bound.divide(BigDecimal.valueOf(2.0));
+            curr_bound = curr_bound / 2;
         }
 
         // We start at vertex 1 so the first vertex
@@ -188,6 +187,6 @@ public class BranchAndBound {
 
         // Call to TSPRec for curr_weight equal to
         // 0 and level 1
-        TSPRec(g, curr_bound, BigDecimal.valueOf(0.0), 1, curr_path);
+        TSPRec(g, curr_bound, 0.0, 1, curr_path);
     }
 }
