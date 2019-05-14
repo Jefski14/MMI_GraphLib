@@ -1,5 +1,6 @@
 package algorithms.P3;
 
+import entity.Edge;
 import entity.Graph;
 import entity.Vertex;
 
@@ -7,7 +8,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.PriorityQueue;
 
 public class BrunchAndLunch {
     private static BigDecimal upperBound;
@@ -17,7 +17,6 @@ public class BrunchAndLunch {
         for(Vertex v : graph.getVertexList()) { // Clone Vertexlist
             unvisitedVertices.add(v.getId());
         }
-        double reachedByCost = 0;
 
         ArrayList<Path> allPaths = new ArrayList<>();
         BigDecimal upper = BigDecimal.valueOf(70);
@@ -27,21 +26,21 @@ public class BrunchAndLunch {
             unvisitedVerticesCopy.remove(v.getId());
             currentPath.add(v.getId());
 
-            upper = buildRecursiveTree(currentPath, unvisitedVerticesCopy, reachedByCost, allPaths, graph.getVertexList(), upper);
+            upper = buildRecursiveTree(currentPath, unvisitedVerticesCopy, BigDecimal.ZERO, allPaths, graph.getVertexList(), upper);
             // connect back to starter vertex
         }
         Collections.sort(allPaths);
         System.out.println("Pls work");
     }
 
-    private BigDecimal buildRecursiveTree(ArrayList<Integer> currentPath, ArrayList<Integer> unvisitedVertices, double currentCost, List<Path> allPaths, List<Vertex> graphVertexList, BigDecimal upper) {
+    private BigDecimal buildRecursiveTree(ArrayList<Integer> currentPath, ArrayList<Integer> unvisitedVertices, BigDecimal currentCost, List<Path> allPaths, List<Vertex> graphVertexList, BigDecimal upper) {
         if (unvisitedVertices.size() == 0) {
-            currentCost += DoubleTrees.getEdgeWithSpecificEnd(graphVertexList.get(currentPath.get(currentPath.size() - 1)).getAttachedEdges(), currentPath.get(0)).getCost().doubleValue();
-            if (currentCost < upper.doubleValue()) {
-                upper = BigDecimal.valueOf(currentCost);
-//                upper =  upper.add(BigDecimal.ZERO);
+            currentCost = currentCost.add(getCostOfEdge(graphVertexList.get(currentPath.get(currentPath.size() - 1)).getAttachedEdges(), currentPath.get(0)));
+            if (currentCost.compareTo(upper) < 0) {
+                upper = currentCost.add(BigDecimal.ZERO); // Clone
+                // Evtl alle anderen in allPaths löschen da jetzt veraltet
             }
-            Path p = new Path(currentPath, BigDecimal.valueOf(currentCost)); // iwie die kosten zurück geben
+            Path p = new Path(currentPath, currentCost); // iwie die kosten zurück geben
             allPaths.add(p);
             return upper;
         }
@@ -50,13 +49,22 @@ public class BrunchAndLunch {
             currentPathCopy.add(i);
             ArrayList<Integer> unvisitedVerticesCopy = (ArrayList<Integer>) unvisitedVertices.clone();
             unvisitedVerticesCopy.remove(i);
-            currentCost += DoubleTrees.getEdgeWithSpecificEnd(graphVertexList.get(currentPathCopy.get(currentPathCopy.size() - 2)).getAttachedEdges(), i).getCost().doubleValue();
+            currentCost = currentCost.add(getCostOfEdge(graphVertexList.get(currentPathCopy.get(currentPathCopy.size() - 2)).getAttachedEdges(), i));
             // add up current cost
-            if (currentCost < upper.doubleValue()) {
+            if (currentCost.compareTo(upper) < 0) {
                 upper = buildRecursiveTree(currentPathCopy, unvisitedVerticesCopy, currentCost, allPaths, graphVertexList, upper);
             }
         }
         return upper;
+    }
+
+    private static BigDecimal getCostOfEdge(List<Edge> attachedEdges, int endId) {
+        for (Edge e: attachedEdges) {
+            if (e.getEnd().getId() == endId) {
+                return e.getCost().add(BigDecimal.ZERO);
+            }
+        }
+        throw new RuntimeException("No Edge with endpoint found");
     }
 
     private class Path implements Comparable<Path> {
