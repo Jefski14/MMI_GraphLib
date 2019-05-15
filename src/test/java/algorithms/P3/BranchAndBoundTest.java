@@ -11,8 +11,7 @@ public class BranchAndBoundTest {
     public void test2() {
 
         Graph graph = importGraphFromFile("src/main/resources/p3/vollstaendigerGraph4Knoten.txt", false);
-        BranchAndBound bnb = new BranchAndBound();
-        bnb.calculateTour(graph);
+        BranchAndBound.calculateTour(graph);
         System.out.println("Pls work");
     }
 
@@ -20,8 +19,7 @@ public class BranchAndBoundTest {
     public void K_10() {
 
         Graph graph = importGraphFromFile("src/main/resources/p3/K_10.txt", false);
-        BranchAndBound bnb = new BranchAndBound();
-        bnb.calculateTour(graph);
+        BranchAndBound.calculateTour(graph);
         System.out.println("Pls work");
     }
 
@@ -30,8 +28,7 @@ public class BranchAndBoundTest {
     public void K_12() {
 
         Graph graph = importGraphFromFile("src/main/resources/p3/K_12.txt", false);
-        BranchAndBound bnb = new BranchAndBound();
-        bnb.calculateTour(graph);
+        BranchAndBound.calculateTour(graph);
         System.out.println("Pls work");
     }
 
