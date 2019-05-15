@@ -44,4 +44,32 @@ public class Graph {
         }
         return result;
     }
+
+
+
+    /**
+     * Searches for Edge with specific End in given edgelist
+     *
+     * @param attachedEdges
+     * @param endpointId
+     * @return Copy of Edge
+     */
+    public static Edge getEdgeWithSpecificEnd(List<Edge> attachedEdges, int endpointId) {
+        for (Edge e : attachedEdges) {
+            if (e.getEnd().getId() == endpointId) {
+                return new Edge(new Vertex(e.getStart().getId()), new Vertex(endpointId), e.getCost(), e.getCapacity());
+            }
+        }
+        throw new RuntimeException("No Edge pointing to vertex with id: " + endpointId + " found");
+    }
+
+    /**
+     * Searches for Edge with specific Endpoint and returns its cost
+     * @param attachedEdges List of edges to search through
+     * @param endId id of end vertex
+     * @return cost of edge
+     */
+    public static Double getCostOfEdge(List<Edge> attachedEdges, int endId) {
+        return getEdgeWithSpecificEnd(attachedEdges, endId).getCost();
+    }
 }

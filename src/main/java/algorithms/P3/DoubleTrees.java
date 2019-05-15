@@ -7,6 +7,7 @@ import entity.Vertex;
 import java.util.*;
 
 import static algorithms.P2.PrimMST.getMST;
+import static entity.Graph.getEdgeWithSpecificEnd;
 
 public class DoubleTrees {
 
@@ -30,6 +31,7 @@ public class DoubleTrees {
         stack.push(mst.getVertexList().get(start.getId()));
         Vertex lastVisitedVertex = start;
 
+        // iterative depth search
         while (!stack.empty()) {
             Vertex current = stack.pop();
             if (!marked.get(current.getId())) {
@@ -50,21 +52,5 @@ public class DoubleTrees {
         tspEdgeList.add(getEdgeWithSpecificEnd(graph.getVertexList().get(lastVisitedVertex.getId()).getAttachedEdges(), start.getId()));
 
         return new Graph(tspEdgeList, true, mst.getVertexList().size());
-    }
-
-    /**
-     * Searches for Edge with specific End in given edgelist
-     *
-     * @param attachedEdges
-     * @param endpointId
-     * @return Copy of Edge
-     */
-    protected static Edge getEdgeWithSpecificEnd(List<Edge> attachedEdges, int endpointId) {
-        for (Edge e : attachedEdges) {
-            if (e.getEnd().getId() == endpointId) {
-                return new Edge(new Vertex(e.getStart().getId()), new Vertex(endpointId), e.getCost(), e.getCapacity());
-            }
-        }
-        throw new RuntimeException("No Edge pointing to vertex with id: " + endpointId + " found");
     }
 }

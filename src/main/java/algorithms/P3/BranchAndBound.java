@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static entity.Graph.getCostOfEdge;
+
 public class BranchAndBound {
 
     private static boolean fullEnumeration = false;
@@ -30,7 +32,7 @@ public class BranchAndBound {
         // Start recursive Depth Search Style building of paths
         for (Vertex v : graph.getVertexList()) {
             Path currentPath = new Path();
-            // Copy unvisited Vertex List because its passed down by reference (else it would be changed TODO Test this because maybe stack stuff does it for me)
+            // Copy unvisited Vertex List because its passed down by reference (else it would be changed)
             ArrayList<Integer> unvisitedVerticesCopy = (ArrayList<Integer>) unvisitedVertices.clone();
             unvisitedVerticesCopy.remove(v.getId()); // mark current Vertex v as visited
             currentPath.addVertex(v.getId(), 0.0); // Add v to Path (first vertex has no cost)
@@ -95,18 +97,4 @@ public class BranchAndBound {
         return upper;
     }
 
-    /**
-     * Searches for Edge with specific Endpoint and returns its cost
-     * @param attachedEdges List of edges to search through
-     * @param endId id of end vertex
-     * @return cost of edge
-     */
-    private static Double getCostOfEdge(List<Edge> attachedEdges, int endId) {
-        for (Edge e: attachedEdges) {
-            if (e.getEnd().getId() == endId) {
-                return e.getCost();
-            }
-        }
-        throw new RuntimeException("No Edge with endpoint found");
-    }
 }

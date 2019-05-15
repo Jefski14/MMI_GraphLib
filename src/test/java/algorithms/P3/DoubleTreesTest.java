@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.P3;
 
 import entity.Graph;
 import org.junit.Test;

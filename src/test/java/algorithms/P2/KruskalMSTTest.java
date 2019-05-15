@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.P2;
 
 import algorithms.P2.KruskalMST;
 import entity.Graph;
