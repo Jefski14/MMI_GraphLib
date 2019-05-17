@@ -30,16 +30,14 @@ public class BranchAndBound {
         Double upper = nnTour.totalEdgeCost(); // Initialize upper bound with nearest neighbor try
 
         // Start recursive Depth Search Style building of paths
-        for (Vertex v : graph.getVertexList()) {
-            Path currentPath = new Path();
-            // Copy unvisited Vertex List because its passed down by reference (else it would be changed)
-            ArrayList<Integer> unvisitedVerticesCopy = (ArrayList<Integer>) unvisitedVertices.clone();
-            unvisitedVerticesCopy.remove(v.getId()); // mark current Vertex v as visited
-            currentPath.addVertex(v.getId(), 0.0); // Add v to Path (first vertex has no cost)
+        Path currentPath = new Path();
+        // Copy unvisited Vertex List because its passed down by reference (else it would be changed)
+        ArrayList<Integer> unvisitedVerticesCopy = (ArrayList<Integer>) unvisitedVertices.clone();
+        unvisitedVerticesCopy.remove(graph.getVertexList().get(0).getId()); // mark current Vertex v as visited
+        currentPath.addVertex(graph.getVertexList().get(0).getId(), 0.0); // Add v to Path (first vertex has no cost)
 
-            // Find all paths recursivly
-            upper = buildRecursiveTree(currentPath.clone(), unvisitedVerticesCopy, allPaths, graph.getVertexList(), upper);
-        }
+        // Find all paths recursivly
+        upper = buildRecursiveTree(currentPath.clone(), unvisitedVerticesCopy, allPaths, graph.getVertexList(), upper);
         // Pick out the cheapest Path we found
         Collections.sort(allPaths);
         Path cheapest = allPaths.get(0);
