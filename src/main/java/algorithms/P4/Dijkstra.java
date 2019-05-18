@@ -74,7 +74,7 @@ public class Dijkstra {
             }
         }
         //If no further vertex with distance < infinity exists stop algorithm
-        if (cheapestVertex == null) {
+        if (cheapest == Double.POSITIVE_INFINITY) {
             throw new NoFurtherVertexException("No further unvisited vertices with cost other than infinity!");
         }
         return cheapestVertex;
