@@ -149,4 +149,21 @@ public class Graph {
         // Build new Graph from EdgeList
         return new Graph(shortestPathTree, this.directed, this.vertexList.size());
     }
+
+    /**
+     * Builds new Graph (or tree) from pred and dist Map with the cost of the edges of this graph
+     * @param predAndDistMap KWB Map for distance and predecessors
+     * @return Graph
+     */
+    public ArrayList<Edge> buildPathFromTo(Map<Integer, PredAndDist> predAndDistMap, Integer from, Integer to) {
+        ArrayList<Edge> shortestPath = new ArrayList<>();
+
+        Integer currentVertex = to;
+        while (!currentVertex.equals(from)) {
+            shortestPath.add(getEdgeCopyWithNewVertices(predAndDistMap.get(currentVertex).getPredecessorId(), currentVertex));
+            currentVertex = predAndDistMap.get(currentVertex).getPredecessorId();
+        }
+        // Build new Graph from EdgeList
+        return shortestPath;
+    }
 }
