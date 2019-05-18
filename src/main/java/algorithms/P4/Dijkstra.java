@@ -1,6 +1,5 @@
 package algorithms.P4;
 
-import entity.Edge;
 import entity.Graph;
 import entity.PredAndDist;
 import entity.Vertex;
@@ -11,7 +10,7 @@ import java.util.*;
 @Getter
 public class Dijkstra {
 
-    private Map<Integer, PredAndDist> predAndDist = new HashMap<>();
+    private static Map<Integer, PredAndDist> predAndDist = new HashMap<>();
 
     /**
      * Calculates the shortest paths in graph with dijsktra
@@ -20,9 +19,8 @@ public class Dijkstra {
      * @param start start vertex to start paths from
      * @return Graph which contains all shortest paths
      */
-    public Graph calculateShortestPaths(Graph graph, Vertex start) {
+    public static Graph calculateShortestPaths(Graph graph, Vertex start) {
         Set<Vertex> unvisited = new HashSet<>();
-        Map<Vertex, Boolean> visited = new HashMap<>();
 
         //Initialize all vertices with pred=null and dist=infinity
         //except for start vertex
@@ -36,14 +34,13 @@ public class Dijkstra {
                         new PredAndDist(null, Double.POSITIVE_INFINITY));
             }
             unvisited.add(v);
-            visited.put(v, false);
         }
 
         //while there are still unvisited vertices
         while (unvisited.size() > 0) {//&& getCheapestEdge(currentVertex).getCost() != Double.POSITIVE_INFINITY) {
 
-            Vertex currentVertex = graph.getVertexList().get(start.getId());
-            Edge cheapestEdge = getCheapestEdge(currentVertex);
+            //get cheapest unvisted node from PredAndDist
+            Vertex currentVertex = getCheapestNode(unvisited, predAndDist);
 
             //get all adjacent vertices of current vertex
             List<Vertex> adjVertices = graph.getAdjVertices(currentVertex);
@@ -58,22 +55,21 @@ public class Dijkstra {
 
             //Remove current vertex from unvisited list and add it as visited
             unvisited.remove(currentVertex);
-            visited.put(currentVertex, true);
         }
 
         return graph.buildTreeFromPredAndDist(predAndDist);
     }
 
-    private Edge getCheapestEdge(Vertex vertex) {
-
+    private static Vertex getCheapestNode(Set<Vertex> unvisted, Map<Integer, PredAndDist> predAndDist) {
         double cheapest = Double.POSITIVE_INFINITY;
-        Edge cheapestEdge = null;
-        for (Edge e : vertex.getAttachedEdges()) {
-            if (e.getCost() < cheapest) {
-                cheapest = e.getCost();
-                cheapestEdge = e;
+        Vertex cheapestVertex = null;
+        for (Vertex v : unvisted) {
+            if (predAndDist.get(v.getId()).getDistance() < cheapest) {
+                cheapest = predAndDist.get(v.getId()).getDistance();
+                cheapestVertex = v;
             }
         }
-        return cheapestEdge;
+
+        return cheapestVertex;
     }
 }
