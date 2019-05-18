@@ -84,11 +84,11 @@ public class Graph {
      */
     public Edge getEdge(Vertex start, Vertex dest) {
         for (Edge e : start.getAttachedEdges()) {
-            if (e.getEnd().equals(dest.getId())) {
+            if (e.getEnd().getId() == dest.getId()) {
                 return e;
             }
         }
-        throw new IllegalArgumentException("No Edge on Vertex " + start.getId() + " with ID: " + dest.getId());
+        throw new IllegalArgumentException("No Edge from " + start.getId() + " to " + dest.getId());
     }
 
     /**

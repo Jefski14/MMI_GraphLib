@@ -20,7 +20,7 @@ public class Dijkstra {
      * @return Graph which contains all shortest paths
      */
     public static Graph calculateShortestPaths(Graph graph, Vertex start) {
-        Set<Vertex> unvisited = new HashSet<>();
+        Set<Integer> unvisited = new HashSet<>();
 
         //Initialize all vertices with pred=null and dist=infinity
         //except for start vertex
@@ -33,14 +33,15 @@ public class Dijkstra {
                 predAndDist.put(v.getId(),
                         new PredAndDist(null, Double.POSITIVE_INFINITY));
             }
-            unvisited.add(v);
+            unvisited.add(v.getId());
         }
 
         //while there are still unvisited vertices
         while (unvisited.size() > 0) {//&& getCheapestEdge(currentVertex).getCost() != Double.POSITIVE_INFINITY) {
 
             //get cheapest unvisted node from PredAndDist
-            Vertex currentVertex = getCheapestNode(unvisited, predAndDist);
+            Integer currentVertexId = getCheapestNode(unvisited, predAndDist);
+            Vertex currentVertex = graph.getVertexList().get(currentVertexId);
 
             //get all adjacent vertices of current vertex
             List<Vertex> adjVertices = graph.getAdjVertices(currentVertex);
@@ -54,18 +55,18 @@ public class Dijkstra {
             }
 
             //Remove current vertex from unvisited list and add it as visited
-            unvisited.remove(currentVertex);
+            unvisited.remove(currentVertex.getId());
         }
 
         return graph.buildTreeFromPredAndDist(predAndDist);
     }
 
-    private static Vertex getCheapestNode(Set<Vertex> unvisted, Map<Integer, PredAndDist> predAndDist) {
+    private static Integer getCheapestNode(Set<Integer> unvisted, Map<Integer, PredAndDist> predAndDist) {
         double cheapest = Double.POSITIVE_INFINITY;
-        Vertex cheapestVertex = null;
-        for (Vertex v : unvisted) {
-            if (predAndDist.get(v.getId()).getDistance() < cheapest) {
-                cheapest = predAndDist.get(v.getId()).getDistance();
+        Integer cheapestVertex = null;
+        for (Integer v : unvisted) {
+            if (predAndDist.get(v).getDistance() < cheapest) {
+                cheapest = predAndDist.get(v).getDistance();
                 cheapestVertex = v;
             }
         }
