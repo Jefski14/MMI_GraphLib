@@ -17,9 +17,9 @@ public class Dijkstra {
      *
      * @param graph Input graph
      * @param start start vertex to start paths from
-     * @return Graph which contains all shortest paths
+     * @return Map of preds and distances for each vertex
      */
-    public static Graph calculateShortestPaths(Graph graph, Vertex start) {
+    public static Map<Integer, PredAndDist> calculateShortestPaths(Graph graph, Vertex start) {
         Set<Integer> unvisited = new HashSet<>();
 
         //Initialize all vertices with pred=null and dist=infinity
@@ -40,28 +40,31 @@ public class Dijkstra {
         while (unvisited.size() > 0) {//&& getCheapestEdge(currentVertex).getCost() != Double.POSITIVE_INFINITY) {
 
             //get cheapest unvisted node from PredAndDist
-            Integer currentVertexId = getCheapestNode(unvisited, predAndDist);
-            Vertex currentVertex = graph.getVertexList().get(currentVertexId);
+            try {
+                Integer currentVertexId = getCheapestNode(unvisited, predAndDist);
+                Vertex currentVertex = graph.getVertexList().get(currentVertexId);
 
-            //get all adjacent vertices of current vertex
-            List<Vertex> adjVertices = graph.getAdjVertices(currentVertex);
-            for (Vertex w : adjVertices) {
+                //get all adjacent vertices of current vertex
+                List<Vertex> adjVertices = graph.getAdjVertices(currentVertex);
+                for (Vertex w : adjVertices) {
 
-                //Check if Dreiecksungleichung can be applied
-                double pathCost = predAndDist.get(currentVertex.getId()).getDistance() + graph.getEdgeCost(currentVertex, w);
-                if (pathCost < predAndDist.get(w.getId()).getDistance()) {
-                    predAndDist.put(w.getId(), new PredAndDist(currentVertex.getId(), pathCost));
+                    //Check if Dreiecksungleichung can be applied
+                    double pathCost = predAndDist.get(currentVertex.getId()).getDistance() + graph.getEdgeCost(currentVertex, w);
+                    if (pathCost < predAndDist.get(w.getId()).getDistance()) {
+                        predAndDist.put(w.getId(), new PredAndDist(currentVertex.getId(), pathCost));
+                    }
                 }
+
+                //Remove current vertex from unvisited list and add it as visited
+                unvisited.remove(currentVertexId);
+            } catch (NoFurtherVertexException e) {
+                return predAndDist;
             }
-
-            //Remove current vertex from unvisited list and add it as visited
-            unvisited.remove(currentVertex.getId());
         }
-
-        return graph.buildTreeFromPredAndDist(predAndDist);
+        return predAndDist;
     }
 
-    private static Integer getCheapestNode(Set<Integer> unvisted, Map<Integer, PredAndDist> predAndDist) {
+    private static Integer getCheapestNode(Set<Integer> unvisted, Map<Integer, PredAndDist> predAndDist) throws NoFurtherVertexException {
         double cheapest = Double.POSITIVE_INFINITY;
         Integer cheapestVertex = null;
         for (Integer v : unvisted) {
@@ -70,7 +73,23 @@ public class Dijkstra {
                 cheapestVertex = v;
             }
         }
-
+        //If no further vertex with distance < infinity exists stop algorithm
+        if (cheapestVertex == null) {
+            throw new NoFurtherVertexException("No further unvisited vertices with cost other than infinity!");
+        }
         return cheapestVertex;
+    }
+
+    /**
+     * Calculates the shortest paths for given graph and
+     * transforms it into shortest path tree
+     *
+     * @param g     input graph to calculate shortest paths from
+     * @param start vertex to start paths from
+     * @return Graph which contains the shortest path tree
+     */
+    public Graph getShortestPathTree(Graph g, Vertex start) {
+        Map<Integer, PredAndDist> predAndDistMap = calculateShortestPaths(g, start);
+        return g.buildTreeFromPredAndDist(predAndDistMap);
     }
 }
