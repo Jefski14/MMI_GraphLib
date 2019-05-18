@@ -15,7 +15,7 @@ public class MooreBellmanFord {
             currentCostList.put(v.getId(), new PredAndDist(0, Double.POSITIVE_INFINITY));
         }
         // Initialize Dist and Pred for starter vertex
-        currentCostList.put(start.getId(), new DistAndPred(start.getId(), 0.0));
+        currentCostList.put(start.getId(), new PredAndDist(start.getId(), 0.0));
 
         boolean gotBetterInLastIteration = false; // TODO use for optimization
         for (int iteration = 0; iteration < graph.getVertexList().size(); iteration++) {
