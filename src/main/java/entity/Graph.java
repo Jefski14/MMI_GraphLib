@@ -23,7 +23,7 @@ public class Graph {
         }
         for (Edge e : edgeList) {
             // Add to vertex list
-            if(directed) {
+            if (directed) {
                 this.vertexList.get(e.getStart().getId()).getAttachedEdges().add(
                         new Edge(this.vertexList.get(e.getStart().getId()), this.vertexList.get(e.getEnd().getId()), e.getCost(), e.getCapacity()));
             } else {
@@ -33,7 +33,7 @@ public class Graph {
                         new Edge(this.vertexList.get(e.getEnd().getId()), this.vertexList.get(e.getStart().getId()), e.getCost(), e.getCapacity()));
             }
             // Copy Edge List
-            this.edgeList.add(new Edge(this.vertexList.get(e.getStart().getId()),this.vertexList.get(e.getEnd().getId()),e.getCost(), e.getCapacity()));
+            this.edgeList.add(new Edge(this.vertexList.get(e.getStart().getId()), this.vertexList.get(e.getEnd().getId()), e.getCost(), e.getCapacity()));
         }
     }
 
@@ -44,7 +44,6 @@ public class Graph {
         }
         return result;
     }
-
 
 
     /**
@@ -65,11 +64,56 @@ public class Graph {
 
     /**
      * Searches for Edge with specific Endpoint and returns its cost
+     *
      * @param attachedEdges List of edges to search through
-     * @param endId id of end vertex
+     * @param endId         id of end vertex
      * @return cost of edge
      */
     public static Double getCostOfEdge(List<Edge> attachedEdges, int endId) {
         return getEdgeWithSpecificEnd(attachedEdges, endId).getCost();
+    }
+
+    /**
+     * Searches for edge within start-vertex with destination dest
+     *
+     * @param start vertex to get attached edges from
+     * @param dest  destination of desired edge
+     * @return Edge
+     * @throws IllegalArgumentException if no edge exists with desired destination
+     */
+    public Edge getEdge(Vertex start, Vertex dest) {
+        for (Edge e : start.getAttachedEdges()) {
+            if (e.getEnd().equals(dest.getId())) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("No Edge on Vertex " + start.getId() + " with ID: " + dest.getId());
+    }
+
+    /**
+     * Searches for edge from start to dest and returns its cost
+     *
+     * @param start vertex to get attached edges from
+     * @param dest  destination of desired edge
+     * @return Cost of edge start to dest
+     * @throws IllegalArgumentException if no edge exists with desired destination
+     */
+    public double getEdgeCost(Vertex start, Vertex dest) {
+        return getEdge(start, dest).getCost();
+    }
+
+    /**
+     * Returns all adjacent vertices to vertex v
+     *
+     * @param v vertex to get adjacent vertices of
+     * @return List of adjacent vertices
+     */
+    public List<Vertex> getAdjVertices(Vertex v) {
+        List<Edge> attachedEdges = v.getAttachedEdges();
+        List<Vertex> adjacentVertices = new ArrayList<>();
+        for (Edge e : attachedEdges) {
+            adjacentVertices.add(e.getEnd());
+        }
+        return adjacentVertices;
     }
 }
