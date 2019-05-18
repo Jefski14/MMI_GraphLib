@@ -43,7 +43,6 @@ public class MooreBellmanFord {
             }
         }
 
-
-        return null;
+        return graph.buildTreeFromPredAndDist(currentCostList);
     }
 }

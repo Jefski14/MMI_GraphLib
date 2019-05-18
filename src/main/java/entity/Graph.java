@@ -118,18 +118,24 @@ public class Graph {
         return adjacentVertices;
     }
 
-    public Graph buildTreeFromPredAndDist(Map<Integer, PredAndDist> predAndDistMap) {
-        Graph shortestPathTree = new Graph();
-
-        for (Map.Entry<Integer, PredAndDist> e : predAndDistMap.entrySet()) {
-            shortestPathTree.getVertexList().add(new Vertex(e.getKey()));
-            Vertex from = new Vertex(e.getValue().getPredecessorId());
-            Vertex to = new Vertex(e.getKey());
-            if (from.getId() != to.getId()) {
-                shortestPathTree.getVertexList().get(e.getKey()).getAttachedEdges().add(getEdge(from, to));
+    public Edge getEdgeCopyWithNewVertices(Integer startId, Integer endId) {
+        for (Edge e : this.vertexList.get(startId).getAttachedEdges()) {
+            if (e.getEnd().getId() == endId) {
+                return new Edge(new Vertex(startId), new Vertex(endId), e.getCost(), e.getCapacity());
             }
         }
+        throw new IllegalArgumentException("No Edge on Vertex " + startId + " with ID: " + endId);
+    }
 
-        return shortestPathTree;
+    public Graph buildTreeFromPredAndDist(Map<Integer, PredAndDist> predAndDistMap) {
+        ArrayList<Edge> shortestPathTree = new ArrayList<>();
+
+        for (Map.Entry<Integer, PredAndDist> e : predAndDistMap.entrySet()) {
+            if (e.getValue().getPredecessorId() != e.getKey()) {
+                shortestPathTree.add(getEdgeCopyWithNewVertices(e.getValue().getPredecessorId(), e.getKey())); // Add edge from pred to this vertex
+            }
+        }
+        // Build new Graph from EdgeList
+        return new Graph(shortestPathTree, this.directed, this.vertexList.size());
     }
 }
