@@ -32,26 +32,26 @@ public class MooreBellmanFord {
         // Initialize Dist and Pred for starter vertex
         kwbMap.put(start.getId(), new PredAndDist(start.getId(), 0.0));
 
-        boolean gotBetterInLastIteration = false;
+        boolean gotBetterInPrevIteration = false;
         for (int iteration = 0; iteration < graph.getVertexList().size(); iteration++) {
             for (Edge e: graph.getEdgeList()) {
                 if (kwbMap.get(e.getStart().getId()).getDistance() + e.getCost() < kwbMap.get(e.getEnd().getId()).getDistance()) {
+                    // Check for negative Cycles
+                    if (iteration == graph.getVertexList().size()-1) {
+                        //Got better in last iteration so we must have negative cycles
+                        throw new NegativeCyclesException("Oh no, there are negative Cyclists on the road! (Got better while updating with Edge: " + e.toString() + ")");
+                    }
                     // Update end vertex
                     kwbMap.put(e.getEnd().getId(),
                             new PredAndDist(e.getStart().getId(), kwbMap.get(e.getStart().getId()).getDistance() + e.getCost()));
-                    gotBetterInLastIteration = true;
-
-                    // TODO Maybe build in check for negative cycles here later so we can identify were the cycle is
+                    gotBetterInPrevIteration = true;
                 }
             }
 
-            if(!gotBetterInLastIteration) {
-                if (iteration == graph.getVertexList().size()-1) { // TODO doesnt work
-                    //Got better in last iteration so we must have negative cycles
-                    throw new RuntimeException("Oh no, there are negaitve Cyclists on the road!");
-                }
-                break; // We're done
+            if(!gotBetterInPrevIteration) {
+                break;
             }
+            gotBetterInPrevIteration = false;
         }
 
         return kwbMap;

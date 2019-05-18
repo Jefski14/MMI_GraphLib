@@ -39,6 +39,10 @@ public class Graph {
     }
 
     public Double totalEdgeCost() {
+        return totalEdgeCost(this.edgeList);
+    }
+
+    public static Double totalEdgeCost(List<Edge> edgeList) {
         Double result = 0.0;
         for (Edge e : edgeList) {
             result += e.getCost();
