@@ -118,6 +118,12 @@ public class Graph {
         return adjacentVertices;
     }
 
+    /**
+     * Searches for the edge with given start and endpoint in this graph
+     * @param startId id of starting vertex
+     * @param endId id of ending vertex
+     * @return new Edge with new vertices (!!WARNING the attached edges of the vertices in this edge wont be set!!)
+     */
     public Edge getEdgeCopyWithNewVertices(Integer startId, Integer endId) {
         for (Edge e : this.vertexList.get(startId).getAttachedEdges()) {
             if (e.getEnd().getId() == endId) {
@@ -127,11 +133,16 @@ public class Graph {
         throw new IllegalArgumentException("No Edge on Vertex " + startId + " with ID: " + endId);
     }
 
+    /**
+     * Builds new Graph (or tree) from pred and dist Map with the cost of the edges of this graph
+     * @param predAndDistMap KWB Map for distance and predecessors
+     * @return Graph
+     */
     public Graph buildTreeFromPredAndDist(Map<Integer, PredAndDist> predAndDistMap) {
         ArrayList<Edge> shortestPathTree = new ArrayList<>();
 
         for (Map.Entry<Integer, PredAndDist> e : predAndDistMap.entrySet()) {
-            if (e.getValue().getPredecessorId() != e.getKey()) {
+            if (e.getValue().getPredecessorId() != e.getKey() && e.getValue().getDistance() != Double.POSITIVE_INFINITY) {
                 shortestPathTree.add(getEdgeCopyWithNewVertices(e.getValue().getPredecessorId(), e.getKey())); // Add edge from pred to this vertex
             }
         }
