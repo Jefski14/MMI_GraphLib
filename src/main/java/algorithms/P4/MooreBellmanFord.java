@@ -2,6 +2,7 @@ package algorithms.P4;
 
 import entity.Edge;
 import entity.Graph;
+import entity.PredAndDist;
 import entity.Vertex;
 
 import java.util.HashMap;
@@ -11,7 +12,7 @@ public class MooreBellmanFord {
     public static Graph findKWB(Graph graph, Vertex start) {
         HashMap currentCostList = new HashMap();
         for (Vertex v : graph.getVertexList()) {
-            currentCostList.put(v.getId(), new DistAndPred(0, Double.POSITIVE_INFINITY) );
+            currentCostList.put(v.getId(), new PredAndDist(0, Double.POSITIVE_INFINITY));
         }
         // Initialize Dist and Pred for starter vertex
         currentCostList.put(start.getId(), new DistAndPred(start.getId(), 0.0));
