@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -115,5 +116,20 @@ public class Graph {
             adjacentVertices.add(e.getEnd());
         }
         return adjacentVertices;
+    }
+
+    public Graph buildTreeFromPredAndDist(Map<Integer, PredAndDist> predAndDistMap) {
+        Graph shortestPathTree = new Graph();
+
+        for (Map.Entry<Integer, PredAndDist> e : predAndDistMap.entrySet()) {
+            shortestPathTree.getVertexList().add(new Vertex(e.getKey()));
+            Vertex from = new Vertex(e.getValue().getPredecessorId());
+            Vertex to = new Vertex(e.getKey());
+            if (from.getId() != to.getId()) {
+                shortestPathTree.getVertexList().get(e.getKey()).getAttachedEdges().add(getEdge(from, to));
+            }
+        }
+
+        return shortestPathTree;
     }
 }
