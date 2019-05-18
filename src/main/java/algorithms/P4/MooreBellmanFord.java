@@ -1,5 +1,6 @@
 package algorithms.P4;
 
+import entity.Edge;
 import entity.Graph;
 import entity.Vertex;
 
@@ -12,9 +13,14 @@ public class MooreBellmanFord {
         for (Vertex v : graph.getVertexList()) {
             currentCostList.put(v.getId(), new DistAndPred(0, Double.POSITIVE_INFINITY) );
         }
+        // Initialize Dist and Pred for starter vertex
+        currentCostList.put(start.getId(), new DistAndPred(start.getId(), 0.0));
 
+        boolean gotBetterInLastIteration = false; // TODO use for optimization
         for (int iteration = 0; iteration < graph.getVertexList().size(); iteration++) {
-
+            for (Edge e: graph.getEdgeList()) {
+                if (currentCostList.get(e.getStart().getId()))
+            }
         }
 
         return null;
