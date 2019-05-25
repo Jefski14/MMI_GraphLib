@@ -15,7 +15,7 @@ public class MooreBellmanFordTest {
 
     @Test
     public void W1_KWB_2() {
-        Graph graph = importGraphFromFile("src/main/resources/p4/Wege1.txt", true);
+        Graph graph = importGraphFromFile("src/main/resources/p4/Wege1.txt", true, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting MBF");
         Graph kwb = MooreBellmanFord.findKWB(graph, graph.getVertexList().get(2));
@@ -25,7 +25,7 @@ public class MooreBellmanFordTest {
 
     @Test
     public void W1_2to0() {
-        Graph graph = importGraphFromFile("src/main/resources/p4/Wege1.txt", true);
+        Graph graph = importGraphFromFile("src/main/resources/p4/Wege1.txt", true, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting MBF");
         ArrayList<Edge> kw = MooreBellmanFord.getShortestPath(graph, graph.getVertexList().get(2), graph.getVertexList().get(0));
@@ -37,7 +37,7 @@ public class MooreBellmanFordTest {
 
     @Test
     public void W2_2to0() {
-        Graph graph = importGraphFromFile("src/main/resources/p4/Wege2.txt", true);
+        Graph graph = importGraphFromFile("src/main/resources/p4/Wege2.txt", true, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting MBF");
         ArrayList<Edge> kw = MooreBellmanFord.getShortestPath(graph, graph.getVertexList().get(2), graph.getVertexList().get(0));
@@ -49,7 +49,7 @@ public class MooreBellmanFordTest {
 
     @Test(expected = NegativeCyclesException.class)
     public void W3_KWB_0() {
-        Graph graph = importGraphFromFile("src/main/resources/p4/Wege3.txt", true);
+        Graph graph = importGraphFromFile("src/main/resources/p4/Wege3.txt", true, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting MBF");
         Graph tsp = MooreBellmanFord.findKWB(graph, graph.getVertexList().get(0));
@@ -60,7 +60,7 @@ public class MooreBellmanFordTest {
 
     @Test
     public void G1_2_0to1_directed() {
-        Graph graph = importGraphFromFile("src/main/resources/p2/G_1_2.txt", true);
+        Graph graph = importGraphFromFile("src/main/resources/p2/G_1_2.txt", true, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting MBF");
         ArrayList<Edge> kw = MooreBellmanFord.getShortestPath(graph, graph.getVertexList().get(0), graph.getVertexList().get(1));
@@ -72,7 +72,7 @@ public class MooreBellmanFordTest {
 
     @Test
     public void G1_2_0to1_undirected() {
-        Graph graph = importGraphFromFile("src/main/resources/p2/G_1_2.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p2/G_1_2.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting MBF");
         ArrayList<Edge> kw = MooreBellmanFord.getShortestPath(graph, graph.getVertexList().get(0), graph.getVertexList().get(1));

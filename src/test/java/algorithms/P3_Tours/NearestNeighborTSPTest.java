@@ -11,7 +11,7 @@ public class NearestNeighborTSPTest {
 
     @Test
     public void K_10Test () {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_10.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_10.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting NearestNeighbor");
         Graph tsp = calculateTour(graph, graph.getVertexList().get(9)); // NN von 9 liefert optimale Tour
@@ -22,7 +22,7 @@ public class NearestNeighborTSPTest {
 
     @Test
     public void K_10eTest () {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_10e.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_10e.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting NearestNeighbor");
         Graph tsp = calculateTour(graph, graph.getVertexList().get(9)); // Nicht optimal aber nah dran
@@ -33,7 +33,7 @@ public class NearestNeighborTSPTest {
 
     @Test
     public void K_12Test () {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_12.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_12.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting NearestNeighbor");
         Graph tsp = calculateTour(graph);
@@ -44,7 +44,7 @@ public class NearestNeighborTSPTest {
 
     @Test
     public void K_12eTest () {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_12e.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_12e.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting NearestNeighbor");
         Graph tsp = calculateTour(graph);
@@ -55,7 +55,7 @@ public class NearestNeighborTSPTest {
 
     @Test
     public void K_15Test () {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_15.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_15.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting NearestNeighbor");
         Graph tsp = calculateTour(graph);
@@ -66,7 +66,7 @@ public class NearestNeighborTSPTest {
 
     @Test
     public void K_15eTest () {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_15e.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_15e.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting NearestNeighbor");
         Graph tsp = calculateTour(graph);
@@ -77,7 +77,7 @@ public class NearestNeighborTSPTest {
 
     @Test
     public void K_20Test () {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_20.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_20.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting NearestNeighbor");
         Graph tsp = calculateTour(graph);
@@ -88,7 +88,7 @@ public class NearestNeighborTSPTest {
 
     @Test
     public void K_30Test () {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_30.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_30.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting NearestNeighbor");
         Graph tsp = calculateTour(graph);
@@ -99,7 +99,7 @@ public class NearestNeighborTSPTest {
 
     @Test
     public void K_50Test () {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_50.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_50.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting NearestNeighbor");
         Graph tsp = calculateTour(graph);
@@ -110,7 +110,7 @@ public class NearestNeighborTSPTest {
 
     @Test
     public void K_70Test () {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_70.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_70.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting NearestNeighbor");
         Graph tsp = calculateTour(graph, graph.getVertexList().get(9));
@@ -121,7 +121,7 @@ public class NearestNeighborTSPTest {
 
     @Test
     public void K_100Test () {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_100.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_100.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting NearestNeighbor");
         Graph tsp = calculateTour(graph);

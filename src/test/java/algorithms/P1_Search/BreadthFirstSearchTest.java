@@ -34,7 +34,7 @@ public class BreadthFirstSearchTest {
         final String path = "src/main/resources/p1/Graph1.txt";
         final boolean directed = false;
         final Map<Integer, Boolean> markedMap = new HashMap<>();
-        final Graph graph = importGraphFromFile(path, directed);
+        final Graph graph = importGraphFromFile(path, directed, false);
         graph.getVertexList().forEach(v -> markedMap.put(v.getId(), false));
         breadthFirstSearch(graph.getVertexList().get(0), markedMap, directed);
 

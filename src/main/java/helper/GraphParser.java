@@ -16,9 +16,10 @@ public class GraphParser {
      *
      * @param fileName path to file
      * @param directed flag if edges should be imported as directed or undirected
+     * @param hasCapacity
      * @return List of {@link Vertex} Objects
      */
-    public static Graph importGraphFromFile(final String fileName, boolean directed) {
+    public static Graph importGraphFromFile(final String fileName, boolean directed, boolean hasCapacity) {
 
 //        long startTime = System.currentTimeMillis();
 //        System.out.println("Starting import of graph...");
@@ -43,10 +44,11 @@ public class GraphParser {
                 Double cost = 0.0;
                 Double capacity = 0.0;
                 if (points.length == 3) {
-                    cost = Double.parseDouble(points[2]);
-                }
-                if (points.length == 4) {
-                    capacity = Double.parseDouble(points[3]);
+                    if (hasCapacity) {
+                        capacity = Double.parseDouble(points[2]);
+                    } else {
+                        cost = Double.parseDouble(points[2]);
+                    }
                 }
 
                 // Add edge to vertex

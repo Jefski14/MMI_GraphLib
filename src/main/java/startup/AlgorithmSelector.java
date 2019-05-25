@@ -130,7 +130,7 @@ public class AlgorithmSelector {
 
         boolean directed = AlgorithmSelector.selectDirected();
         //Importing graph and measuring time
-        Graph graph = GraphParser.importGraphFromFile(graphFile.getAbsolutePath(), directed);
+        Graph graph = GraphParser.importGraphFromFile(graphFile.getAbsolutePath(), directed, false);
 
         //Select algorithm and start vertex
         Integer[] selection = AlgorithmSelector.showSelectionMenu(graph.getVertexList().size());

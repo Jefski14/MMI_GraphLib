@@ -170,4 +170,14 @@ public class Graph {
         // Build new Graph from EdgeList
         return shortestPath;
     }
+
+    public boolean existsEdge(int from, int to) {
+        List<Edge> attachedEdges = this.getVertexList().get(from).getAttachedEdges();
+        for (Edge e : attachedEdges) {
+            if (e.getEnd().getId() == to) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

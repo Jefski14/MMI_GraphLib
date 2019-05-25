@@ -10,7 +10,7 @@ public class GraphParserTest {
     @Test
     public void parseG1() {
         final String path = "src/main/resources/p1/Graph1.txt";
-        final Graph graph = importGraphFromFile(path, false);
+        final Graph graph = importGraphFromFile(path, false, false);
 
         assertEquals(graph.getVertexList().size(), 15);
         assertEquals(graph.getVertexList().get(0).getAttachedEdges().size(), 3);
@@ -21,7 +21,7 @@ public class GraphParserTest {
     @Test
     public void parseG2() {
         final String path = "src/main/resources/p1/Graph2.txt";
-        final Graph graph = importGraphFromFile(path, false);
+        final Graph graph = importGraphFromFile(path, false, false);
 
         assertEquals(graph.getVertexList().size(), 1000);
         assertEquals(graph.getVertexList().get(41).getAttachedEdges().size(), 8);
@@ -33,7 +33,7 @@ public class GraphParserTest {
     public void parseGBig() {
         final String path = "src/main/resources/p1/Graph_gross.txt";
         final long startTime = System.currentTimeMillis();
-        final Graph graph = importGraphFromFile(path, false);
+        final Graph graph = importGraphFromFile(path, false, false);
         final long estimatedTime = System.currentTimeMillis() - startTime;
 
 
@@ -44,7 +44,7 @@ public class GraphParserTest {
     public void parseGBigAsMap() {
         final String path = "src/main/resources/p1/Graph_gross.txt";
         final long startTime = System.currentTimeMillis();
-        final Graph graph = importGraphFromFile(path, false);
+        final Graph graph = importGraphFromFile(path, false, false);
         final long estimatedTime = System.currentTimeMillis() - startTime;
 
         assertEquals(graph.getVertexList().size(), 100000);
@@ -53,7 +53,7 @@ public class GraphParserTest {
     @Test
     public void parseG_1_2() {
         final String path = "src/main/resources/p2/G_1_2.txt";
-        final Graph graph = importGraphFromFile(path, false);
+        final Graph graph = importGraphFromFile(path, false, false);
         assertEquals(graph.getEdgeList().size(), 4000);
         assertEquals(graph.getVertexList().size(), 1000);
     }

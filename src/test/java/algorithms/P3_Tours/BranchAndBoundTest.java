@@ -10,7 +10,7 @@ public class BranchAndBoundTest {
 
     @Test
     public void K10() {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_10.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_10.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting AirBnB");
         Graph tsp = BranchAndBound.calculateTour(graph);
@@ -21,7 +21,7 @@ public class BranchAndBoundTest {
 
     @Test
     public void K10e() {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_10e.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_10e.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting BrunchAndBreakfast");
         Graph tsp = BranchAndBound.calculateTour(graph);
@@ -32,7 +32,7 @@ public class BranchAndBoundTest {
 
     @Test
     public void K12() {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_12.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_12.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting BreakpointAtBulletpoint");
         Graph tsp = BranchAndBound.calculateTour(graph);
@@ -43,7 +43,7 @@ public class BranchAndBoundTest {
 
     @Test
     public void K12e() {
-        Graph graph = importGraphFromFile("src/main/resources/p3/K_12e.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p3/K_12e.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting BranchesAndLeaves (Sry no more creativity here...)");
         Graph tsp = BranchAndBound.calculateTour(graph);

@@ -11,13 +11,12 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import static helper.GraphParser.importGraphFromFile;
-import static junit.framework.TestCase.assertEquals;
 
 public class DijkstraTest {
 
     @Test
     public void W1_KWB_Start_2() {
-        Graph graph = importGraphFromFile("src/main/resources/p4/Wege1.txt", true);
+        Graph graph = importGraphFromFile("src/main/resources/p4/Wege1.txt", true, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting Dijkstra");
         Map<Integer, PredAndDist> predAndDistMap = Dijkstra.calculateShortestPaths(graph, graph.getVertexList().get(2));
@@ -32,7 +31,7 @@ public class DijkstraTest {
     @Test
     @Ignore
     public void W1_KWB_Start_0() {
-        Graph graph = importGraphFromFile("src/main/resources/p4/Wege1.txt", true);
+        Graph graph = importGraphFromFile("src/main/resources/p4/Wege1.txt", true, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting Dijkstra");
         Map<Integer, PredAndDist> predAndDistMap = Dijkstra.calculateShortestPaths(graph, graph.getVertexList().get(0));
@@ -46,7 +45,7 @@ public class DijkstraTest {
 
     @Test
     public void G1_2_0to1() {
-        Graph graph = importGraphFromFile("src/main/resources/p2/G_1_2.txt", true);
+        Graph graph = importGraphFromFile("src/main/resources/p2/G_1_2.txt", true, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting Dijkstra");
         Map<Integer, PredAndDist> predAndDistMap = Dijkstra.calculateShortestPaths(graph, graph.getVertexList().get(0));
@@ -60,7 +59,7 @@ public class DijkstraTest {
 
     @Test
     public void G1_2_0to1_undirected() {
-        Graph graph = importGraphFromFile("src/main/resources/p2/G_1_2.txt", false);
+        Graph graph = importGraphFromFile("src/main/resources/p2/G_1_2.txt", false, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting Dijkstra");
         Map<Integer, PredAndDist> predAndDistMap = Dijkstra.calculateShortestPaths(graph, graph.getVertexList().get(0));
