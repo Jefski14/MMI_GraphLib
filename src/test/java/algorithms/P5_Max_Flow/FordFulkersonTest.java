@@ -38,4 +38,19 @@ public class FordFulkersonTest {
         assertEquals(5, max_flow, 0.01);
     }
 
+    @Test
+    public void test_FordFulkerson_G_1_2() {
+        Graph graph = importGraphFromFile("src/main/resources/p2/G_1_2.txt", true, true);
+
+        long startTime = System.currentTimeMillis();
+        System.out.println("Starting Ford Fulkerson");
+
+        double max_flow = FordFulkerson.runFordFulkerson(graph, 0, 7);
+
+        long estimatedTime = System.currentTimeMillis() - startTime;
+        System.out.println("Took " + estimatedTime + " ms\nor " + estimatedTime / 1000.0 + " seconds.");
+
+        assertEquals(0.735802, max_flow, 0.01);
+    }
+
 }

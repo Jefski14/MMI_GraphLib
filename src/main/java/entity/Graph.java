@@ -171,6 +171,13 @@ public class Graph {
         return shortestPath;
     }
 
+    /**
+     * Returns true if edge from Vertex 'from' to Vertex 'to' exists
+     *
+     * @param from Origin of possible edge
+     * @param to   Destination of possible edge
+     * @return true if edge exists, false if not
+     */
     public boolean existsEdge(int from, int to) {
         List<Edge> attachedEdges = this.getVertexList().get(from).getAttachedEdges();
         for (Edge e : attachedEdges) {

@@ -16,7 +16,7 @@ public class FordFulkerson {
      * @param parent    array to store path in
      * @return true if path from source to target exists
      */
-    private static boolean existsPathFromStoT(int[][] resiGraph, int sourceId, int targetId, int[] parent) {
+    private static boolean existsPathFromStoT(double[][] resiGraph, int sourceId, int targetId, int[] parent) {
 
         boolean[] visited = new boolean[resiGraph.length];
         Arrays.fill(visited, false);
@@ -31,7 +31,7 @@ public class FordFulkerson {
             int u = queue.poll();
 
             for (int v = 0; v < visited.length; v++) {
-                if (!visited[v] && resiGraph[u][v] > 0) {
+                if (!visited[v] && resiGraph[u][v] > 0.0) {
                     queue.add(v);
                     parent[v] = u;
                     visited[v] = true;
@@ -46,9 +46,10 @@ public class FordFulkerson {
 
         int u, v;
         int V = graph.getVertexList().size();
-        int[][] resiGraph = new int[V][V];
+        double[][] resiGraph = new double[V][V];
         for (u = 0; u < V; u++) {
             for (v = 0; v < V; v++) {
+                //TODO existsEdge muss durch getCapacity(u,v) ersetzt werden
                 resiGraph[u][v] = graph.existsEdge(u, v) ? 1 : 0;
             }
         }
@@ -58,6 +59,13 @@ public class FordFulkerson {
 
         while (existsPathFromStoT(resiGraph, sourceId, targetId, parent)) {
             double path_flow = Double.MAX_VALUE;
+            //Find minimum residual capacity of edges
+            for (v = targetId; v != sourceId; v = parent[v]) {
+                u = parent[v];
+                //TODO resigraph[u][v] muss capacity ausspucken
+                path_flow = Math.min(path_flow, resiGraph[u][v]);
+            }
+            //Update residual capacities of the edges and reverse edges along path
             for (v = targetId; v != sourceId; v = parent[v]) {
                 u = parent[v];
                 resiGraph[u][v] -= path_flow;
