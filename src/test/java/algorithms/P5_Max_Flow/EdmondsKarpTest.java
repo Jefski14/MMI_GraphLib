@@ -25,7 +25,7 @@ public class EdmondsKarpTest {
 
     @Test
     public void test_EdmondsKarp_Fluss2() {
-        Graph graph = importGraphFromFile("src/main/resources/p5/Fluss.txt", true, true);
+        Graph graph = importGraphFromFile("src/main/resources/p5/Fluss2.txt", true, true);
 
         long startTime = System.currentTimeMillis();
         System.out.println("Starting Edmonds-Karp");
