@@ -1,10 +1,10 @@
 package startup;
 
-import algorithms.P1.BreadthFirstSearch;
-import algorithms.P1.ConnectedGraphFinder;
-import algorithms.P1.DepthFirstSearch;
-import algorithms.P2.KruskalMST;
-import algorithms.P2.PrimMST;
+import algorithms.P1_Search.BreadthFirstSearch;
+import algorithms.P1_Search.ConnectedGraphFinder;
+import algorithms.P1_Search.DepthFirstSearch;
+import algorithms.P2_MST.KruskalMST;
+import algorithms.P2_MST.PrimMST;
 import entity.Graph;
 import entity.Vertex;
 import helper.GraphParser;
