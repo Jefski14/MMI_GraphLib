@@ -65,7 +65,7 @@ public class EdmondsKarp {
         for (u = 0; u < V; u++) {
             for (v = 0; v < V; v++) {
                 //TODO existsEdge muss durch getCapacity(u,v) ersetzt werden
-                resiGraph[u][v] = graph.existsEdge(u, v) ? 1.0 : 0.0;
+                resiGraph[u][v] = graph.getCapcityForEdge(u, v);
             }
         }
 
@@ -81,7 +81,6 @@ public class EdmondsKarp {
             //Find minimum residual capacity of edges
             for (v = targetId; v != sourceId; v = parent[v]) {
                 u = parent[v];
-                //TODO resigraph[u][v] muss capacity ausspucken
                 path_flow = Math.min(path_flow, resiGraph[u][v]);
             }
 
