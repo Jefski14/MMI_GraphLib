@@ -27,7 +27,7 @@ public class MooreBellmanFord {
     public static HashMap<Integer, PredAndDist> findKWBMap(Graph graph, Vertex start) {
         HashMap<Integer, PredAndDist> kwbMap = new HashMap();
         for (Vertex v : graph.getVertexList()) {
-            kwbMap.put(v.getId(), new PredAndDist(0, Double.POSITIVE_INFINITY));
+            kwbMap.put(v.getId(), new PredAndDist(null, Double.POSITIVE_INFINITY));
         }
         // Initialize Dist and Pred for starter vertex
         kwbMap.put(start.getId(), new PredAndDist(start.getId(), 0.0));
