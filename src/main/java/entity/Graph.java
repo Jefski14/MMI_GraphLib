@@ -124,8 +124,9 @@ public class Graph {
 
     /**
      * Searches for the edge with given start and endpoint in this graph
+     *
      * @param startId id of starting vertex
-     * @param endId id of ending vertex
+     * @param endId   id of ending vertex
      * @return new Edge with new vertices (!!WARNING the attached edges of the vertices in this edge wont be set!!)
      */
     public Edge getEdgeCopyWithNewVertices(Integer startId, Integer endId) {
@@ -139,6 +140,7 @@ public class Graph {
 
     /**
      * Builds new Graph (or tree) from pred and dist Map with the cost of the edges of this graph
+     *
      * @param predAndDistMap KWB Map for distance and predecessors
      * @return Graph
      */
@@ -156,6 +158,7 @@ public class Graph {
 
     /**
      * Builds new Graph (or tree) from pred and dist Map with the cost of the edges of this graph
+     *
      * @param predAndDistMap KWB Map for distance and predecessors
      * @return Graph
      */
@@ -169,5 +172,42 @@ public class Graph {
         }
         // Build new Graph from EdgeList
         return shortestPath;
+    }
+
+    /**
+     * Returns true if edge from Vertex 'from' to Vertex 'to' exists
+     *
+     * @param from Origin of possible edge
+     * @param to   Destination of possible edge
+     * @return true if edge exists, false if not
+     */
+    public boolean existsEdge(int from, int to) {
+        List<Edge> attachedEdges = this.getVertexList().get(from).getAttachedEdges();
+        for (Edge e : attachedEdges) {
+            if (e.getEnd().getId() == to) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Searches for Edge from 'from' to 'to' and returns
+     *
+     * @param from edge starting point
+     * @param to   edge destination
+     * @return 0.0 if no Edge exists from Vertex 'from' to Vertex 'to'
+     * else returns the capacity for the given edge
+     */
+    public double getCapcityForEdge(int from, int to) {
+
+        List<Edge> attachedEdges = this.getVertexList().get(from).getAttachedEdges();
+
+        for (Edge e : attachedEdges) {
+            if (e.getEnd().getId() == to) {
+                return e.getCapacity();
+            }
+        }
+        return 0.0;
     }
 }
