@@ -155,6 +155,25 @@ public class Graph {
     }
 
     /**
+     * Searches for the edge with given start and endpoint in this graph
+     *
+     * @param startId id of starting vertex
+     * @param endId   id of ending vertex
+     * @return reference of the edge of the graph (!Cahnging this changes the original graph!)
+     */
+    public Edge getEdgeAndConstructNewIfNonExistent(Integer startId, Integer endId) {
+        for (Edge e : this.vertexList.get(startId).getAttachedEdges()) {
+            if (e.getEnd().getId() == endId) {
+                return e;
+            }
+        }
+        Edge backwardsEdge = new Edge(this.vertexList.get(startId), this.getVertexList().get(endId), this.getEdge(endId, startId).getCost(), 0.0);
+        this.vertexList.get(startId).getAttachedEdges().add(backwardsEdge);
+        this.edgeList.add(backwardsEdge);
+        return backwardsEdge;
+    }
+
+    /**
      * Builds new Graph (or tree) from pred and dist Map with the cost of the edges of this graph
      *
      * @param predAndDistMap KWB Map for distance and predecessors

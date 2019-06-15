@@ -67,15 +67,15 @@ public class EdmondsKarp {
 
         Graph residual = graph;
 
-        for (int i = 0; i < V; i++) {
-            Vertex vertex = residual.getVertexList().get(i);
-            List<Edge> attachedEdges = vertex.getAttachedEdges();
-            for (Edge e : attachedEdges) {
-                Vertex reverseEnd = e.getStart();
-                Vertex reverseStart = e.getEnd();
-                residual.getVertexList().get(reverseStart.getId()).getAttachedEdges().add(new Edge(reverseStart, reverseEnd, 0.0, 0.0));
-            }
-        }
+//        for (int i = 0; i < V; i++) {
+//            Vertex vertex = residual.getVertexList().get(i);
+//            List<Edge> attachedEdges = vertex.getAttachedEdges();
+//            for (Edge e : attachedEdges) {
+//                Vertex reverseEnd = e.getStart();
+//                Vertex reverseStart = e.getEnd();
+//                residual.getVertexList().get(reverseStart.getId()).getAttachedEdges().add(new Edge(reverseStart, reverseEnd, 0.0, 0.0));
+//            }
+//        }
 
         //parent array is used to store found paths by BFS
         int[] parent = new int[V];
@@ -96,17 +96,17 @@ public class EdmondsKarp {
             for (v = targetId; v != sourceId; v = parent[v]) {
                 u = parent[v];
 
-                double currentCapacityUtoV = residual.getEdge(u, v).getCapacity();
-                residual.getEdge(u, v).setCapacity(currentCapacityUtoV - path_flow);
+                double currentCapacityUtoV = residual.getEdgeAndConstructNewIfNonExistent(u, v).getCapacity();
+                residual.getEdgeAndConstructNewIfNonExistent(u, v).setCapacity(currentCapacityUtoV - path_flow);
 
-                double currenCapacityVtoU = residual.getEdge(u, v).getCapacity();
-                residual.getEdge(v, u).setCapacity(currenCapacityVtoU + path_flow);
+                double currenCapacityVtoU = residual.getEdgeAndConstructNewIfNonExistent(u, v).getCapacity();
+                residual.getEdgeAndConstructNewIfNonExistent(v, u).setCapacity(currenCapacityVtoU + path_flow);
             }
 
             max_flow += path_flow;
         }
 
-        //Build up resulting graph
+//        //Build up resulting graph
 //        Graph g = new Graph();
 //        for (int n = 0; n < V; n++) {
 //            g.getVertexList().add(new Vertex(n));
