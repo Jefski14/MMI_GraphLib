@@ -139,6 +139,22 @@ public class Graph {
     }
 
     /**
+     * Searches for the edge with given start and endpoint in this graph
+     *
+     * @param startId id of starting vertex
+     * @param endId   id of ending vertex
+     * @return reference of the edge of the graph (!Cahnging this changes the original graph!)
+     */
+    public Edge getEdge(Integer startId, Integer endId) {
+        for (Edge e : this.vertexList.get(startId).getAttachedEdges()) {
+            if (e.getEnd().getId() == endId) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("No Edge on Vertex " + startId + " with ID: " + endId);
+    }
+
+    /**
      * Builds new Graph (or tree) from pred and dist Map with the cost of the edges of this graph
      *
      * @param predAndDistMap KWB Map for distance and predecessors

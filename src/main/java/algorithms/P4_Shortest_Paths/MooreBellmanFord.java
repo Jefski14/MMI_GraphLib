@@ -1,11 +1,13 @@
 package algorithms.P4_Shortest_Paths;
 
+import algorithms.P6_B_Flow.NegativeCycleWithMinCapacity;
 import entity.Edge;
 import entity.Graph;
 import entity.PredAndDist;
 import entity.Vertex;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class MooreBellmanFord {
@@ -39,7 +41,8 @@ public class MooreBellmanFord {
                     // Check for negative Cycles
                     if (iteration == graph.getVertexList().size()-1) {
                         //Got better in last iteration so we must have negative cycles
-                        throw new NegativeCyclesException("Oh no, there are negative Cyclists on the road! (Got better while updating with Edge: " + e.toString() + ")");
+                        NegativeCycleWithMinCapacity negCycle = constructNegativeCycle(e.getStart().getId(), graph, kwbMap);
+                        throw new NegativeCyclesException("Found negative Cycle at edge:" + e.toString() + ")", negCycle);
                     }
                     // Update end vertex
                     kwbMap.put(e.getEnd().getId(),
@@ -55,5 +58,26 @@ public class MooreBellmanFord {
         }
 
         return kwbMap;
+    }
+
+    private static NegativeCycleWithMinCapacity constructNegativeCycle(int vertexId, Graph graph, HashMap<Integer, PredAndDist> kwbMap) {
+        NegativeCycleWithMinCapacity cycle = new NegativeCycleWithMinCapacity();
+        int currentId = vertexId;
+        while (kwbMap.get(currentId).getPredecessorId() != vertexId) {
+            Edge e = graph.getEdge(kwbMap.get(currentId).getPredecessorId(), currentId);
+            cycle.edges.add(e);
+            cycle.totalCost += e.getCost();
+            cycle.minCycleCapacity = Math.min(cycle.minCycleCapacity, e.getCapacity());
+            currentId = kwbMap.get(currentId).getPredecessorId(); // get Parent
+        }
+        // Add edge from "startVertex" to last in cycle
+        Edge e = graph.getEdge(kwbMap.get(currentId).getPredecessorId(), currentId);
+        cycle.edges.add(e);
+        cycle.totalCost += e.getCost();
+        cycle.minCycleCapacity = Math.min(cycle.minCycleCapacity, e.getCapacity());
+
+        // For better readablity in debug
+        Collections.reverse(cycle.edges);
+        return cycle;
     }
 }

@@ -52,7 +52,11 @@ public class MooreBellmanFordTest {
         Graph graph = importGraphFromFile("src/main/resources/p4/Wege3.txt", true, false);
         long startTime = System.currentTimeMillis();
         System.out.println("Starting MBF");
-        Graph tsp = MooreBellmanFord.findKWB(graph, graph.getVertexList().get(0));
+        try {
+            Graph tsp = MooreBellmanFord.findKWB(graph, graph.getVertexList().get(0));
+        } catch (NegativeCyclesException e) {
+            throw e;
+        }
         // Runs until here
         long estimatedTime = System.currentTimeMillis() - startTime;
         System.out.println("Took " + estimatedTime + "ms\n or " + estimatedTime/1000.0 + "seconds.");
