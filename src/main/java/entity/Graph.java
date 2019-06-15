@@ -16,6 +16,12 @@ public class Graph {
     List<Vertex> vertexList = new ArrayList<>();
     boolean directed;
 
+    public Graph(Graph g) {
+        this.edgeList = g.edgeList;
+        this.vertexList = g.vertexList;
+        this.directed = g.directed;
+    }
+
     public Graph(List<Edge> edgeList, boolean directed, int vertexCount) {
         this.directed = directed;
         // initialize Vertex List

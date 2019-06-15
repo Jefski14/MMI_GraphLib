@@ -15,7 +15,7 @@ public class EdmondsKarpTest {
         long startTime = System.currentTimeMillis();
         System.out.println("Starting Edmonds-Karp");
 
-        double max_flow = EdmondsKarp.runEdmondsKarp(graph, 0, 7);
+        double max_flow = EdmondsKarp.runEdmondsKarp(graph, 0, 7).max_flow;
 
         long estimatedTime = System.currentTimeMillis() - startTime;
         System.out.println("Took " + estimatedTime + " ms\nor " + estimatedTime / 1000.0 + " seconds.");
@@ -30,7 +30,7 @@ public class EdmondsKarpTest {
         long startTime = System.currentTimeMillis();
         System.out.println("Starting Edmonds-Karp");
 
-        double max_flow = EdmondsKarp.runEdmondsKarp(graph, 0, 7);
+        double max_flow = EdmondsKarp.runEdmondsKarp(graph, 0, 7).max_flow;
 
         long estimatedTime = System.currentTimeMillis() - startTime;
         System.out.println("Took " + estimatedTime + " ms\nor " + estimatedTime / 1000.0 + " seconds.");
@@ -45,7 +45,7 @@ public class EdmondsKarpTest {
         long startTime = System.currentTimeMillis();
         System.out.println("Starting Edmonds-Karp");
 
-        double max_flow = EdmondsKarp.runEdmondsKarp(graph, 0, 7);
+        double max_flow = EdmondsKarp.runEdmondsKarp(graph, 0, 7).max_flow;
 
         long estimatedTime = System.currentTimeMillis() - startTime;
         System.out.println("Took " + estimatedTime + " ms\nor " + estimatedTime / 1000.0 + " seconds.");

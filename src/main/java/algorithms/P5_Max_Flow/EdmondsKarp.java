@@ -55,7 +55,7 @@ public class EdmondsKarp {
      * @param targetId targetId of {@link entity.Vertex} from {@link Graph} to get maximum flow to
      * @return
      */
-    public static double runEdmondsKarp(Graph graph, int sourceId, int targetId) {
+    public static GraphWithFlow runEdmondsKarp(Graph graph, int sourceId, int targetId) {
 
         int u, v;
         //V = Number of vertices in graph
@@ -65,22 +65,12 @@ public class EdmondsKarp {
         //where the value is the capacity of that edge
         //if value is 0.0, no edge exists
 
-        Graph residual = graph;
-
-//        for (int i = 0; i < V; i++) {
-//            Vertex vertex = residual.getVertexList().get(i);
-//            List<Edge> attachedEdges = vertex.getAttachedEdges();
-//            for (Edge e : attachedEdges) {
-//                Vertex reverseEnd = e.getStart();
-//                Vertex reverseStart = e.getEnd();
-//                residual.getVertexList().get(reverseStart.getId()).getAttachedEdges().add(new Edge(reverseStart, reverseEnd, 0.0, 0.0));
-//            }
-//        }
+        GraphWithFlow residual = new GraphWithFlow(graph);
 
         //parent array is used to store found paths by BFS
         int[] parent = new int[V];
         //No initial flow, therefore set to 0.0
-        double max_flow = 0.0;
+//        residual.max_flow = 0.0;
 
         while (existsPathFromStoT(residual, sourceId, targetId, parent)) {
 
@@ -103,25 +93,9 @@ public class EdmondsKarp {
                 residual.getEdgeAndConstructNewIfNonExistent(v, u).setCapacity(currenCapacityVtoU + path_flow);
             }
 
-            max_flow += path_flow;
+            residual.max_flow += path_flow;
         }
 
-//        //Build up resulting graph
-//        Graph g = new Graph();
-//        for (int n = 0; n < V; n++) {
-//            g.getVertexList().add(new Vertex(n));
-//        }
-//
-//        for (int i = 0; i < V; i++) {
-//            for (int j = 0; j < V; j++) {
-//                if (residual.getCapcityForEdge(i, j) != 0.0) {
-//                    Vertex vi = g.getVertexList().get(i);
-//                    Vertex vj = g.getVertexList().get(j);
-////                    g.getVertexList().get(i).getAttachedEdges().add(new Edge(vi, vj, cost, capacity));
-//                }
-//            }
-//        }
-
-        return max_flow;
+        return residual;
     }
 }
