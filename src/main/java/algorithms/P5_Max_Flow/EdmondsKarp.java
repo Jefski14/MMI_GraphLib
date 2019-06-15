@@ -50,7 +50,7 @@ public class EdmondsKarp {
      * @param graph    input graph with capacities for edges
      * @param sourceId sourceId of {@link entity.Vertex} from {@link Graph} to start from
      * @param targetId targetId of {@link entity.Vertex} from {@link Graph} to get maximum flow to
-     * @return
+     * @return A fully constructed Graph with edges in both directions and the calculated max flow
      */
     public static GraphWithFlow runEdmondsKarp(Graph graph, int sourceId, int targetId) {
 

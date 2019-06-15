@@ -9,13 +9,14 @@ public class GraphWithFlow extends Graph {
     public GraphWithFlow(Graph g) {
         super(g);
         this.max_flow = 0.0;
+        this.checkIfResidualAndConstructIfNot();
     }
     public double max_flow;
 
     /**
      * Checks if the graph has edges in both directions and constructs them if necessary
      */
-    public void checkIfResidualAndConstructIfNot() {
+    private void checkIfResidualAndConstructIfNot() {
         ArrayList<Edge> newEdges = new ArrayList<>();
         for( Edge e : this.getEdgeList()) {
             try {

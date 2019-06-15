@@ -9,7 +9,6 @@ public class CycleCancelling {
     public static double getMinimalCostFlow(Graph graph) {
         GraphWithFlow graphWithFlow = EdmondsKarp.runEdmondsKarp(graph, graph.getVertexList().get(graph.getVertexList().size() - 2).getId(), graph.getVertexList().get(graph.getVertexList().size() - 1).getId());
 
-        graphWithFlow.checkIfResidualAndConstructIfNot();
 
         // Check if B Flow exists
 
