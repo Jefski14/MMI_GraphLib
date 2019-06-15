@@ -14,6 +14,8 @@ public class Vertex {
     @NonNull
     private int id;
 
+    private double balance;
+
     private List<Edge> attachedEdges = new ArrayList<>();
 
     public void addEdge(Edge e) {
