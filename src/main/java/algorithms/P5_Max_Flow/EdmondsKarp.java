@@ -1,12 +1,9 @@
 package algorithms.P5_Max_Flow;
 
-import entity.Edge;
 import entity.Graph;
-import entity.Vertex;
 
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 
 public class EdmondsKarp {
 
