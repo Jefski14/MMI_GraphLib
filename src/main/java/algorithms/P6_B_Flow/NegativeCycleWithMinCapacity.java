@@ -14,6 +14,6 @@ public class NegativeCycleWithMinCapacity {
         totalCost = 0.0;
     }
     public ArrayList<Edge> edges;
-    public double minCycleCapacity;
-    public double totalCost;
+    public Double minCycleCapacity;
+    public Double totalCost;
 }
