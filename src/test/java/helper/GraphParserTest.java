@@ -4,6 +4,7 @@ import entity.Graph;
 import org.junit.Test;
 
 import static helper.GraphParser.importGraphFromFile;
+import static helper.GraphParser.importGraphWithBalance;
 import static org.junit.Assert.assertEquals;
 
 public class GraphParserTest {
@@ -56,5 +57,15 @@ public class GraphParserTest {
         final Graph graph = importGraphFromFile(path, false, false);
         assertEquals(graph.getEdgeList().size(), 4000);
         assertEquals(graph.getVertexList().size(), 1000);
+    }
+
+    @Test
+    public void parseKostenminimal1() {
+        final String path = "src/main/resources/p6/Kostenminimal1.txt";
+        final Graph graph = importGraphWithBalance(path);
+        assertEquals(graph.getEdgeList().size(), 9);
+        assertEquals(graph.getVertexList().size(), 7);
+        assertEquals(graph.getVertexList().get(5).getBalance(), 6.0, 0.0); // Pseudo Quelle Balance = 6
+        assertEquals(graph.getVertexList().get(6).getBalance(), -6.0, 0.0); // Pseudo Quelle Balance = 6
     }
 }

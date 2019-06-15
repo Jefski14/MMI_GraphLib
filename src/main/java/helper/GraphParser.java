@@ -80,15 +80,30 @@ public class GraphParser {
             // Read first line = number of vertices
             String firstLine = reader.readLine();
             int nOfVertices = Integer.parseInt(firstLine); // When we represent the graph only by the edge list we lose the standalone vertices
-            for (int i = 0; i < nOfVertices; i++) {
+            for (int i = 0; i < nOfVertices + 2; i++) { // +2 for pseudo source and target
                 dracula.getVertexList().add(new Vertex(i)); // Initialize list
             }
 
-            //Read balances for vertices
+            //Read balances for vertices and create pseudo sources and targets
             for (int i = 0; i < nOfVertices; i++) {
                 String currentBalance = reader.readLine();
                 double balance = Double.parseDouble(currentBalance);
                 dracula.getVertexList().get(i).setBalance(balance);
+                if (balance > 0) { // Add edge from pseudo source to vertex (source)
+                    Edge fromPsToS = new Edge(dracula.getVertexList().get(dracula.getVertexList().size() - 2), dracula.getVertexList().get(i), 0.0, balance);
+                    // Update Balance of pseudo source
+                    dracula.getVertexList().get(dracula.getVertexList().size() - 2).setBalance(dracula.getVertexList().get(dracula.getVertexList().size() - 2).getBalance() + balance);
+                    // Add outgoing edge to vertex and edge list
+                    dracula.getVertexList().get(dracula.getVertexList().size() - 2).getAttachedEdges().add(fromPsToS);
+                    dracula.getEdgeList().add(fromPsToS);
+                } else if (balance < 0) { // add edge from vertex(target) to pseudo target
+                    Edge fromTToPT = new Edge(dracula.getVertexList().get(i), dracula.getVertexList().get(dracula.getVertexList().size() - 1), 0.0, -balance);
+                    // Update Balance of pseudo target
+                    dracula.getVertexList().get(dracula.getVertexList().size() - 1).setBalance(dracula.getVertexList().get(dracula.getVertexList().size() - 1).getBalance() + balance);
+                    // Add incoming edge from target to pseudo target
+                    dracula.getVertexList().get(i).getAttachedEdges().add(fromTToPT);
+                    dracula.getEdgeList().add(fromTToPT);
+                }
             }
 
             //Read following lines with fromVertex, toVertex, cost and capacity
@@ -98,8 +113,8 @@ public class GraphParser {
                 final String[] points = currentLine.split(delimiter);
                 final int fromVertex = Integer.parseInt(points[0]);
                 final int toVertex = Integer.parseInt(points[1]);
-                final double cost = Integer.parseInt(points[2]);
-                final double capacity = Integer.parseInt(points[3]);
+                final double cost = Double.parseDouble(points[2]);
+                final double capacity = Double.parseDouble(points[3]);
 
                 // Add edge to vertex
                 Edge p1p2 = new Edge(dracula.getVertexList().get(fromVertex), dracula.getVertexList().get(toVertex), cost, capacity);
