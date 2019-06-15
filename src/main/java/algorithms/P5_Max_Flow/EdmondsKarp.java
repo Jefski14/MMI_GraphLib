@@ -72,11 +72,13 @@ public class EdmondsKarp {
         while (existsPathFromStoT(residual, sourceId, targetId, parent)) {
 
             double path_flow = Double.MAX_VALUE;
+            double path_cost = 0.0;
 
             //Find minimum residual capacity of edges
             for (v = targetId; v != sourceId; v = parent[v]) {
                 u = parent[v];
                 path_flow = Math.min(path_flow, residual.getCapcityForEdge(u, v));
+                path_cost += residual.getEdge(u,v).getCost(); // Take edge in direction from source to target
             }
 
             //Update residual capacities of the edges and reverse edges along path
@@ -91,6 +93,7 @@ public class EdmondsKarp {
             }
 
             residual.max_flow += path_flow;
+            residual.total_cost += path_cost * path_flow;
         }
 
         return residual;

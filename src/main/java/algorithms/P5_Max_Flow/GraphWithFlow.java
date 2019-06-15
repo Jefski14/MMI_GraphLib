@@ -9,9 +9,11 @@ public class GraphWithFlow extends Graph {
     public GraphWithFlow(Graph g) {
         super(g);
         this.max_flow = 0.0;
+        this.total_cost = 0.0;
         this.checkIfResidualAndConstructIfNot();
     }
     public double max_flow;
+    public double total_cost;
 
     /**
      * Checks if the graph has edges in both directions and constructs them if necessary
