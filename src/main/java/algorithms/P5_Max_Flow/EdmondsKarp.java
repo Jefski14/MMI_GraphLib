@@ -1,9 +1,12 @@
 package algorithms.P5_Max_Flow;
 
+import entity.Edge;
 import entity.Graph;
+import entity.Vertex;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 public class EdmondsKarp {
 
@@ -17,9 +20,9 @@ public class EdmondsKarp {
      * @param parent    array to store path in
      * @return true if path from source to target exists
      */
-    private static boolean existsPathFromStoT(double[][] resiGraph, int sourceId, int targetId, int[] parent) {
+    private static boolean existsPathFromStoT(Graph resiGraph, int sourceId, int targetId, int[] parent) {
 
-        boolean[] visited = new boolean[resiGraph.length];
+        boolean[] visited = new boolean[resiGraph.getVertexList().size()];
         Arrays.fill(visited, false);
 
         LinkedList<Integer> queue = new LinkedList<>();
@@ -32,7 +35,7 @@ public class EdmondsKarp {
             int u = queue.poll();
 
             for (int v = 0; v < visited.length; v++) {
-                if (!visited[v] && resiGraph[u][v] > 0.0) {
+                if (!visited[v] && resiGraph.getCapcityForEdge(u, v) > 0.0) {
                     queue.add(v);
                     parent[v] = u;
                     visited[v] = true;
@@ -61,10 +64,16 @@ public class EdmondsKarp {
         //Residual graph is created as matrix,
         //where the value is the capacity of that edge
         //if value is 0.0, no edge exists
-        double[][] resiGraph = new double[V][V];
-        for (u = 0; u < V; u++) {
-            for (v = 0; v < V; v++) {
-                resiGraph[u][v] = graph.getCapcityForEdge(u, v);
+
+        Graph residual = graph;
+
+        for (int i = 0; i < V; i++) {
+            Vertex vertex = residual.getVertexList().get(i);
+            List<Edge> attachedEdges = vertex.getAttachedEdges();
+            for (Edge e : attachedEdges) {
+                Vertex reverseEnd = e.getStart();
+                Vertex reverseStart = e.getEnd();
+                residual.getVertexList().get(reverseStart.getId()).getAttachedEdges().add(new Edge(reverseStart, reverseEnd, 0.0, 0.0));
             }
         }
 
@@ -73,25 +82,45 @@ public class EdmondsKarp {
         //No initial flow, therefore set to 0.0
         double max_flow = 0.0;
 
-        while (existsPathFromStoT(resiGraph, sourceId, targetId, parent)) {
+        while (existsPathFromStoT(residual, sourceId, targetId, parent)) {
 
             double path_flow = Double.MAX_VALUE;
 
             //Find minimum residual capacity of edges
             for (v = targetId; v != sourceId; v = parent[v]) {
                 u = parent[v];
-                path_flow = Math.min(path_flow, resiGraph[u][v]);
+                path_flow = Math.min(path_flow, residual.getCapcityForEdge(u, v));
             }
 
             //Update residual capacities of the edges and reverse edges along path
             for (v = targetId; v != sourceId; v = parent[v]) {
                 u = parent[v];
-                resiGraph[u][v] -= path_flow;
-                resiGraph[v][u] += path_flow;
+
+                double currentCapacityUtoV = residual.getEdge(u, v).getCapacity();
+                residual.getEdge(u, v).setCapacity(currentCapacityUtoV - path_flow);
+
+                double currenCapacityVtoU = residual.getEdge(u, v).getCapacity();
+                residual.getEdge(v, u).setCapacity(currenCapacityVtoU + path_flow);
             }
 
             max_flow += path_flow;
         }
+
+        //Build up resulting graph
+//        Graph g = new Graph();
+//        for (int n = 0; n < V; n++) {
+//            g.getVertexList().add(new Vertex(n));
+//        }
+//
+//        for (int i = 0; i < V; i++) {
+//            for (int j = 0; j < V; j++) {
+//                if (residual.getCapcityForEdge(i, j) != 0.0) {
+//                    Vertex vi = g.getVertexList().get(i);
+//                    Vertex vj = g.getVertexList().get(j);
+////                    g.getVertexList().get(i).getAttachedEdges().add(new Edge(vi, vj, cost, capacity));
+//                }
+//            }
+//        }
 
         return max_flow;
     }
