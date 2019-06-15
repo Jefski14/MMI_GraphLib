@@ -151,7 +151,7 @@ public class Graph {
      * @param endId   id of ending vertex
      * @return reference of the edge of the graph (!Cahnging this changes the original graph!)
      */
-    public Edge getEdge(Integer startId, Integer endId) {
+    public Edge getEdge(Integer startId, Integer endId) throws IllegalArgumentException {
         for (Edge e : this.vertexList.get(startId).getAttachedEdges()) {
             if (e.getEnd().getId() == endId) {
                 return e;
