@@ -14,15 +14,12 @@ public class GraphParser {
      * Imports a graph.txt file and converts data
      * into {@link Vertex} and {@link Edge} Objects
      *
-     * @param fileName path to file
-     * @param directed flag if edges should be imported as directed or undirected
+     * @param fileName    path to file
+     * @param directed    flag if edges should be imported as directed or undirected
      * @param hasCapacity
      * @return List of {@link Vertex} Objects
      */
     public static Graph importGraphFromFile(final String fileName, boolean directed, boolean hasCapacity) {
-
-//        long startTime = System.currentTimeMillis();
-//        System.out.println("Starting import of graph...");
         Graph dracula = new Graph();
         try {
             final FileReader fileReader = new FileReader(fileName);
@@ -69,8 +66,49 @@ public class GraphParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        long estimatedTime = System.currentTimeMillis() - startTime;
-//        System.out.println("Importing graph took: " + estimatedTime + " ms");
+        return dracula;
+    }
+
+
+    public static Graph importGraphWithBalance(final String fileName) {
+
+        Graph dracula = new Graph();
+        try {
+            final FileReader fileReader = new FileReader(fileName);
+            final BufferedReader reader = new BufferedReader(fileReader);
+
+            // Read first line = number of vertices
+            String firstLine = reader.readLine();
+            int nOfVertices = Integer.parseInt(firstLine); // When we represent the graph only by the edge list we lose the standalone vertices
+            for (int i = 0; i < nOfVertices; i++) {
+                dracula.getVertexList().add(new Vertex(i)); // Initialize list
+            }
+
+            //Read balances for vertices
+            for (int i = 0; i < nOfVertices; i++) {
+                String currentBalance = reader.readLine();
+                double balance = Double.parseDouble(currentBalance);
+                dracula.getVertexList().get(i).setBalance(balance);
+            }
+
+            //Read following lines with fromVertex, toVertex, cost and capacity
+            final String delimiter = "\t";
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                final String[] points = currentLine.split(delimiter);
+                final int fromVertex = Integer.parseInt(points[0]);
+                final int toVertex = Integer.parseInt(points[1]);
+                final double cost = Integer.parseInt(points[2]);
+                final double capacity = Integer.parseInt(points[3]);
+
+                // Add edge to vertex
+                Edge p1p2 = new Edge(dracula.getVertexList().get(fromVertex), dracula.getVertexList().get(toVertex), cost, capacity);
+                dracula.getVertexList().get(fromVertex).addEdge(p1p2);
+                dracula.getEdgeList().add(p1p2);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return dracula;
     }
 }
