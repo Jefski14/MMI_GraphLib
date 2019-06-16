@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Edge implements Comparable<Edge> {
+public class Edge implements Comparable<Edge>, Cloneable {
     /**
      * If used as an undirected Edge it doesnt matter which vertex is the start vertex
      */
@@ -27,5 +27,10 @@ public class Edge implements Comparable<Edge> {
     @Override
     public String toString() {
         return String.format("Start-Vertex: %d \t End-Vertex: %d \t Cost: %f  Capacity: %f\n", this.start.getId(), this.end.getId(), this.cost, this.capacity);
+    }
+
+    @Override
+    public Edge clone() throws CloneNotSupportedException {
+        return (Edge) super.clone();
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @ToString(exclude = "attachedEdges")
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Vertex {
+public class Vertex implements Cloneable {
 
     @NonNull
     private int id;
@@ -23,5 +23,10 @@ public class Vertex {
             throw new RuntimeException("Edge doesn't correspond to vertex" + this.id + ": " + e.toString());
         }
         this.attachedEdges.add(e);
+    }
+
+    @Override
+    public Vertex clone() throws CloneNotSupportedException {
+        return (Vertex) super.clone();
     }
 }
