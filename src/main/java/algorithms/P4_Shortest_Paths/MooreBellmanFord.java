@@ -62,6 +62,10 @@ public class MooreBellmanFord {
 
     private static NegativeCycleWithMinCapacity constructNegativeCycle(int vertexId, Graph graph, HashMap<Integer, PredAndDist> kwbMap) {
         NegativeCycleWithMinCapacity cycle = new NegativeCycleWithMinCapacity();
+        // Gehe n mal zurück vor dem constructCycle
+        for (int i = 0; i < graph.getVertexList().size(); i++) {
+            vertexId = kwbMap.get(vertexId).getPredecessorId();
+        }
         int currentId = vertexId;
         while (kwbMap.get(currentId).getPredecessorId() != vertexId) {
             Edge e = graph.getEdge(kwbMap.get(currentId).getPredecessorId(), currentId);
