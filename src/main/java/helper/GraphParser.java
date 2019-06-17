@@ -39,7 +39,7 @@ public class GraphParser {
                 final int p1 = Integer.parseInt(points[0]);
                 final int p2 = Integer.parseInt(points[1]);
                 Double cost = 0.0;
-                Double capacity = 0.0;
+                Double capacity = 1.0;
                 if (points.length == 3) {
                     if (hasCapacity) {
                         capacity = Double.parseDouble(points[2]);
