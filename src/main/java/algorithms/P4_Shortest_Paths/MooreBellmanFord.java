@@ -12,22 +12,24 @@ import java.util.HashMap;
 
 public class MooreBellmanFord {
 
-    public static Graph findKWB(Graph graph) {
-        return findKWB(graph, graph.getVertexList().get(0));
-    }
-
     public static Graph findKWB(Graph graph, Vertex start) {
-        return graph.buildTreeFromPredAndDist(findKWBMap(graph, start));
+        MBFDataDump mbfResult = findKWBMap(graph, start);
+        if (mbfResult.negCycle != null) {
+            throw new NegativeCyclesException("Negative Cycle found!", mbfResult.negCycle);
+        }
+        return graph.buildTreeFromPredAndDist(mbfResult.kwbMap);
     }
 
     public static ArrayList<Edge> getShortestPath(Graph graph, Vertex start, Vertex end) {
-        HashMap<Integer, PredAndDist> kwbMap = findKWBMap(graph, start);
-
-        return graph.buildPathFromTo(kwbMap, start.getId(), end.getId());
+        MBFDataDump mbfResult = findKWBMap(graph, start);
+        if (mbfResult.negCycle != null) {
+            throw new NegativeCyclesException("Negative Cycle found!", mbfResult.negCycle);
+        }
+        return graph.buildPathFromTo(mbfResult.kwbMap, start.getId(), end.getId());
     }
 
-    public static HashMap<Integer, PredAndDist> findKWBMap(Graph graph, Vertex start) {
-        HashMap<Integer, PredAndDist> kwbMap = new HashMap();
+    public static MBFDataDump findKWBMap(Graph graph, Vertex start) {
+        HashMap<Integer, PredAndDist> kwbMap = new HashMap<>();
         for (Vertex v : graph.getVertexList()) {
             kwbMap.put(v.getId(), new PredAndDist(null, Double.POSITIVE_INFINITY));
         }
@@ -43,7 +45,7 @@ public class MooreBellmanFord {
                     if (iteration == graph.getVertexList().size()-1) {
                         //Got better in last iteration so we must have negative cycles
                         NegativeCycleWithMinCapacity negCycle = constructNegativeCycle(e.getStart().getId(), graph, kwbMap);
-                        throw new NegativeCyclesException("Found negative Cycle at edge:" + e.toString() + ")", negCycle);
+                        return new MBFDataDump(kwbMap, negCycle);
                     }
                     // Update end vertex
                     kwbMap.put(e.getEnd().getId(),
@@ -58,7 +60,7 @@ public class MooreBellmanFord {
             gotBetterInPrevIteration = false;
         }
 
-        return kwbMap;
+        return new MBFDataDump(kwbMap, null);
     }
 
     private static NegativeCycleWithMinCapacity constructNegativeCycle(int vertexId, Graph graph, HashMap<Integer, PredAndDist> kwbMap) {
