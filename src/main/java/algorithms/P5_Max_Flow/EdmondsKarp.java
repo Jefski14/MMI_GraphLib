@@ -85,11 +85,11 @@ public class EdmondsKarp {
             for (v = targetId; v != sourceId; v = parent[v]) {
                 u = parent[v];
 
-                double currentCapacityUtoV = residual.getEdgeAndConstructNewIfNonExistent(u, v).getCapacity();
-                residual.getEdgeAndConstructNewIfNonExistent(u, v).setCapacity(currentCapacityUtoV - path_flow);
+                double currentCapacityUtoV = residual.getEdge(u, v).getCapacity();
+                residual.getEdge(u, v).setCapacity(currentCapacityUtoV - path_flow);
 
-                double currenCapacityVtoU = residual.getEdgeAndConstructNewIfNonExistent(u, v).getCapacity();
-                residual.getEdgeAndConstructNewIfNonExistent(v, u).setCapacity(currenCapacityVtoU + path_flow);
+                double currenCapacityVtoU = residual.getEdge(v, u).getCapacity();
+                residual.getEdge(v, u).setCapacity(currenCapacityVtoU + path_flow);
             }
 
             residual.max_flow += path_flow;

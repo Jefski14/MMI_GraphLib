@@ -37,7 +37,8 @@ public class MooreBellmanFord {
         boolean gotBetterInPrevIteration = false;
         for (int iteration = 0; iteration < graph.getVertexList().size(); iteration++) {
             for (Edge e: graph.getEdgeList()) {
-                if (kwbMap.get(e.getStart().getId()).getDistance() + e.getCost() < kwbMap.get(e.getEnd().getId()).getDistance()) {
+                // Edges with 0 capacity shouldn't be respected
+                if (e.getCapacity() > 0.0 && (kwbMap.get(e.getStart().getId()).getDistance() + e.getCost() < kwbMap.get(e.getEnd().getId()).getDistance())) {
                     // Check for negative Cycles
                     if (iteration == graph.getVertexList().size()-1) {
                         //Got better in last iteration so we must have negative cycles
@@ -66,6 +67,7 @@ public class MooreBellmanFord {
         for (int i = 0; i < graph.getVertexList().size(); i++) {
             vertexId = kwbMap.get(vertexId).getPredecessorId();
         }
+
         int currentId = vertexId;
         while (kwbMap.get(currentId).getPredecessorId() != vertexId) {
             Edge e = graph.getEdge(kwbMap.get(currentId).getPredecessorId(), currentId);
@@ -82,6 +84,9 @@ public class MooreBellmanFord {
 
         // For better readablity in debug
         Collections.reverse(cycle.edges);
+        System.out.println("Cycle with " + cycle.totalCost + " Cost/Capacity Capacity:" + cycle.minCycleCapacity + " Total: " + cycle.totalCost * cycle.minCycleCapacity);
+        cycle.edges.forEach(System.out::println);
+        System.out.println("===");
         return cycle;
     }
 }

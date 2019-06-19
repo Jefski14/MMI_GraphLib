@@ -12,15 +12,16 @@ public class GraphWithFlow extends Graph {
         this.total_cost = 0.0;
         this.checkIfResidualAndConstructIfNot();
     }
+
     public double max_flow;
     public double total_cost;
 
     /**
      * Checks if the graph has edges in both directions and constructs them if necessary
      */
-    private void checkIfResidualAndConstructIfNot() {
+    public void checkIfResidualAndConstructIfNot() {
         ArrayList<Edge> newEdges = new ArrayList<>();
-        for( Edge e : this.getEdgeList()) {
+        for (Edge e : this.getEdgeList()) {
             try {
                 this.getEdge(e.getEnd().getId(), e.getStart().getId()); // Check if reverse Edge exists
             } catch (IllegalArgumentException ex) {
@@ -31,5 +32,16 @@ public class GraphWithFlow extends Graph {
             }
         }
         this.getEdgeList().addAll(newEdges);
+    }
+
+    public void removeEdgesWithZeroCapacity() {
+        ArrayList<Edge> edgesToDelete = new ArrayList<>();
+        for (Edge e : this.getEdgeList()) {
+            if (e.getCapacity() <= 0.0) {
+                this.getVertexList().get(e.getStart().getId()).getAttachedEdges().remove(e);
+                edgesToDelete.add(e);
+            }
+        }
+        this.getEdgeList().removeAll(edgesToDelete);
     }
 }
