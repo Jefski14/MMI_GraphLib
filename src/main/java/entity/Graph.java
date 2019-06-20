@@ -165,7 +165,7 @@ public class Graph {
      *
      * @param startId id of starting vertex
      * @param endId   id of ending vertex
-     * @return reference of the edge of the graph (!Cahnging this changes the original graph!)
+     * @return reference of the edge of the graph (!Changing this changes the original graph!)
      */
     public Edge getEdgeAndConstructNewIfNonExistent(Integer startId, Integer endId) {
         for (Edge e : this.vertexList.get(startId).getAttachedEdges()) {
@@ -173,7 +173,7 @@ public class Graph {
                 return e;
             }
         }
-        Edge backwardsEdge = new Edge(this.vertexList.get(startId), this.getVertexList().get(endId), this.getEdge(endId, startId).getCost(), 0.0);
+        Edge backwardsEdge = new Edge(this.vertexList.get(startId), this.getVertexList().get(endId), -this.getEdge(endId, startId).getCost(), 0.0);
         this.vertexList.get(startId).getAttachedEdges().add(backwardsEdge);
         this.edgeList.add(backwardsEdge);
         return backwardsEdge;
