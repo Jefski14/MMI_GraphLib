@@ -19,29 +19,24 @@ public class SuccessiveShortestPath {
     }
 
     private static void updateResidualEdge(Graph graph, Edge edge, double capacity) {
-        updateEdge(graph, edge, capacity);
-        updateReversiveEdge(graph, edge, capacity);
+        updateReverseEdge(graph, edge, capacity); // Update reverse edge first because automatic construction is based on forward edge
+        updateEdge(graph, edge, capacity); // Update forward edge and remove it if capacity after update is 0
     }
 
     private static void updateEdge(Graph graph, Edge edge, double capacity) {
         double newCapacity = edge.getCapacity() - capacity;
         if (newCapacity <= 0) {
             graph.getEdgeList().remove(edge);
+            graph.getVertexList().get(edge.getStart().getId()).getAttachedEdges().remove(edge); // Remove Edge from attached edges of start vertex aswell
         } else {
             edge.setCapacity(newCapacity);
         }
     }
 
-    private static void updateReversiveEdge(Graph graph, Edge edge, double capacity) {
-        Edge reversiveEdge = graph.getEdgeAndConstructNewIfNonExistent(edge.getEnd().getId(), edge.getStart().getId());
-        if (reversiveEdge != null) {
-            double newCapacity = reversiveEdge.getCapacity() + capacity;
-            reversiveEdge.setCapacity(newCapacity);
-        } else {
-            double cost = edge.getCost() != 0.0 ? edge.getCost() * -1 : 0.0;
-            reversiveEdge = new Edge(edge.getEnd(), edge.getStart(), capacity, cost);
-            graph.getEdgeList().add(reversiveEdge);
-        }
+    private static void updateReverseEdge(Graph graph, Edge edge, double capacity) {
+        Edge reverseEdge = graph.getEdgeAndConstructNewIfNonExistent(edge.getEnd().getId(), edge.getStart().getId());
+        double newCapacity = reverseEdge.getCapacity() + capacity;
+        reverseEdge.setCapacity(newCapacity);
     }
 
     private static boolean checkVerticesBalanced(Collection<Vertex> vertices) {
@@ -150,6 +145,11 @@ public class SuccessiveShortestPath {
         return null;
     }
 
+    /**
+     * Uses all the negative Edges
+     *
+     * @param graph
+     */
     private static void updateCapacities(Graph graph) {
         List<Edge> edges = new ArrayList<>(graph.getEdgeList());
         edges.forEach(e ->
