@@ -2,191 +2,103 @@ package algorithms.P6_B_Flow;
 
 import algorithms.P1_Search.BreadthFirstSearch;
 import algorithms.P4_Shortest_Paths.MooreBellmanFord;
+import algorithms.P5_Max_Flow.GraphWithFlow;
 import entity.Edge;
 import entity.Graph;
 import entity.Vertex;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SuccessiveShortestPath {
+    public static double getMinimalCostFlow(Graph inputGraph) {
+        GraphWithFlow graph = new GraphWithFlow(inputGraph);
 
-    private static Map<Integer, Double> relevantBalances;
-
-    public static double getMinimalCostFlow(Graph graph) {
-
-        Graph residualGraph = calculateResidualGraph(graph);
-        return calculateMinimalCostFlow(graph, residualGraph);
-    }
-
-    private static void updateResidualEdge(Graph graph, Edge edge, double capacity) {
-        updateReverseEdge(graph, edge, capacity); // Update reverse edge first because automatic construction is based on forward edge
-        updateEdge(graph, edge, capacity); // Update forward edge and remove it if capacity after update is 0
-    }
-
-    private static void updateEdge(Graph graph, Edge edge, double capacity) {
-        double newCapacity = edge.getCapacity() - capacity;
-        if (newCapacity <= 0) {
-            graph.getEdgeList().remove(edge);
-            graph.getVertexList().get(edge.getStart().getId()).getAttachedEdges().remove(edge); // Remove Edge from attached edges of start vertex aswell
-        } else {
-            edge.setCapacity(newCapacity);
-        }
-    }
-
-    private static void updateReverseEdge(Graph graph, Edge edge, double capacity) {
-        Edge reverseEdge = graph.getEdgeAndConstructNewIfNonExistent(edge.getEnd().getId(), edge.getStart().getId());
-        double newCapacity = reverseEdge.getCapacity() + capacity;
-        reverseEdge.setCapacity(newCapacity);
-    }
-
-    private static boolean checkVerticesBalanced(Collection<Vertex> vertices) {
-        return vertices.stream().mapToDouble(Vertex::getBalance).sum() == 0;
-    }
-
-    private static double calculateMinimalCostFlow(Graph graph, Graph residualGraph) {
-        double cost = 0.0;
-        for (Edge residualEdge : residualGraph.getEdgeList()) {
-            Vertex source = graph.getVertexList().get(residualEdge.getStart().getId());
-            Vertex sink = graph.getVertexList().get(residualEdge.getEnd().getId());
-
-            if (source == null || sink == null) {
-                continue;
-            }
-
-            Edge originalEdge = graph.getEdge(sink, source);
-            if (originalEdge != null) {
-                cost += residualEdge.getCapacity() * originalEdge.getCost();
+        // Use negative edges
+        for (int i = 0; i < graph.getEdgeList().size(); i++) {
+            Edge e = graph.getEdgeList().get(i);
+            if (e.getCost() < 0 && e.getCapacity() > 0) { // Use negative Edge
+                e.getStart().setBalance(e.getStart().getBalance() - e.getCapacity()); // Adjust Balance of giving vertex
+                e.getEnd().setBalance(e.getEnd().getBalance() + e.getCapacity()); // Adjust Balance of receiving vertex
+                graph.total_cost += e.getCost() * e.getCapacity();
+                // Add residual Edge
+                Edge reverse = graph.getEdgeAndConstructNewIfNonExistent(e.getEnd().getId(), e.getStart().getId());
+                reverse.setCapacity(e.getCapacity());
+                // Use edge completely
+                e.setCapacity(0.0);
             }
         }
 
-        return cost;
-    }
-
-    /**
-     * Berechnung den Residualgraphen zu einem gegebenen Graphen
-     *
-     * @param graph gerichteter Graph
-     * @return Residualgraph mit den minimalen Kosten
-     * //     * @throws MinimalCostFlowException
-     * //     * @throws NegativeCycleException
-     */
-    private static Graph calculateResidualGraph(Graph graph) /*throws MinimalCostFlowException, NegativeCycleException */ {
-        if (!checkVerticesBalanced(graph.getVertexList())) {
-            throw new IllegalArgumentException("Balancen sind nicht ausgeglichen!");
-//            throw new MinimalCostFlowException("Balancen sind nicht ausgeglichen");
-        }
-
-        Graph residualGraph = graph;
-        initRelevantBalances(residualGraph);
-        updateCapacities(residualGraph);
+        graph.checkIfResidualAndConstructIfNot(); // Construct residual Graph
 
         while (true) {
-//            residualGraph.unvisitAllVertices();
-
-            Vertex source = findSource(residualGraph);
-            if (source == null) {
-                break;
+            Vertex source = findUnusedSource(graph); // in residual graph
+            Vertex target = findPossibleTargetForSource(source, graph);
+            if (source == null || target == null) {
+                // Check if graph is balanced -> success
+                if (allVerticesBalanced(graph)) {
+                    return graph.total_cost;
+                    // if not -> no BFlow
+                } else {
+                    throw new RuntimeException("There is no B-Flow!");
+                }
+            } else {
+                // Source and target arent null
+                ArrayList<Edge> shortestPath = MooreBellmanFord.getShortestPath(graph, source, target);
+                double minPathCapacity = shortestPath.stream().mapToDouble(Edge::getCapacity).min().getAsDouble();
+                double minSTCap = Math.min(Math.abs(source.getBalance()), Math.abs(target.getBalance()));
+                double minCap = Math.min(minSTCap, minPathCapacity);
+                for (Edge e: shortestPath) {
+                    // reduce edge capacity
+                    e.setCapacity(e.getCapacity() - minCap);
+                    // Change balances of starting and ending vertex accordingly
+                    Vertex start = graph.getVertexList().get(e.getStart().getId());
+                    start.setBalance(start.getBalance() - minCap);
+                    Vertex end = graph.getVertexList().get(e.getEnd().getId());
+                    end.setBalance(end.getBalance() + minCap);
+                    // Update residual edge
+                    Edge residualEdge = graph.getEdge(end.getId(), start.getId());
+                    residualEdge.setCapacity(residualEdge.getCapacity() + minCap);
+                    // Add cost*usedcapacity to total graph cost
+                    graph.total_cost += e.getCost() * minCap;
+                }
             }
-
-            Vertex sink = findSink(source, graph);
-            if (sink == null) {
-                throw new IllegalArgumentException("Sink was null");
-//                throw new MinimalCostFlowException("Das Netzwerk ist zu klein (Keine Senke für Quelle [" + source + "] gefunden.");
-            }
-
-            ArrayList<Edge> path = MooreBellmanFord.getShortestPath(residualGraph, source, sink);
-            double minCapacity = path.stream().mapToDouble(Edge::getCapacity).min().getAsDouble();
-            double minSourceBalance = source.getBalance() - relevantBalances.get(source.getId());
-            double minSinkBalance = relevantBalances.get(sink.getId()) - sink.getBalance();
-
-            double gamma = calculateGamma(minCapacity, minSourceBalance, minSinkBalance);
-
-            addBalance(source, gamma);
-            addBalance(sink, gamma * -1);
-
-            path.forEach(e -> updateResidualEdge(residualGraph, e, gamma));
         }
-
-        return residualGraph;
     }
 
-    private static Vertex findSource(Graph graph) {
+    public static boolean allVerticesBalanced(Graph graph) {
         for (Vertex v : graph.getVertexList()) {
-            if (v.getBalance() - relevantBalances.get(v.getId()) > 0.0) {
+            if(v.getBalance() != 0.0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static Vertex findUnusedSource(Graph graph) {
+        for (Vertex v : graph.getVertexList()) {
+            if (v.getBalance() > 0.0) {
                 return v;
             }
         }
-
         return null;
     }
 
-    private static Vertex findSink(Vertex source, Graph graph) {
-        final Map<Integer, Boolean> markedMap = new HashMap<>();
-        for (Vertex v : graph.getVertexList()) {
-            markedMap.put(v.getId(), false);
+    public static Vertex findPossibleTargetForSource(Vertex source, Graph graph) {
+        if (source == null) {
+            return null;
         }
+        // Fill marked map
+        Map<Integer, Boolean> marked = new HashMap<>();
+        graph.getVertexList().forEach(v -> marked.put(v.getId(), false));
 
-        BreadthFirstSearch.breadthFirstSearch(source, markedMap, true);
-
-        for (Integer vId : markedMap.keySet()) {
-            //if isMarked == can be reached
-            if (markedMap.get(vId)) {
-                Vertex v = graph.getVertexList().get(vId);
-                if (v == source) {
-                    continue;
-                }
-
-                if (v.getBalance() - relevantBalances.get(v.getId()) < 0.0) {
-                    return v;
-                }
+        BreadthFirstSearch.breadthFirstSearch(source, marked, true);
+        for (Map.Entry<Integer, Boolean> e : marked.entrySet()) {
+            if (e.getValue() && graph.getVertexList().get(e.getKey()).getBalance() < 0) {
+                return graph.getVertexList().get(e.getKey());
             }
         }
-
         return null;
-    }
-
-    /**
-     * Uses all the negative Edges
-     *
-     * @param graph
-     */
-    private static void updateCapacities(Graph graph) {
-        List<Edge> edges = new ArrayList<>(graph.getEdgeList());
-        edges.forEach(e ->
-        {
-            if (e.getCost() < 0.0) {
-                updateResidualEdge(graph, e, e.getCapacity());
-                updateBalances(e, e.getCapacity());
-            }
-        });
-    }
-
-    private static void updateBalances(Edge edge, double capacity) {
-        addBalance(edge.getStart(), capacity);
-        addBalance(edge.getEnd(), capacity * -1);
-    }
-
-    private static void addBalance(Vertex vertex, double balance) {
-        double oldBalance = relevantBalances.get(vertex.getId());
-        relevantBalances.put(vertex.getId(), oldBalance + balance);
-    }
-
-    private static void initRelevantBalances(Graph graph) {
-        relevantBalances = new HashMap<>();
-        for (Vertex v : graph.getVertexList()) {
-            relevantBalances.put(v.getId(), 0.0);
-        }
-    }
-
-    private static double calculateGamma(double a, double b, double c) {
-        double gamma = a;
-        if (gamma > b) {
-            gamma = b;
-        }
-        if (gamma > c) {
-            gamma = c;
-        }
-
-        return gamma;
     }
 }

@@ -10,7 +10,7 @@ public class CycleCancellingTest {
 
     @Test
     public void test_cc_Kostenminimal1() {
-        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal1.txt");
+        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal1.txt", true);
 
         long startTime = System.currentTimeMillis();
         System.out.println("Starting CycleCancelling");
@@ -25,7 +25,7 @@ public class CycleCancellingTest {
 
     @Test(expected = RuntimeException.class)
     public void test_cc_Kostenminimal2() {
-        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal2.txt");
+        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal2.txt", true);
 
         long startTime = System.currentTimeMillis();
         System.out.println("Starting CycleCancelling");
@@ -38,7 +38,7 @@ public class CycleCancellingTest {
 
     @Test
     public void test_cc_Kostenminimal3() {
-        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal3.txt");
+        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal3.txt", true);
 
         long startTime = System.currentTimeMillis();
         System.out.println("Starting CycleCancelling");
@@ -53,7 +53,7 @@ public class CycleCancellingTest {
 
     @Test
     public void test_cc_Kostenminimal4() {
-        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal4.txt");
+        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal4.txt", true);
 
         long startTime = System.currentTimeMillis();
         System.out.println("Starting CycleCancelling");
@@ -68,7 +68,7 @@ public class CycleCancellingTest {
 
     @Test
     public void test_cc_Kostenminimal5() {
-        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal5.txt");
+        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal5.txt", true);
 
         long startTime = System.currentTimeMillis();
         System.out.println("Starting CycleCancelling");

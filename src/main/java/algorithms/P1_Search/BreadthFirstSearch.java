@@ -38,7 +38,7 @@ public class BreadthFirstSearch {
     private static void addNeighboursToQueue(final Vertex vertex, final LinkedList<Vertex> queue, final Map<Integer, Boolean> marked, boolean directed) {
         vertex.getAttachedEdges().forEach(edge -> {
             if (directed) {
-                if (!marked.get(edge.getEnd().getId())) { // TODO Muss die Edge nicht auch mindestens capacity > 0 haben?
+                if (!marked.get(edge.getEnd().getId()) && edge.getCapacity() > 0) { // TODO Muss die Edge nicht auch mindestens capacity > 0 haben?
                     queue.add(edge.getEnd()); // Add unmarked neighbour to queue
                 }
             } else {

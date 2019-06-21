@@ -62,7 +62,7 @@ public class GraphParserTest {
     @Test
     public void parseKostenminimal1() {
         final String path = "src/main/resources/p6/Kostenminimal1.txt";
-        final Graph graph = importGraphWithBalance(path);
+        final Graph graph = importGraphWithBalance(path, true);
         assertEquals(graph.getEdgeList().size(), 9);
         assertEquals(graph.getVertexList().size(), 7);
         assertEquals(graph.getVertexList().get(5).getBalance(), 6.0, 0.0); // Pseudo Quelle Balance = 6

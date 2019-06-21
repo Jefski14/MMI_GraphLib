@@ -63,6 +63,7 @@ public class EdmondsKarp {
         //if value is 0.0, no edge exists
 
         GraphWithFlow residual = new GraphWithFlow(graph);
+        residual.checkIfResidualAndConstructIfNot();
 
         //parent array is used to store found paths by BFS
         int[] parent = new int[V];

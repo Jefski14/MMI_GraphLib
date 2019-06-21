@@ -82,7 +82,7 @@ public class CycleCancelling {
      */
     @Deprecated
     private static boolean checkIfCapacityOfOriginal(GraphWithFlow cc) {
-        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal3.txt");
+        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal3.txt", true);
 
         for (Edge e : graph.getEdgeList()) {
             if (cc.getEdge(e.getEnd().getId(), e.getStart().getId()).getCapacity() > e.getCapacity()) {
@@ -99,7 +99,7 @@ public class CycleCancelling {
      */
     @Deprecated
     private static boolean checkEdmondsKarpCorrect(GraphWithFlow ec) {
-        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal3.txt");
+        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal3.txt", true);
 
         for (Edge e : graph.getEdgeList()) {
             if (ec.getEdge(e.getEnd().getId(), e.getStart().getId()).getCapacity() + ec.getEdge(e.getStart().getId(), e.getEnd().getId()).getCapacity() != e.getCapacity()) {

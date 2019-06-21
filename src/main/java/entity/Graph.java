@@ -208,7 +208,7 @@ public class Graph {
 
         Integer currentVertex = to;
         while (!currentVertex.equals(from)) {
-            shortestPath.add(getEdgeCopyWithNewVertices(predAndDistMap.get(currentVertex).getPredecessorId(), currentVertex));
+            shortestPath.add(getEdge(predAndDistMap.get(currentVertex).getPredecessorId(), currentVertex));
             currentVertex = predAndDistMap.get(currentVertex).getPredecessorId();
         }
         // Build new Graph from EdgeList

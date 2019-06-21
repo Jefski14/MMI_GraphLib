@@ -10,7 +10,7 @@ public class SuccessiveShortestPathTest {
 
     @Test
     public void test_ssp_Kostenminimal1() {
-        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal1.txt");
+        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal1.txt", false);
 
         long startTime = System.currentTimeMillis();
         System.out.println("Starting Successive Shortest Path");
@@ -25,7 +25,7 @@ public class SuccessiveShortestPathTest {
 
     @Test(expected = RuntimeException.class)
     public void test_ssp_Kostenminimal2() {
-        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal2.txt");
+        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal2.txt", false);
 
         long startTime = System.currentTimeMillis();
         System.out.println("Starting Successive Shortest Path");
@@ -38,7 +38,7 @@ public class SuccessiveShortestPathTest {
 
     @Test
     public void test_ssp_Kostenminimal3() {
-        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal3.txt");
+        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal3.txt",false);
 
         long startTime = System.currentTimeMillis();
         System.out.println("Starting Successive Shortest Path");
@@ -53,7 +53,7 @@ public class SuccessiveShortestPathTest {
 
     @Test
     public void test_ssp_Kostenminimal4() {
-        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal4.txt");
+        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal4.txt", false);
 
         long startTime = System.currentTimeMillis();
         System.out.println("Starting Successive Shortest Path");
@@ -68,7 +68,7 @@ public class SuccessiveShortestPathTest {
 
     @Test
     public void test_ssp_Kostenminimal5() {
-        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal5.txt");
+        Graph graph = importGraphWithBalance("src/main/resources/p6/Kostenminimal5.txt", false);
 
         long startTime = System.currentTimeMillis();
         System.out.println("Starting Successive Shortest Path");

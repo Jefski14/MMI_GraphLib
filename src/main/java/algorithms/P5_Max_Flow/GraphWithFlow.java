@@ -10,7 +10,6 @@ public class GraphWithFlow extends Graph {
         super(g);
         this.max_flow = 0.0;
         this.total_cost = 0.0;
-        this.checkIfResidualAndConstructIfNot();
     }
 
     public double max_flow;
