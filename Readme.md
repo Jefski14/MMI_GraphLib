@@ -8,6 +8,17 @@ MSGL or Maximal spannende Graphen Library is a Java Library that implements diff
 We currently support these algorithms:
 - Breadth first search
 - Depth first search
+- Connected Graph Finder
+- Kruskal MST
+- Prim MST
+- BranchAndBound for finding Tours
+- DoubleTrees for finding Tours
+- Nearest NEighbor for finding Tours
+- Dijkstra
+- Moore-Bellman-Ford
+- Edmonds Karp
+- Cycle Cancelling
+- Successive Shortest Path
 
 ## Contributors
 This project is made and maintained by Jefski14 and Kyurai
