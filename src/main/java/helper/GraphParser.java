@@ -69,6 +69,67 @@ public class GraphParser {
         return dracula;
     }
 
+    /**
+     * Imports a graph.txt file and converts data
+     * into {@link Vertex} and {@link Edge} Objects
+     *
+     * @param fileName    path to file
+     * @return List of {@link Vertex} Objects
+     */
+    public static Graph importBipartiteGraph(final String fileName) {
+        Graph dracula = new Graph();
+        try {
+            final FileReader fileReader = new FileReader(fileName);
+            final BufferedReader reader = new BufferedReader(fileReader);
+
+            // Read first line
+            String firstLine = reader.readLine();
+            int nOfVertices = Integer.parseInt(firstLine); // When we represent the graph only by the edge list we lose the standalone vertices
+            for (int i = 0; i < nOfVertices + 2; i++) { // super source and super target
+                dracula.getVertexList().add(new Vertex(i)); // Initialize list
+            }
+
+            String secondLine = reader.readLine();
+            int firstGroup = Integer.parseInt(secondLine);
+
+            final String delimiter = "\t";
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                final String[] points = currentLine.split(delimiter);
+                final int p1 = Integer.parseInt(points[0]);
+                final int p2 = Integer.parseInt(points[1]);
+                Double cost = 0.0;
+
+                // Add edge to vertex
+                if (p1 < firstGroup) {
+                    Edge p1p2 = new Edge(dracula.getVertexList().get(p1), dracula.getVertexList().get(p2), cost, 1.0);
+                    dracula.getVertexList().get(p1).addEdge(p1p2);
+                    dracula.getEdgeList().add(p1p2);
+                } else {
+                    Edge p2p1 = new Edge(dracula.getVertexList().get(p2), dracula.getVertexList().get(p1), cost, 1.0);
+                    dracula.getVertexList().get(p1).addEdge(p2p1);
+                    dracula.getEdgeList().add(p2p1);
+                }
+
+            }
+
+            for(int i = 0; i < firstGroup; i++) {
+                Edge fromSS = new Edge(dracula.getVertexList().get(dracula.getVertexList().size()-2), dracula.getVertexList().get(i), 0.0, 1.0);
+                dracula.getVertexList().get(dracula.getVertexList().size()-2).addEdge(fromSS);
+                dracula.getEdgeList().add(fromSS);
+            }
+            for(int i = firstGroup; i < dracula.getVertexList().size() - 2; i++) {
+                Edge toST = new Edge(dracula.getVertexList().get(i), dracula.getVertexList().get(dracula.getVertexList().size()-1), 0.0, 1.0);
+                dracula.getVertexList().get(i).addEdge(toST);
+                dracula.getEdgeList().add(toST);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return dracula;
+    }
+
 
     public static Graph importGraphWithBalance(final String fileName, boolean makePseudoST) {
 

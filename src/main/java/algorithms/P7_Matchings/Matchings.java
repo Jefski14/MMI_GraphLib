@@ -1,5 +1,7 @@
 package algorithms.P7_Matchings;
 
+import algorithms.P5_Max_Flow.EdmondsKarp;
+import algorithms.P5_Max_Flow.GraphWithFlow;
 import entity.Edge;
 import entity.Graph;
 
@@ -8,14 +10,10 @@ import java.util.List;
 
 public class Matchings {
 
-    public List<Edge> getMatchings(Graph graph) {
+    public static double getMatchings(Graph graph) {
+        GraphWithFlow graphWithFlow = EdmondsKarp.runEdmondsKarp(graph, graph.getVertexList().size() - 2, graph.getVertexList().size() - 1);
 
-
-        List<Edge> edgeList = new ArrayList<>();
-
-
-        return edgeList;
-
+        return graphWithFlow.max_flow;
     }
 
 }
