@@ -26,7 +26,7 @@ public class SuccessiveShortestPath {
         // Use negative edges
         for (int i = 0; i < graph.getEdgeList().size(); i++) {
             Edge e = graph.getEdgeList().get(i);
-            if (e.getCost() < 0 && e.getCapacity() > 0) { // Use negative Edge
+            if (e.getCost() < 0) { // Use negative Edge
                 e.getStart().setBalance(e.getStart().getBalance() - e.getCapacity()); // Adjust Balance of giving vertex
                 e.getEnd().setBalance(e.getEnd().getBalance() + e.getCapacity()); // Adjust Balance of receiving vertex
                 graph.total_cost += e.getCost() * e.getCapacity();
