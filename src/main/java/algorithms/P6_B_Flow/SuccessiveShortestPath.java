@@ -12,6 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SuccessiveShortestPath {
+
+    /**
+     * Calculates the minimal cost flow with SSP
+     *
+     * @param inputGraph graph that contains edge costs and capacity
+     *                   and balances for vertices
+     * @return minimal cost flow as double
+     */
     public static double getMinimalCostFlow(Graph inputGraph) {
         GraphWithFlow graph = new GraphWithFlow(inputGraph);
 
@@ -49,7 +57,7 @@ public class SuccessiveShortestPath {
                 double minPathCapacity = shortestPath.stream().mapToDouble(Edge::getCapacity).min().getAsDouble();
                 double minSTCap = Math.min(Math.abs(source.getBalance()), Math.abs(target.getBalance()));
                 double minCap = Math.min(minSTCap, minPathCapacity);
-                for (Edge e: shortestPath) {
+                for (Edge e : shortestPath) {
                     // reduce edge capacity
                     e.setCapacity(e.getCapacity() - minCap);
                     // Change balances of starting and ending vertex accordingly
@@ -67,16 +75,29 @@ public class SuccessiveShortestPath {
         }
     }
 
-    public static boolean allVerticesBalanced(Graph graph) {
+    /**
+     * Checks if all vertices are balanced
+     *
+     * @param graph graph
+     * @return true if all are balanced,
+     * false if just one vertex is unbalanced
+     */
+    private static boolean allVerticesBalanced(Graph graph) {
         for (Vertex v : graph.getVertexList()) {
-            if(v.getBalance() != 0.0) {
+            if (v.getBalance() != 0.0) {
                 return false;
             }
         }
         return true;
     }
 
-    public static Vertex findUnusedSource(Graph graph) {
+    /**
+     * Find first unused source in vertex list
+     *
+     * @param graph graph
+     * @return Vertex with balance > 0.0
+     */
+    private static Vertex findUnusedSource(Graph graph) {
         for (Vertex v : graph.getVertexList()) {
             if (v.getBalance() > 0.0) {
                 return v;
@@ -85,7 +106,16 @@ public class SuccessiveShortestPath {
         return null;
     }
 
-    public static Vertex findPossibleTargetForSource(Vertex source, Graph graph) {
+
+    /**
+     * Use BFS to find a target with negative balance for given source
+     *
+     * @param source vertex to start bfs from
+     * @param graph  graph
+     * @return reachable target with negative balance,
+     * returns null if no target is found or source is null
+     */
+    private static Vertex findPossibleTargetForSource(Vertex source, Graph graph) {
         if (source == null) {
             return null;
         }
